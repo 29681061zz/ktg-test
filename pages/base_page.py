@@ -15,6 +15,10 @@ class BasePage:
         by, locator = locator_tuple
         return self.wait.until(EC.presence_of_element_located((by, locator)))
 
+    def click(self, locator_tuple):
+        """locator_tuple: (By.SOMETHING, 'selector')"""
+        self.find(locator_tuple).click()
+
     def find_elements(self, locator_tuple, timeout=None):
         """查找多个元素"""
         try:
@@ -29,11 +33,9 @@ class BasePage:
             print(f"查找多个元素失败: {e}")
             return []
 
-
     def input_text(self, locator_tuple, text):
         """locator_tuple: (By.SOMETHING, 'selector')"""
-        by, locator = locator_tuple
-        element = self.wait.until(EC.element_to_be_clickable((by, locator)))
+        element = self.find(locator_tuple)
         element.clear()
         element.send_keys(text)
 
@@ -42,11 +44,6 @@ class BasePage:
         element = self.find(locator_tuple)
         element.clear()  # 使用Selenium的clear()方法
         time.sleep(0.1)  # 短暂等待确保清空完成
-
-
-    def click(self, locator_tuple):
-        """locator_tuple: (By.SOMETHING, 'selector')"""
-        self.find(locator_tuple).click()
 
     def select_option(self, select_locator, option_text):
         # 点击下拉框展开选项

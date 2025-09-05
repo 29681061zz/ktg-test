@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 
-
 class MaterialLocators:
     """物料管理页面元素定位器"""
 
@@ -18,7 +17,8 @@ class MaterialLocators:
     MATERIAL_NAME_INPUT = (By.XPATH, "(//input[@placeholder='请输入物料名称'])[2]")
     UNIT_SELECT = (By.XPATH, "//label[text()='单位']/following-sibling::div//input[@class='el-input__inner']")
     CATEGORY_SELECT = (By.XPATH, "//label[text()='物料/产品分类']/following-sibling::div//input[@class='vue-treeselect__input']")
-    CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")
+    ADD_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#新增物料页面的确定键
+    EDIT_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[3]")#修改物料页面的确定键
     CLOSE_BUTTON = (By.XPATH, "//button//span[text()='关 闭']")
     BATCH_MANAGEMENT_SWITCH = (By.XPATH,"//label[contains(text(), '批次管理')]/following-sibling::div//div[@role='switch']")
 
