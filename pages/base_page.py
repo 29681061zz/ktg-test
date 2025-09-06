@@ -1,37 +1,42 @@
 import time
 from selenium.webdriver.common.by import By
+from selenium.common import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 class BasePage:
-    def __init__(self, driver, timeout=15):
+    def __init__(self, driver, timeout=5):
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout)
 
     def open(self, url):
         self.driver.get(url)
 
-    def find(self, locator_tuple):
-        by, locator = locator_tuple
-        return self.wait.until(EC.presence_of_element_located((by, locator)))
-
     def click(self, locator_tuple):
         """locator_tuple: (By.SOMETHING, 'selector')"""
         self.find(locator_tuple).click()
 
-    def find_elements(self, locator_tuple, timeout=None):
+    def find(self, locator_tuple, allow_empty=False):
+        """查找单个元素"""
+        by, locator = locator_tuple
+        if allow_empty:
+            # 快速模式：直接查找，不等待，立即返回结果或None
+            try:
+                return self.driver.find_element(by, locator)
+            except NoSuchElementException:
+                return None  # 没找到，返回None
+        else:
+            # 稳定模式：等待元素加载完成
+            return self.wait.until(EC.presence_of_element_located((by, locator)))
+    def find_elements(self, locator_tuple, allow_empty=False):
         """查找多个元素"""
-        try:
-            by, locator = locator_tuple
-
-            if timeout:
-                return self.wait.until(EC.presence_of_all_elements_located((by, locator)))
-            else:
-                return self.driver.find_elements(by, locator)
-
-        except Exception as e:
-            print(f"查找多个元素失败: {e}")
-            return []
+        by, locator = locator_tuple
+        if allow_empty:
+            # 快速模式：直接查找，不等待，立即返回结果
+            return self.driver.find_elements(by, locator)
+        else:
+            # 稳定模式：等待元素加载完成
+            return self.wait.until(EC.presence_of_all_elements_located((by, locator)))
 
     def input_text(self, locator_tuple, text):
         """locator_tuple: (By.SOMETHING, 'selector')"""
@@ -52,16 +57,3 @@ class BasePage:
         option_locator = (By.XPATH,f"//div[@class='el-select-dropdown el-popper']//li[contains(@class, 'el-select-dropdown__item') and span[text()='{option_text}']]")
         # 点击选项
         self.click(option_locator)
-
-
-    def type(self, locator_tuple, text):
-        elem = self.find(locator_tuple)
-        elem.clear()
-        elem.send_keys(text)
-
-    def get_text(self, locator_tuple):
-        elem = self.find(locator_tuple)
-        return elem.text
-
-    def screenshot(self, name):
-        self.driver.save_screenshot(name)

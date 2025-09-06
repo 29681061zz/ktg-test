@@ -17,7 +17,7 @@ class TestMaterialManagement:
     ])
     @allure.feature("物料管理")
     @allure.story("物料搜索功能")
-    def test_search_material_by_code(self, material_management_driver, search_data, expected):
+    def test_search_material(self, material_management_driver, search_data, expected):
         """测试物料编码搜索功能 - 数据驱动"""
         material_page = MaterialManagementPage(material_management_driver)
         # 搜索物料
@@ -51,7 +51,7 @@ class TestMaterialManagement:
         actual_result = material_page.is_material_exists(add_data)
         assert actual_result == expected
 
-    @pytest.mark.parametrize("new_data,expected", [
+    @pytest.mark.parametrize("edit_data,expected", [
         ({
             "code" : "MAT_1756966634",
             # "edit_code": "MAT_99999999",
@@ -61,11 +61,23 @@ class TestMaterialManagement:
     ])
     @allure.feature("物料管理")
     @allure.story("物料修改功能")
-    def test_edit_material(self, material_management_driver, new_data, expected):
+    def test_edit_material(self, material_management_driver, edit_data, expected):
         """测试物料修改功能 - 数据驱动"""
         material_page = MaterialManagementPage(material_management_driver)
-        material_page.edit_material(new_data)
-        actual_result = material_page.is_material_exists(new_data)
+        material_page.edit_material(edit_data)
+        actual_result = material_page.is_material_exists(edit_data)
+        assert actual_result == expected
+
+    @pytest.mark.parametrize("delete_data,expected", [
+        ({"code" : "MAT_1756907770",}, False) # 期望删除后物料不存在
+    ])
+    @allure.feature("物料管理")
+    @allure.story("物料删除功能")
+    def test_delete_material(self, material_management_driver, delete_data, expected):
+        """测试物料修改功能 - 数据驱动"""
+        material_page = MaterialManagementPage(material_management_driver)
+        material_page.delete_material(delete_data)
+        actual_result = material_page.is_material_exists(delete_data)
         assert actual_result == expected
 
 

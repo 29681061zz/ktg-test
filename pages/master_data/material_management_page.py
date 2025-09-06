@@ -1,20 +1,14 @@
 import time
-
 from selenium.webdriver import Keys
+from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
-from pages.base_page import BasePage
 from .material_management_locators import  MaterialLocators
-from common.modal import ConfirmModal
 
 class MaterialManagementPage(BasePage):
-    """
-    物料管理页面对象
-    封装物料管理页面的所有操作和断言方法
-    """
+    """物料管理页面对象封装物料管理页面的所有操作和断言方法"""
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
-        self.modal = ConfirmModal(driver)
 
     # -------------------- 搜索操作 --------------------
     def search_material(self, search_data:dict):
@@ -28,93 +22,146 @@ class MaterialManagementPage(BasePage):
         self.click(MaterialLocators.SEARCH_BUTTON)
         time.sleep(0.5)
 
-
-    def is_material_exists(self, material_data : dict):
-        """检查搜索结果中是否存在指定的物料编码或名称（精确匹配）"""
+    def is_material_exists(self, material_data: dict):
+        """检查指定的物料是否存在（精确匹配）"""
         try:
-            rows = self.find_elements(MaterialLocators.TABLE_ROWS)
+            # 列名到索引的映射
+            column_mapping = {
+                'code': 1, 'edit_code': 1,# 物料编码（第2列，索引1）
+                'name': 2, 'edit_name': 2,# 物料名称（第3列，索引2）
+                'specification': 3,       # 物料规格型号（第4列，索引3）
+                'unit': 4,                # 物料单位（第5列，索引4）
+                'category': 6             # 物料分类（第7列，索引6）
+            }
+            # 使用 allow_empty=True，允许没有找到行的情况
+            rows = self.find_elements(MaterialLocators.TABLE_ROWS,allow_empty=True)
+            # 如果没有找到任何行，说明确实不存在（正常情况）
+            if not rows:
+                return False
             for row in rows:
                 cells = row.find_elements(By.TAG_NAME, "td")
-                # 物料编码验证（第2列，索引1）
-                if "code" in material_data:
-                    code_cell = cells[1]
-                    try:
-                        button = code_cell.find_element(By.TAG_NAME, "button")
-                        span = button.find_element(By.TAG_NAME, "span")
-                        actual_code = span.text.strip()
-                    except:
-                        actual_code = code_cell.text.strip()
-                    if actual_code != material_data["code"]:
-
+                match = True
+                for field, expected_value in material_data.items():
+                    if field not in column_mapping:
                         continue
-                # 物料编码修改后验证（第2列，索引1）
-                if "edit_code" in material_data:
-                    code_cell = cells[1]
-                    try:
-                        button = code_cell.find_element(By.TAG_NAME, "button")
-                        span = button.find_element(By.TAG_NAME, "span")
-                        actual_code = span.text.strip()
-                    except:
-                        actual_code = code_cell.text.strip()
-                    if actual_code != material_data["edit_code"]:
-                        continue
-                # 物料名称验证（第3列，索引2）
-                if "name" in material_data and len(cells) > 2:
-                    name_cell = cells[2]
-                    try:
-                        name_div = name_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
-                        actual_name = name_div.text.strip()
-                    except:
-                        actual_name = name_cell.text.strip()
-                    if actual_name != material_data["name"]:
-                        continue
-                # 物料修改后名称验证（第3列，索引2）
-                if "edit_name" in material_data and len(cells) > 2:
-                    print(1231231)
-                    name_cell = cells[2]
-                    try:
-                        name_div = name_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
-                        actual_name = name_div.text.strip()
-                    except:
-                        actual_name = name_cell.text.strip()
-                    if actual_name != material_data["edit_name"]:
-                        continue
-                # 物料规格型号验证（第4列，索引3）
-                if "specification" in material_data and len(cells) > 3:
-                    specification_cell = cells[3]
-                    try:
-                        specification_div = specification_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
-                        actual_specification= specification_div.text.strip()
-                    except:
-                        actual_specification = specification_cell.text.strip()
-                    if actual_specification != material_data["specification"]:
-                        continue
-                # 物料单位型号验证（第5列，索引4）
-                if "unit" in material_data and len(cells) > 4:
-                    print(111)
-                    unit_cell = cells[4]
-                    try:
-                        unit_div = unit_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
-                        actual_unit = unit_div.text.strip()
-                    except:
-                        actual_unit = unit_cell.text.strip()
-                    if actual_unit != material_data["unit"]:
-                        continue
-                # 物料分类验证（第7列，索引6）
-                if "category" in material_data and len(cells) > 6:
-                    category_cell = cells[6]
-                    try:
-                        category_div = category_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
-                        actual_category = category_div.text.strip()
-                    except:
-                        actual_category = category_cell.text.strip()
-                    if actual_category != material_data["category"]:
-                        continue
-                return True
+                    col_index = column_mapping[field]
+                    if len(cells) <= col_index:
+                        match = False
+                        break
+                    # 获取单元格文本
+                    cell_text = self._get_cell_text(cells[col_index])
+                    if cell_text != expected_value:
+                        match = False
+                        break
+                if match:
+                    return True
             return False
+
         except Exception as e:
             print(f"检查物料存在时出错: {e}")
             return False
+
+    @staticmethod
+    def _get_cell_text(cell_element):
+        """统一处理单元格文本提取"""
+        try:
+            # 先尝试查找button->span结构（可能是可点击的编码）
+            button = cell_element.find_element(By.TAG_NAME, "button")
+            span = button.find_element(By.TAG_NAME, "span")
+            return span.text.strip()
+        except:
+            try:
+                # 尝试查找div.cell.el-tooltip
+                div = cell_element.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+                return div.text.strip()
+            except:
+                # 最后返回单元格本身的文本
+                return cell_element.text.strip()
+
+
+    # def is_material_exists(self, material_data : dict):
+    #     """检查指定的物料是否存在（精确匹配）"""
+    #     try:
+    #         rows = self.find_elements(MaterialLocators.TABLE_ROWS)
+    #         for row in rows:
+    #             cells = row.find_elements(By.TAG_NAME, "td")
+    #             # 物料编码验证（第2列，索引1）
+    #             if "code" in material_data:
+    #                 code_cell = cells[1]
+    #                 try:
+    #                     button = code_cell.find_element(By.TAG_NAME, "button")
+    #                     span = button.find_element(By.TAG_NAME, "span")
+    #                     actual_code = span.text.strip()
+    #                 except:
+    #                     actual_code = code_cell.text.strip()
+    #                 if actual_code != material_data["code"]:
+    #                     continue
+    #             # 物料编码修改后验证（第2列，索引1）
+    #             if "edit_code" in material_data:
+    #                 code_cell = cells[1]
+    #                 try:
+    #                     button = code_cell.find_element(By.TAG_NAME, "button")
+    #                     span = button.find_element(By.TAG_NAME, "span")
+    #                     actual_code = span.text.strip()
+    #                 except:
+    #                     actual_code = code_cell.text.strip()
+    #                 if actual_code != material_data["edit_code"]:
+    #                     continue
+    #             # 物料名称验证（第3列，索引2）
+    #             if "name" in material_data and len(cells) > 2:
+    #                 name_cell = cells[2]
+    #                 try:
+    #                     name_div = name_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+    #                     actual_name = name_div.text.strip()
+    #                 except:
+    #                     actual_name = name_cell.text.strip()
+    #                 if actual_name != material_data["name"]:
+    #                     continue
+    #             # 物料修改后名称验证（第3列，索引2）
+    #             if "edit_name" in material_data and len(cells) > 2:
+    #                 print(1231231)
+    #                 name_cell = cells[2]
+    #                 try:
+    #                     name_div = name_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+    #                     actual_name = name_div.text.strip()
+    #                 except:
+    #                     actual_name = name_cell.text.strip()
+    #                 if actual_name != material_data["edit_name"]:
+    #                     continue
+    #             # 物料规格型号验证（第4列，索引3）
+    #             if "specification" in material_data and len(cells) > 3:
+    #                 specification_cell = cells[3]
+    #                 try:
+    #                     specification_div = specification_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+    #                     actual_specification= specification_div.text.strip()
+    #                 except:
+    #                     actual_specification = specification_cell.text.strip()
+    #                 if actual_specification != material_data["specification"]:
+    #                     continue
+    #             # 物料单位验证（第5列，索引4）
+    #             if "unit" in material_data and len(cells) > 4:
+    #                 unit_cell = cells[4]
+    #                 try:
+    #                     unit_div = unit_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+    #                     actual_unit = unit_div.text.strip()
+    #                 except:
+    #                     actual_unit = unit_cell.text.strip()
+    #                 if actual_unit != material_data["unit"]:
+    #                     continue
+    #             # 物料分类验证（第7列，索引6）
+    #             if "category" in material_data and len(cells) > 6:
+    #                 category_cell = cells[6]
+    #                 try:
+    #                     category_div = category_cell.find_element(By.CSS_SELECTOR, "div.cell.el-tooltip")
+    #                     actual_category = category_div.text.strip()
+    #                 except:
+    #                     actual_category = category_cell.text.strip()
+    #                 if actual_category != material_data["category"]:
+    #                     continue
+    #             return True
+    #         return False
+    #     except Exception as e:
+    #         return False
 
     def add_material(self,material_data : dict):
         # 点击新增
@@ -130,22 +177,22 @@ class MaterialManagementPage(BasePage):
         self.click(MaterialLocators.ADD_CONFIRM_BUTTON)
         self.click(MaterialLocators.CLOSE_BUTTON)
 
-    def edit_material(self, new_data: dict):
-        """编辑物料信息:param new_data: 新的物料数据字典，必须包含material_code"""
+    def edit_material(self, edit_data: dict):
+        """编辑物料信息:param edit_data: 新的物料数据字典，必须包含material_code"""
         # 搜索要编辑的物料
-        self.search_material(new_data)
-
+        self.search_material(edit_data)
+        self.click(MaterialLocators.CHECKBOX)
         # 直接点击编辑按钮（假设搜索后编辑按钮可见）
         self.click(MaterialLocators.EDIT_BUTTON)
         # 编辑物料信息
-        if "edit_code" in new_data:
-            self.input_text(MaterialLocators.MATERIAL_CODE_INPUT, new_data["edit_code"])
-        if "edit_name" in new_data:
-            self.input_text(MaterialLocators.MATERIAL_NAME_INPUT, new_data["edit_name"])
-        if "unit" in new_data:
-            self.select_option(MaterialLocators.UNIT_SELECT, new_data["unit"])
-        if "category" in new_data:
-            self.input_text(MaterialLocators.CATEGORY_SELECT, new_data["category"])
+        if "edit_code" in edit_data:
+            self.input_text(MaterialLocators.MATERIAL_CODE_INPUT, edit_data["edit_code"])
+        if "edit_name" in edit_data:
+            self.input_text(MaterialLocators.MATERIAL_NAME_INPUT, edit_data["edit_name"])
+        if "unit" in edit_data:
+            self.select_option(MaterialLocators.UNIT_SELECT, edit_data["unit"])
+        if "category" in edit_data:
+            self.input_text(MaterialLocators.CATEGORY_SELECT, edit_data["category"])
             time.sleep(0.5)
             self.find(MaterialLocators.CATEGORY_SELECT).send_keys(Keys.ENTER)
         # 保存修改
@@ -153,3 +200,13 @@ class MaterialManagementPage(BasePage):
         # 关闭编辑窗口
         self.click(MaterialLocators.CLOSE_BUTTON)
         time.sleep(0.5)
+
+    def delete_material(self, delete_data : dict):
+        """删除物料"""
+        self.search_material(delete_data)
+        self.click(MaterialLocators.CHECKBOX)
+        self.click(MaterialLocators.DELETE_BUTTON)
+        self.click(MaterialLocators.DELETE_CONFIRM_BUTTON)
+        time.sleep(0.5)
+
+
