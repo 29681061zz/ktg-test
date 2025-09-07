@@ -15,6 +15,7 @@ class MaterialLocators:
     #表单元素
     MATERIAL_CODE_INPUT = (By.XPATH, "(//input[@placeholder='请输入物料编码'])[2]")
     MATERIAL_NAME_INPUT = (By.XPATH, "(//input[@placeholder='请输入物料名称'])[2]")
+    MATERIAL_SPECIFICATION_INPUT = (By.XPATH, "//textarea[@placeholder='请输入规格型号']")
     UNIT_SELECT = (By.XPATH, "//label[text()='单位']/following-sibling::div//input[@class='el-input__inner']")
     CATEGORY_SELECT = (By.XPATH, "//label[text()='物料/产品分类']/following-sibling::div//input[@class='vue-treeselect__input']")
 

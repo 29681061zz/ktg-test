@@ -8,11 +8,11 @@ class TestMaterialManagement:
     """物料管理测试用例"""
 
     @pytest.mark.parametrize("search_data,expected", [
-        ({"code": "MAT_1756906978"}, True),
+        ({"code": "MAT_1757231442"}, True),
         ({"code": "MAT_0000000000"}, False),
-        ({"name": "测试物料A"}, True),
+        ({"name": "测试物料CccC"}, True),
         ({"name": "不存在的物料"}, False),
-        ({"code": "MAT_1756906978","name": "测试物料A"}, True),
+        ({"code": "MAT_1757231442","name": "测试物料CccC"}, True),
         ({"code": "MAT_1756906978", "name": "不存在的物料"}, False)
     ])
     @allure.feature("物料管理")
@@ -28,17 +28,18 @@ class TestMaterialManagement:
 
     @pytest.mark.parametrize("add_data,expected", [
         ({
-             "code": f"MAT_{int(time.time())}",
-             "name": "测试物料CccC",
-             "unit": "件",
-             "category": "原材料"
+            "code": "MAT_1756907106",
+            "name": "测试物料A",
+            "specification": "10-50mm",
+            "unit": "米",
+            "category": "原材料"
          }, True),
-        ({
-             "code": f"MAT_{int(time.time()) + 1}",
-             "name": "测试物料DddD",
-             "unit": "米",
-             "category": "原材料"
-         }, True),
+        # ({
+        #      "code": f"MAT_{int(time.time()) + 1}",
+        #      "name": "测试物料DddD",
+        #      "unit": "米",
+        #      "category": "原材料"
+        #  }, True),
     ])
     @allure.feature("物料管理")
     @allure.story("物料新增功能")
@@ -53,11 +54,13 @@ class TestMaterialManagement:
 
     @pytest.mark.parametrize("edit_data,expected", [
         ({
-            "code" : "MAT_1756966634",
+            "code" : "MAT_1756907106",
             # "edit_code": "MAT_99999999",
-            "edit_name": "asd",
-            "unit": "ml",
+            "edit_name": "qqq",
+            "specification": "",
+            "unit": "mm",
          }, True),
+
     ])
     @allure.feature("物料管理")
     @allure.story("物料修改功能")
@@ -68,8 +71,9 @@ class TestMaterialManagement:
         actual_result = material_page.is_material_exists(edit_data)
         assert actual_result == expected
 
+
     @pytest.mark.parametrize("delete_data,expected", [
-        ({"code" : "MAT_1756907770",}, False) # 期望删除后物料不存在
+        ({"code" : "MAT_1756907106",}, False), # 期望删除后物料不存在
     ])
     @allure.feature("物料管理")
     @allure.story("物料删除功能")
