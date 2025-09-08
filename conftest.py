@@ -7,7 +7,6 @@ from pages.login_page import LoginPage
 @pytest.fixture(scope="session")  # 改为session，整个测试会话只启动一次浏览器
 def driver():
     driver = webdriver.Edge()
-    driver.implicitly_wait(10)
     yield driver
     driver.quit()
 

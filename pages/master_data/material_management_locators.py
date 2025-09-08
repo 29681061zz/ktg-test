@@ -38,6 +38,7 @@ class MaterialLocators:
     MATERIAL_TABLE = (By.ID, "material-table")
     TABLE_ROWS = (By.CSS_SELECTOR, "tr.el-table__row")
     TABLE_CELLS =(By.TAG_NAME, "td")
+    NO_DATA_TEXT = (By.XPATH, "//span[text()='暂无数据']")
     ROW_CHECKBOX = (By.CSS_SELECTOR, "input[type='checkbox']")
     SELECT_ALL_CHECKBOX = (By.ID, "select-all")
 

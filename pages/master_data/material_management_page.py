@@ -36,7 +36,6 @@ class MaterialManagementPage(BasePage):
             rows = self.find_elements(MaterialLocators.TABLE_ROWS, allow_empty=True)
             if not rows:
                 return False
-
             # 预先处理需要检查的字段和列索引
             check_fields = []
             for field in material_data:
