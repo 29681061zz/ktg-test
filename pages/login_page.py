@@ -16,7 +16,7 @@ class LoginPage(BasePage):
     def login(self):
         """一键登录操作"""
         # 先导航到登录页面确保状态
-        self.open(self.url)
+        self.driver.get(self.url)
         login_btn = self.wait.until(EC.element_to_be_clickable(self.LOGIN_BUTTON),message="等待登录按钮可点击超时")
         login_btn.click()
         # 等待URL变化（离开登录页面）

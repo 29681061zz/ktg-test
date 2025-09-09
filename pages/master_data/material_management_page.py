@@ -2,7 +2,7 @@ import time
 from selenium.webdriver import Keys
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from .material_management_locators import  MaterialLocators
+from locators.material_management_locators import  MaterialLocators
 
 class MaterialManagementPage(BasePage):
     """物料管理页面对象封装物料管理页面的所有操作和断言方法"""

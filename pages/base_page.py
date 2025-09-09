@@ -9,9 +9,6 @@ class BasePage:
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout)
 
-    def open(self, url):
-        self.driver.get(url)
-
     def click(self, locator_tuple):
         """locator_tuple: (By.SOMETHING, 'selector')"""
         self.find(locator_tuple).click()

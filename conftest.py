@@ -2,6 +2,7 @@
 import time
 import pytest
 from selenium import webdriver
+from configs.settings import Config
 from pages.login_page import LoginPage
 
 @pytest.fixture(scope="session")
@@ -21,8 +22,14 @@ def logged_in_driver(driver):
 def material_management_driver(logged_in_driver):
     """物料管理测试专用的driver"""
     driver = logged_in_driver
-    target_url = "http://www.029tec.com/mes/md/mditem"
-    if target_url not in driver.current_url:
-        driver.get(target_url)
-        time.sleep(1)
+    target_url = f"{Config.BASE_URL}/mes/md/mditem"
+    driver.get(target_url)
+    yield driver
+
+@pytest.fixture(scope="function")
+def customer_management_driver(logged_in_driver):
+    """物料管理测试专用的driver"""
+    driver = logged_in_driver
+    target_url = f"{Config.BASE_URL}/mes/md/client"
+    driver.get(target_url)
     yield driver
