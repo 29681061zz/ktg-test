@@ -4,13 +4,14 @@ import pytest
 from selenium import webdriver
 from pages.login_page import LoginPage
 
-@pytest.fixture(scope="session")  # 改为session，整个测试会话只启动一次浏览器
+@pytest.fixture(scope="session")
 def driver():
     driver = webdriver.Edge()
+    driver.implicitly_wait(1)
     yield driver
     driver.quit()
 
-@pytest.fixture(scope="session")  # 保持function，每个测试函数登录一次
+@pytest.fixture(scope="session")
 def logged_in_driver(driver):
     login_page = LoginPage(driver)
     login_page.login()
