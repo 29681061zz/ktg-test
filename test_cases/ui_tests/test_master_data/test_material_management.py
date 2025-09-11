@@ -1,15 +1,16 @@
 #test_cases/ui_tests/test_master_data/test_material_management.py
-import time
 import pytest
 import allure
 from pages.master_data.material_management_page import MaterialManagementPage
 
+pytestmark = [pytest.mark.feature("物料管理")]
 @pytest.fixture(scope="function")
 def material_page(material_management_driver):
     """创建物料管理页面对象"""
     return MaterialManagementPage(material_management_driver)
 class TestMaterialManagement:
     """物料管理测试用例"""
+    @allure.story("搜索功能")
     @pytest.mark.parametrize("search_data,expected", [
         ({"code": "MAT_1757231442"}, True),
         ({"code": "MAT_0000000000"}, False),
@@ -18,8 +19,6 @@ class TestMaterialManagement:
         ({"code": "MAT_1757231442","name": "测试物料CccC"}, True),
         ({"code": "MAT_1756906978", "name": "不存在的物料"}, False)
     ])
-    @allure.feature("物料管理")
-    @allure.story("物料搜索功能")
     def test_search_material(self, material_page, search_data, expected):
         """测试物料编码搜索功能 - 数据驱动"""
         # 搜索物料
@@ -28,6 +27,7 @@ class TestMaterialManagement:
         actual_result = material_page.is_material_exists(search_data)
         assert actual_result == expected
 
+    @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
         ({
             "code": "MAT_1756907106",
@@ -37,8 +37,6 @@ class TestMaterialManagement:
             "category": "原材料"
          }, True),
     ])
-    @allure.feature("物料管理")
-    @allure.story("物料新增功能")
     def test_add_material(self, material_page, add_data, expected):
         """测试物料新增功能 - 数据驱动"""
         material_page.add_material(add_data)
@@ -47,30 +45,27 @@ class TestMaterialManagement:
         actual_result = material_page.is_material_exists(add_data)
         assert actual_result == expected
 
+    @allure.story("修改功能")
     @pytest.mark.parametrize("edit_data,expected", [
         ({
             "code" : "MAT_1756907106",
             # "edit_code": "MAT_99999999",
-            "edit_name": "阿瓦达",
+            "edit_name": "阿瓦达阿斯顿",
             "specification": "asd",
             "unit": "mm",
          }, True),
 
     ])
-    @allure.feature("物料管理")
-    @allure.story("物料修改功能")
     def test_edit_material(self, material_page, edit_data, expected):
         """测试物料修改功能 - 数据驱动"""
         material_page.edit_material(edit_data)
         actual_result = material_page.is_material_exists(edit_data)
         assert actual_result == expected
 
-
+    @allure.story("删除功能")
     @pytest.mark.parametrize("delete_data,expected", [
         ({"code" : "MAT_1756907106",}, False), # 期望删除后物料不存在
     ])
-    @allure.feature("物料管理")
-    @allure.story("物料删除功能")
     def test_delete_material(self, material_page, delete_data, expected):
         """测试物料删除功能 - 数据驱动"""
         material_page.delete_material(delete_data)
