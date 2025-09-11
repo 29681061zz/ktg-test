@@ -1,9 +1,6 @@
-#test_cases/ui_tests/test_master_data/test_customer_management.py
-import time
 import pytest
 import allure
 from pages.master_data.customer_management_page import CustomerManagementPage
-
 
 pytestmark = [pytest.mark.feature("客户管理")]
 @pytest.fixture(scope="function")
@@ -14,9 +11,9 @@ class TestCustomerManagement:
     """客户管理测试用例"""
     @allure.story("搜索功能")
     @pytest.mark.parametrize("search_data,expected", [
-        ({"code": "C00428"}, True),
+        ({"code": "CUS_001"}, True),
         ({"code": "CUS_0000000000"}, False),
-        ({"name": "xxx38"}, True),
+        ({"name": "测试客户_001"}, True),
         # ({"name": "不存在的客户"}, False),
         # ({"code": "MAT_1756907106","name": "测试客户A"}, True),
         # ({"code": "MAT_1756906978", "name": "不存在的客户"}, False)
@@ -32,8 +29,8 @@ class TestCustomerManagement:
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
         ({
-            "code": "CUS_1756907106",
-            "name": "测试客户A",
+            "code": "CUS_002",
+            "name": "新增客户",
          }, True),
     ])
     def test_add_customer(self, customer_page, add_data, expected):
@@ -47,9 +44,9 @@ class TestCustomerManagement:
     @allure.story("修改功能")
     @pytest.mark.parametrize("edit_data,expected", [
         ({
-            "code" : "MAT_1756907106",
+            "code" : "CUS_002",
             # "edit_code": "MAT_99999999",
-            "edit_name": "阿瓦达",
+            "edit_name": "修改客户",
          }, True),
     ])
     def test_edit_customer(self, customer_page, edit_data, expected):
@@ -60,7 +57,7 @@ class TestCustomerManagement:
 
     @allure.story("删除功能")
     @pytest.mark.parametrize("delete_data,expected", [
-        ({"code" : "MAT_1756907106",}, False), # 期望删除后客户不存在
+        ({"code" : "CUS_002",}, False), # 期望删除后客户不存在
     ])
     def test_delete_customer(self, customer_page, delete_data, expected):
         """测试客户删除功能 - 数据驱动"""

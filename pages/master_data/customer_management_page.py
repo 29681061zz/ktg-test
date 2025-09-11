@@ -1,5 +1,4 @@
 import time
-from selenium.webdriver import Keys
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from locators.customer_management_locators import CustomerLocators
@@ -27,9 +26,6 @@ class CustomerManagementPage(BasePage):
             column_mapping = {
                 'code': 1, 'edit_code': 1,
                 'name': 2, 'edit_name': 2,
-                'specification': 3,
-                'unit': 4,
-                'category': 6
             }
 
             # 一次性获取所有行
@@ -101,14 +97,6 @@ class CustomerManagementPage(BasePage):
             self.input_text(CustomerLocators.CUSTOMER_CODE_INPUT, edit_data["edit_code"])
         if "edit_name" in edit_data:
             self.input_text(CustomerLocators.CUSTOMER_NAME_INPUT, edit_data["edit_name"])
-        if "specification" in edit_data:
-            self.input_text(CustomerLocators.CUSTOMER_SPECIFICATION_INPUT, edit_data["specification"])
-        if "unit" in edit_data:
-            self.select_option(CustomerLocators.UNIT_SELECT, edit_data["unit"])
-        if "category" in edit_data:
-            self.input_text(CustomerLocators.CATEGORY_SELECT, edit_data["category"])
-            time.sleep(0.5)
-            self.find(CustomerLocators.CATEGORY_SELECT).send_keys(Keys.ENTER)
         # 保存修改
         self.click(CustomerLocators.EDIT_CONFIRM_BUTTON)
         time.sleep(0.5)
