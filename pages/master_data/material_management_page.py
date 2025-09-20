@@ -87,7 +87,7 @@ class MaterialManagementPage(BasePage):
         self.input_text(MaterialLocators.MATERIAL_NAME_INPUT, add_data["name"])
         self.input_text(MaterialLocators.MATERIAL_SPECIFICATION_INPUT, add_data["specification"])
         self.select_option(MaterialLocators.UNIT_SELECT, add_data["unit"])
-        self.input_text(MaterialLocators.CATEGORY_SELECT, add_data["category"]+ Keys.ENTER)
+        self.input_text(MaterialLocators.CATEGORY_SELECT, add_data["category"] + Keys.ARROW_DOWN + Keys.ARROW_DOWN + Keys.ENTER)
         #关闭批管理
         self.click(MaterialLocators.BATCH_MANAGEMENT_SWITCH)
         #点击确定，然后点击关闭，回到初始的料管理页面
@@ -112,9 +112,8 @@ class MaterialManagementPage(BasePage):
         if "unit" in edit_data:
             self.select_option(MaterialLocators.UNIT_SELECT, edit_data["unit"])
         if "category" in edit_data:
-            self.input_text(MaterialLocators.CATEGORY_SELECT, edit_data["category"])
-            time.sleep(0.5)
-            self.find(MaterialLocators.CATEGORY_SELECT).send_keys(Keys.ENTER)
+            self.input_text(MaterialLocators.CATEGORY_SELECT,edit_data["category"] + Keys.ARROW_DOWN + Keys.ARROW_DOWN + Keys.ENTER)
+
         # 保存修改
         self.click(MaterialLocators.EDIT_CONFIRM_BUTTON)
         # 关闭编辑窗口
