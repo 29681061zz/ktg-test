@@ -6,9 +6,6 @@ from locators.material_management_locators import  MaterialLocators
 
 class MaterialManagementPage(BasePage):
     """物料管理页面对象封装物料管理页面的所有操作和断言方法"""
-    def __init__(self, driver):
-        super().__init__(driver)
-
     # -------------------- 搜索操作 --------------------
     def search_material(self, search_data:dict):
         """搜索物料:param material_code: 物料编码:param material_name: 物料名称"""

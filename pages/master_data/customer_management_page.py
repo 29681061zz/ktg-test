@@ -5,9 +5,6 @@ from locators.customer_management_locators import CustomerLocators
 
 class CustomerManagementPage(BasePage):
     """客户管理页面对象封装客户管理页面的所有操作和断言方法"""
-    def __init__(self, driver):
-        super().__init__(driver)
-
     # -------------------- 搜索操作 --------------------
     def search_customer(self, search_data:dict):
         """搜索客户:param customer_code: 客户码:param customer_name: 客户名称"""

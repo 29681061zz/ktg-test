@@ -5,9 +5,6 @@ from locators.unitmeasure_locators import UnitmeasureLocators
 
 class UnitmeasurePage(BasePage):
     """单位管理页面对象封装单位管理页面的所有操作和断言方法"""
-    def __init__(self, driver):
-        super().__init__(driver)
-
     # -------------------- 搜索操作 --------------------
     def search_unit(self, search_data:dict):
         """单位编码和单位名称"""
