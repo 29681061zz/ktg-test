@@ -20,7 +20,7 @@ def logged_in_driver(driver):
 
 @pytest.fixture(scope="function")
 def material_management_driver(logged_in_driver):
-    """物料管理测试专用的driver"""
+    """物料管理driver"""
     driver = logged_in_driver
     target_url = f"{Config.BASE_URL}/mes/md/mditem"
     driver.get(target_url)
@@ -28,8 +28,16 @@ def material_management_driver(logged_in_driver):
 
 @pytest.fixture(scope="function")
 def customer_management_driver(logged_in_driver):
-    """物料管理测试专用的driver"""
+    """客户管理driver"""
     driver = logged_in_driver
     target_url = f"{Config.BASE_URL}/mes/md/client"
+    driver.get(target_url)
+    yield driver
+
+@pytest.fixture(scope="function")
+def unitmeasure_driver(logged_in_driver):
+    """计量单位driver"""
+    driver = logged_in_driver
+    target_url = f"{Config.BASE_URL}/mes/md/unitmeasure"
     driver.get(target_url)
     yield driver
