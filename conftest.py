@@ -39,3 +39,11 @@ def unitmeasure_driver(logged_in_driver):
     target_url = f"{Config.BASE_URL}/mes/md/unitmeasure"
     driver.get(target_url)
     yield driver
+
+@pytest.fixture(scope="function")
+def vendor_management_driver(logged_in_driver):
+    """供应商管理driver"""
+    driver = logged_in_driver
+    target_url = f"{Config.BASE_URL}/mes/md/vendor"
+    driver.get(target_url)
+    yield driver
