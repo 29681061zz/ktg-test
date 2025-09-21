@@ -12,8 +12,8 @@ class TestUnitmeasurePage:
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
         ({
-            "code": "UNT_002",
-            "name": "新增单位_002",
+            "code": "UNT_001",
+            "name": "新增单位_001",
             "is_main_unit": "否",
             "main_unit": "个",
             "conversion": "1000",
@@ -47,8 +47,10 @@ class TestUnitmeasurePage:
     @pytest.mark.parametrize("edit_data,expected", [
         ({
             "code" : "UNT_001",
-            "edit_code": "UNT_002",
             "edit_name": "修改单位",
+            "is_main_unit": "是",
+            # "main_unit": "公斤",
+            "conversion": "",
          }, True),
     ])
     def test_edit_unit(self, unit_page, edit_data, expected):
@@ -59,7 +61,7 @@ class TestUnitmeasurePage:
 
     @allure.story("删除功能")
     @pytest.mark.parametrize("delete_data,expected", [
-        ({"code" : "UNT_002",}, False), # 期望删除后单位不存在
+        ({"code" : "UNT_001",}, False), # 期望删除后单位不存在
     ])
     def test_delete_unit(self, unit_page, delete_data, expected):
         """测试单位删除功能 - 数据驱动"""

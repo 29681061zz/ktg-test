@@ -102,6 +102,15 @@ class UnitmeasurePage(BasePage):
             self.input_text(UnitmeasureLocators.UNIT_CODE_INPUT, edit_data["edit_code"])
         if "edit_name" in edit_data:
             self.input_text(UnitmeasureLocators.UNIT_NAME_INPUT, edit_data["edit_name"])
+        if "is_main_unit" in edit_data :
+            if edit_data["is_main_unit"] == "是":
+                self.click(UnitmeasureLocators.MAIN_UNIT_YES)
+            else:
+                self.click(UnitmeasureLocators.MAIN_UNIT_NO)
+                if "main_unit" in edit_data:
+                    self.select_option(UnitmeasureLocators.SELECT_MAIN_UNIT, edit_data["main_unit"])
+                if "conversion" in edit_data:
+                    self.input_text(UnitmeasureLocators.CONVERSION_INPUT, edit_data["conversion"])
         # 保存修改
         self.click(UnitmeasureLocators.EDIT_CONFIRM_BUTTON)
         time.sleep(0.5)
