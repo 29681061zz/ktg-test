@@ -16,10 +16,11 @@ class UnitmeasureLocators:
     MAIN_UNIT_NO = (By.XPATH, "//label[text()='是否是主单位']/../div//span[text()='否']/../span/span")
     SELECT_MAIN_UNIT = (By.XPATH,"//input[@placeholder='请选择主单位']")
     CONVERSION_INPUT = (By.XPATH,"//input[@placeholder='请输入与主单位换算比例']")
+
     ADD_CONFIRM_BUTTON = (By.XPATH, "//button//span[text()='确 定']")#新增单位页面的确定键
     EDIT_CONFIRM_BUTTON = (By.XPATH, "//button//span[text()='确 定']")#修改单位页面的确定键
     DELETE_CONFIRM_BUTTON = (By.XPATH, "(//button//span[contains(text(),'确定')])[2]")#删除单位页面的确定键
-    CLOSE_BUTTON = (By.XPATH, "//button//span[text()='关 闭']")
+
 
     CHECKBOX = (By.XPATH, "(//span//span[@class='el-checkbox__inner'])[2]")#复选框
     # 操作按钮
