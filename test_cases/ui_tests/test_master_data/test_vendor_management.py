@@ -47,8 +47,7 @@ class TestVendorPage:
         ({
             "code" : "VEN_001",
             "edit_name": "修改供应商",
-            "abbreviation": "1",
-
+            "abbreviation": "",
             "rating": "5",
          }, True),
     ])
