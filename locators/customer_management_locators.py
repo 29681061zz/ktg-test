@@ -15,7 +15,7 @@ class CustomerLocators:
     ADD_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#新增客户页面的确定键
     EDIT_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#修改客户页面的确定键
     DELETE_CONFIRM_BUTTON = (By.XPATH, "(//button//span[contains(text(),'确定')])[2]")#删除客户页面的确定键
-    CLOSE_BUTTON = (By.XPATH, "//button//span[text()='关 闭']")
+
 
     CHECKBOX = (By.XPATH, "(//span//span[@class='el-checkbox__inner'])[2]")#复选框
     # 操作按钮

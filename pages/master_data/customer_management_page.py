@@ -78,7 +78,7 @@ class CustomerManagementPage(BasePage):
         #输入必填项
         self.input_text(CustomerLocators.CUSTOMER_CODE_INPUT, add_data["code"])
         self.input_text(CustomerLocators.CUSTOMER_NAME_INPUT, add_data["name"])
-        #点击确定，然后点击关闭，回到初始的料管理页面
+        #点击确定，回到初始的料管理页面
         self.click(CustomerLocators.ADD_CONFIRM_BUTTON)
         time.sleep(0.5)
 
