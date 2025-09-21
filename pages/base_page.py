@@ -1,4 +1,5 @@
 import time
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.common import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -38,6 +39,9 @@ class BasePage:
     def input_text(self, locator_tuple, text):
         """locator_tuple: (By.SOMETHING, 'selector')"""
         element = self.find(locator_tuple)
+        element.click()
+        element.send_keys(Keys.CONTROL + 'a')
+        element.send_keys(Keys.DELETE)
         element.clear()
         element.send_keys(text)
 
