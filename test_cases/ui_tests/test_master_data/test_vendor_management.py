@@ -2,11 +2,13 @@ import pytest
 import allure
 from pages.master_data.vendor_management_page import VendorPage
 
-pytestmark = [pytest.mark.feature("供应商管理")]
+
 @pytest.fixture(scope="function")
 def vendor_page(vendor_management_driver):
     """创建供应商管理页面对象"""
     return VendorPage(vendor_management_driver)
+@allure.feature("供应商管理")
+@pytest.mark.ui
 class TestVendorPage:
     """供应商管理测试用例"""
     @allure.story("新增功能")

@@ -2,11 +2,13 @@ import pytest
 import allure
 from pages.master_data.customer_management_page import CustomerManagementPage
 
-pytestmark = [pytest.mark.feature("客户管理")]
+
 @pytest.fixture(scope="function")
 def customer_page(customer_management_driver):
     """创建客户管理页面对象"""
     return CustomerManagementPage(customer_management_driver)
+@allure.feature("客户管理")
+@pytest.mark.ui
 class TestCustomerManagement:
     """客户管理测试用例"""
     @allure.story("新增功能")

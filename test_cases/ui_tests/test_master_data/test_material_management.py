@@ -2,11 +2,13 @@ import pytest
 import allure
 from pages.master_data.material_management_page import MaterialManagementPage
 
-pytestmark = [pytest.mark.feature("物料管理")]
 @pytest.fixture(scope="function")
 def material_page(material_management_driver):
     """创建物料管理页面对象"""
     return MaterialManagementPage(material_management_driver)
+
+@allure.feature("物料管理")
+@pytest.mark.ui
 class TestMaterialManagement:
     """物料管理测试用例"""
     @allure.story("新增功能")
@@ -16,7 +18,7 @@ class TestMaterialManagement:
             "name": "新增物料_001",
             "specification": "10-50mm",
             "unit": "毫米",
-            "category": "五金类"
+            "category": "包装00类"
          }, True),
     ])
     def test_add_material(self, material_page, add_data, expected):
@@ -50,13 +52,13 @@ class TestMaterialManagement:
         ({"code": "MAT_001", "edit_name": "修改物料_001"}, True),
         ({"code": "MAT_001", "specification": ""}, True),
         ({"code": "MAT_001", "unit": "米"}, True),
-        ({"code": "MAT_001", "category": "包装类"}, True),
+        ({"code": "MAT_001", "category": "注塑类"}, True),
         ({
             "code": "MAT_001",
             "edit_name": "新增物料_001",
             "specification": "10-50mm",
             "unit": "毫米",
-            "category": "五金类"
+            "category": "包装类"
          }, True),
     ])
     def test_edit_material(self, material_page, edit_data, expected):
