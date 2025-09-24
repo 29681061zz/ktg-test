@@ -8,7 +8,6 @@ from email.mime.application import MIMEApplication
 from datetime import datetime
 from configs.email_config import EMAIL_CONFIG
 
-
 class EmailReporter:
     @staticmethod
     def send_report(allure_html_dir, report_name=None):

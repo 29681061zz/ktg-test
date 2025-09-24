@@ -7,7 +7,7 @@ EMAIL_CONFIG = {
     'use_ssl': True,  # 是否使用SSL加密
 
     # 发件人配置
-    'sender_email': 'xxxxxx@qq.com',  # 发件人邮箱
+    'sender_email': 'xxxx@qq.com',  # 发件人邮箱
     'sender_password': 'xxxxxx',  # 邮箱密码或授权码
 
     # 收件人配置
