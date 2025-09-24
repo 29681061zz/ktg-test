@@ -7,12 +7,12 @@ EMAIL_CONFIG = {
     'use_ssl': True,  # 是否使用SSL加密
 
     # 发件人配置
-    'sender_email': '2968106122@qq.com',  # 发件人邮箱
-    'sender_password': 'gcbhzyylkusfdfdb',  # 邮箱密码或授权码
+    'sender_email': 'xxxxxx@qq.com',  # 发件人邮箱
+    'sender_password': 'xxxxxx',  # 邮箱密码或授权码
 
     # 收件人配置
     'receiver_emails': [  # 收件人邮箱列表
-        '2375843926@qq.com',
+        'xxxxxx@qq.com',
     ],
 
     # 邮件内容配置
