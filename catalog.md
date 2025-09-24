@@ -1,8 +1,10 @@
-your_framework/                 # 项目根目录
-├── common/                      # 【重命名】核心组件层（原common/)
+ktg/                 # 项目根目录
+├── common/                      # 【重命名】核心组件层
 │   ├── __init__.py
 │   ├── api_client.py          # 封装所有HTTP请求
-│   └── web_driver_manager.py  # 封装浏览器驱动生命周期管理
+├── configs/                     
+│   ├── __init__.py
+│   ├── settings.py          
 ├── pages/                     # 【重命名】页面对象层（POM核心！）
 │   ├──master_data_pages/
 │   │   ├──material_management_page.py
@@ -15,19 +17,15 @@ your_framework/                 # 项目根目录
 │   │   ├── __init__.py
 │   │   ├── test_production_api.py
 │   │   └── test_quality_api.py
-│   └── ui_tests/              # UI测试
+│   └── ui_tests/              # UI测试test_master_data
 │       ├── __init__.py
-│       ├── conftest.py        # UI特有的fixture（如driver初始化）
-│       ├── test_production_ui.py
-│       └── test_quality_ui.py
+│       └── test_master_data
+│           ├── test_production_ui.py
+│           └── test_quality_ui.py
 ├── test_data/                 # 测试数据
 │   ├── __init__.py
 │   ├── api_data.json
 │   └── ui_data.json
-├── utilities/                 # 【新增】工具层
-│   ├── __init__.py
-│   ├── config_loader.py       # 配置读取工具
-│   └── logger.py              # 日志记录工具
 ├── reports/                   # 测试报告输出目录
 ├── conftest.py                # 全局Pytest配置（如全局fixture）
 └── pytest.ini                 # Pytest配置文件
