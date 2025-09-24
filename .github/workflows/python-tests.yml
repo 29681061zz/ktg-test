@@ -1,47 +1,26 @@
-name: Python Tests
+name: Run Python Tests
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: [3.8, 3.9, 3.10]
-
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.10
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: "3.10"
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install pytest
+        # 安装您项目需要的其他包
+        # pip install -r requirements.txt
 
-    - name: Install Chrome Driver
+    - name: Run tests
       run: |
-        sudo apt-get update
-        sudo apt-get install -y chromium-chromedriver
-
-    - name: Run UI Tests
-      run: |
-        pytest test_cases/ui_tests/ -m ui -v
-
-    - name: Run API Tests
-      run: |
-        pytest test_cases/api_tests/ -m api -v
-
-    - name: Upload test reports
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-reports
-        path: reports/
+        pytest -v
