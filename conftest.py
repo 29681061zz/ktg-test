@@ -11,26 +11,13 @@ logger = setup_logger()
 @pytest.fixture(scope="session")
 def driver(request):
     remote_url = os.getenv('SELENIUM_REMOTE_URL')
-
-    if remote_url:
-        # 对于 Chrome 浏览器
-        # from selenium.webdriver.chrome.options import Options
-        # options = Options()
-        # options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
-
+    if remote_url:   # 远程驱动配置
         # 或者对于 Edge 浏览器
-        from selenium.webdriver.edge.options import Options
-        options = Options()
-        options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
-
-        driver_instance = webdriver.Remote(command_executor=remote_url, options=options)
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
+        driver_instance = webdriver.Edge(EdgeChromiumDriverManager().install())
     else:
-        # 本地驱动配置
-        from selenium.webdriver.edge.options import Options
-        options = Options()
-        options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
-        driver_instance = webdriver.Edge(options=options)
-
+        driver_instance=webdriver.Edge()        # 本地驱动配置
+    driver_instance.implicitly_wait(1)
     yield driver_instance
     driver_instance.quit()
 
