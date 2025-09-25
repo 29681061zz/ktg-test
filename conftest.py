@@ -26,10 +26,10 @@ def driver(request):
         driver_instance = webdriver.Remote(command_executor=remote_url, options=options)
     else:
         # 本地驱动配置
-        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.edge.options import Options
         options = Options()
         options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
-        driver_instance = webdriver.Chrome(options=options)
+        driver_instance = webdriver.Edge(options=options)
 
     yield driver_instance
     driver_instance.quit()
