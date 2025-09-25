@@ -10,13 +10,6 @@ jobs:
   test:
     runs-on: windows-latest
 
-    services:
-      selenium:
-        image: selenium/standalone-edge:latest
-        options: --shm-size=2g
-        ports:
-          - 4444:4444
-
     steps:
     - uses: actions/checkout@v4
 
