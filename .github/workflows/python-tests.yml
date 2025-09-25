@@ -40,6 +40,7 @@ jobs:
         pip install -r requirements.txt
 
     - name: Install Allure
+      id: install_allure
       shell: pwsh
       run: |
         $allureVersion = "2.13.8"
@@ -47,17 +48,20 @@ jobs:
         $allureZip = "allure-$allureVersion.zip"
         $allureDir = "allure-$allureVersion"
     
+        # 下载并解压
         Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
         Expand-Archive -Path $allureZip -DestinationPath .
     
-        $allureBin = (Join-Path (Resolve-Path $allureDir).Path "bin")
-        # 将 PATH 更新，便于当前与后续步骤使用
-        $env:PATH = "$env:PATH;$allureBin"
+        # 获取绝对路径
+        $allurePath = (Resolve-Path $allureDir).Path
+        $allureBin = Join-Path $allurePath "bin"
     
-        Write-Host "Allure bin: $allureBin"
-        Write-Host "PATH: $env:PATH"
-        # 也可直接输出 bin 目录文件，便于调试
-        Get-ChildItem -Path $allureBin
+        # 输出路径供后续步骤使用
+        "allure_bin=$allureBin" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "allure_version=$allureVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+    
+        Write-Host "Allure installed to: $allurePath"
+        Write-Host "Allure bin directory: $allureBin"
 
     - name: Run tests with smart handling
       id: smart_tests
@@ -65,14 +69,14 @@ jobs:
       run: |
         # 设置错误处理
         $ErrorActionPreference = "Continue"
-
+    
         # 运行测试
         pytest -v -x test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure-results
         $exitCode = $LASTEXITCODE
-
-        # 输出退出码
+    
+        # 输出退出码和结果
         "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-
+    
         # 分析退出码
         switch ($exitCode) {
             0 { 
@@ -97,32 +101,59 @@ jobs:
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       shell: pwsh
       run: |
-        $allureBin = (Join-Path (Resolve-Path "allure-$allureVersion").Path "bin")
-        $allureExeCandidates = @(
-          Join-Path $allureBin "allure.bat",
-          Join-Path $allureBin "allure.cmd",
-          Join-Path $allureBin "allure.exe"
-        )
+        # 从步骤输出获取路径信息
+        $allureBin = "${{ steps.install_allure.outputs.allure_bin }}"
+        $allureVersion = "${{ steps.install_allure.outputs.allure_version }}"
+        
+        Write-Host "Allure bin from previous step: $allureBin"
+        
+        # 检查目录是否存在
+        if (-not (Test-Path $allureBin)) {
+            Write-Host "❌ Allure bin 目录不存在: $allureBin"
+            Write-Host "当前工作目录内容:"
+            Get-ChildItem -Path . -Recurse -Depth 2 | Where-Object { $_.Name -like "*allure*" } | ForEach-Object { Write-Host $_.FullName }
+            exit 1
+        }
     
+        # 查找可执行文件
         $allureExe = $null
-        foreach ($c in $allureExeCandidates) {
-          if (Test-Path $c) { $allureExe = $c; break }
+        $possibleNames = @("allure.bat", "allure.cmd", "allure.exe")
+        
+        foreach ($name in $possibleNames) {
+            $potentialPath = Join-Path $allureBin $name
+            if (Test-Path $potentialPath) {
+                $allureExe = $potentialPath
+                break
+            }
         }
     
         if (-not $allureExe) {
-          Write-Host "❌ Allure 可执行文件未找到，请检查 bin 目录内容："
-          Get-ChildItem -Path $allureBin
-          exit 1
+            Write-Host "❌ Allure 可执行文件未找到"
+            Write-Host "Bin 目录内容:"
+            Get-ChildItem -Path $allureBin
+            exit 1
         }
     
         Write-Host "Using Allure executable: $allureExe"
+        
+        # 生成报告
         & "$allureExe" generate allure-results -o allure-report --clean
     
+        # 验证报告生成
         if (Test-Path "allure-report/index.html") {
             Write-Host "✅ Allure报告生成成功"
+            
+            # 可选：列出生成的文件
+            Write-Host "生成的报告文件:"
+            Get-ChildItem "allure-report" -Recurse | ForEach-Object { Write-Host $_.FullName }
         } else {
             Write-Host "❌ Allure报告生成失败"
-            Get-ChildItem allure-results/ -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
+            Write-Host "allure-results 目录内容:"
+            if (Test-Path "allure-results") {
+                Get-ChildItem "allure-results" -Recurse
+            } else {
+                Write-Host "allure-results 目录不存在"
+            }
             exit 1
         }
 
