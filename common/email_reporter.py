@@ -198,4 +198,4 @@ if __name__ == "__main__":
 
     if success:
         # 发送Allure HTML报告
-        EmailReporter.send_report(allure_html_dir="../reports/allure_report",report_name="UI自动化测试报告")
+        EmailReporter.send_report(allure_html_dir="../reports/allure-report",report_name="UI自动化测试报告")
