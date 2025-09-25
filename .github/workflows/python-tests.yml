@@ -47,61 +47,26 @@ jobs:
         $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
         $allureZip = "allure-$allureVersion.zip"
         $allureDir = "allure-$allureVersion"
-    
         # 下载并解压
         Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
         Expand-Archive -Path $allureZip -DestinationPath .
-    
         # 获取绝对路径
         $allurePath = (Resolve-Path $allureDir).Path
         $allureBin = Join-Path $allurePath "bin"
-        
         # 添加到PATH
         "::add-path::$allureBin" | Out-File -FilePath $env:GITHUB_PATH -Append
-    
         # 输出路径供后续步骤使用
         "allure_bin=$allureBin" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         "allure_version=$allureVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-    
-        Write-Host "Allure installed to: $allurePath"
-        Write-Host "Allure bin directory: $allureBin"
 
     - name: Run tests with smart handling
-      id: smart_tests
       shell: pwsh
       run: |
-        # 设置错误处理
-        $ErrorActionPreference = "Continue"
-    
-        # 运行测试
+        # 运行ui测试
         pytest -v -x test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure-results --clean-alluredir
         $exitCode = $LASTEXITCODE
-    
-        # 输出退出码和结果
-        "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-    
-        # 分析退出码
-        switch ($exitCode) {
-            0 { 
-                "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "✅ 所有测试通过"
-                $finalExitCode = 0
-            }
-            1 { 
-                "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "⚠️ 断言失败，但继续执行后续步骤"
-                $finalExitCode = 0
-            }
-            default { 
-                "result=other_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "❌ 其他错误，停止执行后续步骤"
-                $finalExitCode = $exitCode
-            }
-        }
-        exit $finalExitCode
 
     - name: Generate Allure report
-      if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       shell: pwsh
       run: |
         # 使用之前步骤输出的 allure_bin 路径
@@ -117,7 +82,6 @@ jobs:
         }
 
     - name: Upload artifacts
-      if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       uses: actions/upload-artifact@v4
       with:
         name: test-artifacts
@@ -125,11 +89,3 @@ jobs:
           allure-report/
           allure-results/
         retention-days: 30
-
-    - name: Show final status
-      if: always()
-      shell: pwsh
-      run: |
-        Write-Host "=== 测试执行完成 ==="
-        Write-Host "最终结果: ${{ steps.smart_tests.outputs.result }}"
-        Write-Host "退出码: ${{ steps.smart_tests.outputs.exit_code }}"
