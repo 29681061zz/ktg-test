@@ -104,19 +104,17 @@ jobs:
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       shell: pwsh
       run: |
+        # 使用之前步骤输出的 allure_bin 路径
+        $allureBin = "${{ steps.install_allure.outputs.allure_bin }}"
+        $allureCmd = Join-Path $allureBin "allure.bat"  # Windows 使用 .bat
+        
         # 生成报告
-        allure generate allure-results -o allure-report --clean
-    
+        & $allureCmd generate allure-results -o allure-report --clean
+        
         # 验证报告生成
-        if (Test-Path "allure-report") {
-            Write-Host "✅ allure-report 目录存在"
-            Get-ChildItem "allure-report" -Recurse | Select-Object Name
-        } else {
-            Write-Host "❌ allure-report 目录不存在"
-        }
         if (Test-Path "allure-report/index.html") {
             Write-Host "✅ Allure报告生成成功"
-          }
+        }
 
     - name: Upload artifacts
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
