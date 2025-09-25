@@ -1,16 +1,10 @@
 # 测试框架
 pytest>=7.0.0
 pytest-html>=3.0.0
-pytest-xdist>=2.0.0
-pytest-rerunfailures>=10.0
-
-
 selenium>=4.2.0
-
 
 # API测试
 requests>=2.25.0
-requests-toolbelt>=0.9.0
 
 # 报告生成
 allure-pytest>=2.0.0
