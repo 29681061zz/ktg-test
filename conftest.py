@@ -7,6 +7,36 @@ from utils.logger import setup_logger
 
 logger = setup_logger()
 
+@pytest.fixture(scope="session")
+def driver(request):
+    remote_url = os.getenv('SELENIUM_REMOTE_URL')
+
+    if remote_url:
+        # 使用 DesiredCapabilities 而不是 Options（更通用）
+        from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+
+        # 根据你的浏览器选择
+        capabilities = DesiredCapabilities.EDGE  # 或者 DesiredCapabilities.CHROME
+        capabilities['goog:loggingPrefs'] = {'browser': 'ALL'}
+
+        driver_instance = webdriver.Remote(command_executor=remote_url,desired_capabilities=capabilities)
+    else:
+        # 在本地环境中使用本地驱动
+        driver_instance = webdriver.Edge()
+
+    driver_instance.implicitly_wait(1)
+    request.node.driver = driver_instance
+    yield driver_instance
+    driver_instance.quit()
+
+@pytest.fixture(scope="session")
+def logged_in_driver(driver, request):
+    """已登录的浏览器实例 """
+    request.node.driver = driver    # 将driver存储到测试项中，供hook使用
+    login_page = LoginPage(driver)
+    login_page.login()
+    yield driver
+
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     """获取测试结果并在失败时自动截图"""
@@ -56,18 +86,3 @@ def pytest_runtest_makereport(item, call):
         except Exception as e:
             logger.error(f"截图处理失败: {str(e)}")
 
-@pytest.fixture(scope="session")
-def driver(request):
-    driver_instance = webdriver.Edge()  # 创建浏览器实例
-    driver_instance.implicitly_wait(1)  # 将driver存储到测试项中，供hook使用
-    request.node.driver = driver_instance
-    yield driver_instance
-    driver_instance.quit()   # 测试结束后关闭浏览器
-
-@pytest.fixture(scope="session")
-def logged_in_driver(driver, request):
-    """已登录的浏览器实例 """
-    request.node.driver = driver    # 将driver存储到测试项中，供hook使用
-    login_page = LoginPage(driver)
-    login_page.login()
-    yield driver
