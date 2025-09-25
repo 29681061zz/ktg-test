@@ -13,6 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+      env:
+        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
+
     - name: Set up webdriver-manager
       shell: pwsh
       run: |
@@ -44,19 +47,25 @@ jobs:
         $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
         $allureZip = "allure-$allureVersion.zip"
         $allureDir = "allure-$allureVersion"
-
+    
         # 下载 Allure
         Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
-
+    
         # 解压到当前目录
         Expand-Archive -Path $allureZip -DestinationPath . -Force
-
+    
         # 将 Allure 添加到系统 PATH
-        $allurePath = (Resolve-Path $allureDir).Path + "\bin"
-        Write-Host "##vso[task.prependpath]$allurePath"
-
-        # 也可将路径添加到环境变量中，确保后续命令能找到 allure
-        $env:PATH = "$env:PATH;$allurePath"
+        $allureBin = (Join-Path (Resolve-Path $allureDir).Path "bin")
+        $env:PATH = "$env:PATH;$allureBin"
+    
+        Write-Host "Allure bin: $allureBin"
+        Write-Host "PATH (trim): $env:PATH"
+    
+        # 可选：验证 allure 是否可用
+        if (-Not (Test-Path (Join-Path $allureBin "allure.bat"))) {
+          Write-Host "Warning: allure.bat not found. Listing bin contents for debugging:"
+          Get-ChildItem -Path $allureBin
+        }
 
     - name: Run tests with smart handling
       id: smart_tests
@@ -90,13 +99,7 @@ jobs:
                 $finalExitCode = $exitCode
             }
         }
-
         exit $finalExitCode
-      env:
-        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
-        BASE_URL: ${{ secrets.BASE_URL }}
-        TEST_USERNAME: ${{ secrets.TEST_USERNAME }}
-        TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
 
     - name: Generate Allure report
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
@@ -104,16 +107,28 @@ jobs:
       run: |
         Write-Host "测试结果: ${{ steps.smart_tests.outputs.result }}"
         Write-Host "生成Allure报告中..."
-
-        # 生成 Allure 报告
-        allure generate allure-results -o allure-report --clean
-
+    
+        # 使用显式路径调用 allure（根据你的 bin 目录实际文件名调整）
+        $allureExe = Join-Path $env:PATH "allure.bat"
+        if (-Not (Test-Path $allureExe)) {
+          # 尝试直接用 bin 下的 allure 可执行文件名
+          $allureExe = Get-ChildItem -Path (Join-Path (Resolve-Path $env:PATH).Path) -Filter "allure*.exe","allure*.cmd","allure*.bat" -File | Select-Object -First 1 | ForEach-Object { $_.FullName }
+        }
+    
+        if (Test-Path $allureExe) {
+          & "$allureExe" generate allure-results -o allure-report --clean
+        } else {
+          Write-Host "❌ allure 可执行文件未找到，请检查 bin 目录与 PATH 设置。"
+          exit 1
+        }
+    
         # 检查报告是否生成成功
         if (Test-Path "allure-report/index.html") {
             Write-Host "✅ Allure报告生成成功"
         } else {
             Write-Host "❌ Allure报告生成失败"
             Get-ChildItem allure-results/ -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_.Name }
+            exit 1
         }
 
     - name: Upload artifacts
