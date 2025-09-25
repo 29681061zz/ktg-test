@@ -37,7 +37,7 @@ jobs:
 
     - name: Run specific test only
       run: |
-        pytest -v test_cases/ui_tests/test_master_data/test_material_management.py::test_add_material --alluredir=allure_results
+        pytest -v test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure_results
       env:
         SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
