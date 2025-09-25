@@ -25,10 +25,11 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y default-jre
+    - name: Set up Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'temurin'
+        java-version: '11'
 
     - name: Install Python dependencies
       run: |
@@ -37,44 +38,55 @@ jobs:
 
     - name: Install Allure
       run: |
-        wget https://github.com/allure-framework/allure2/releases/download/2.13.8/allure-2.13.8.tgz
-        tar -zxvf allure-2.13.8.tgz
-        sudo mv allure-2.13.8 /opt/allure
-        sudo ln -s /opt/allure/bin/allure /usr/local/bin/allure
+        # 下载并安装 Allure
+        $allureVersion = "2.13.8"
+        $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
+        $allureZip = "allure-$allureVersion.zip"
+        $allureDir = "allure-$allureVersion"
+        
+        # 下载 Allure
+        Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
+        
+        # 解压到当前目录
+        Expand-Archive -Path $allureZip -DestinationPath . -Force
+        
+        # 将 Allure 添加到系统 PATH
+        $allurePath = (Resolve-Path $allureDir).Path + "\bin"
+        echo "##vso[task.prependpath]$allurePath"
 
     - name: Run tests with smart handling
       id: smart_tests
       run: |
-        set +e  # 禁用错误退出，让脚本继续执行
+        # 设置错误处理
+        $ErrorActionPreference = "Continue"
         
-        # 运行测试，遇到第一个失败就停止（方便调试）
+        # 运行测试
         pytest -v -x test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure-results
-        EXIT_CODE=$?
+        $exitCode = $LASTEXITCODE
         
-        echo "exit_code=$EXIT_CODE" >> $GITHUB_OUTPUT
+        # 输出退出码
+        echo "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
         
         # 分析退出码
-        case $EXIT_CODE in
-            0)   # 全部通过
-                echo "result=success" >> $GITHUB_OUTPUT
+        switch ($exitCode) {
+            0 { 
+                echo "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
                 echo "✅ 所有测试通过"
-                ;;
-            1)   # 断言失败
-                echo "result=assertion_failure" >> $GITHUB_OUTPUT
+                $finalExitCode = 0
+            }
+            1 { 
+                echo "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
                 echo "⚠️ 断言失败，但继续执行后续步骤"
-                ;;
-            *)   # 其他错误（2,3,4,5等）
-                echo "result=other_error" >> $GITHUB_OUTPUT
+                $finalExitCode = 0
+            }
+            default { 
+                echo "result=other_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
                 echo "❌ 其他错误，停止执行后续步骤"
-                ;;
-        esac
+                $finalExitCode = $exitCode
+            }
+        }
         
-        # 只有其他错误时才真正失败
-        if [ $EXIT_CODE -eq 1 ] || [ $EXIT_CODE -eq 0 ]; then
-            exit 0  # 返回成功，让后续步骤执行
-        else
-            exit $EXIT_CODE  # 返回原错误码，停止后续步骤
-        fi
+        exit $finalExitCode
       env:
         SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
         BASE_URL: ${{ secrets.BASE_URL }}
@@ -86,15 +98,17 @@ jobs:
       run: |
         echo "测试结果: ${{ steps.smart_tests.outputs.result }}"
         echo "生成Allure报告中..."
+        
+        # 生成 Allure 报告
         allure generate allure-results -o allure-report --clean
         
         # 检查报告是否生成成功
-        if [ -f "allure-report/index.html" ]; then
+        if (Test-Path "allure-report/index.html") {
             echo "✅ Allure报告生成成功"
-        else
+        } else {
             echo "❌ Allure报告生成失败"
-            ls -la allure-results/ || echo "无测试结果数据"
-        fi
+            Get-ChildItem allure-results/ -ErrorAction SilentlyContinue | ForEach-Object { echo $_.Name }
+        }
 
     - name: Upload artifacts
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
