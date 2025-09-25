@@ -43,7 +43,7 @@ jobs:
       id: install_allure
       shell: pwsh
       run: |
-        $allureVersion = "2.13.8"
+        $allureVersion = "2.35.1"
         $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
         $allureZip = "allure-$allureVersion.zip"
         $allureDir = "allure-$allureVersion"
