@@ -57,7 +57,7 @@ jobs:
         $allureBin = Join-Path $allurePath "bin"
         
         # 添加到PATH
-        echo "::add-path::$allureBin"
+        "::add-path::$allureBin" | Out-File -FilePath $env:GITHUB_PATH -Append
     
         # 输出路径供后续步骤使用
         "allure_bin=$allureBin" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
