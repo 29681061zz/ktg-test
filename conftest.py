@@ -7,25 +7,30 @@ from utils.logger import setup_logger
 
 logger = setup_logger()
 
+
 @pytest.fixture(scope="session")
 def driver(request):
     remote_url = os.getenv('SELENIUM_REMOTE_URL')
 
     if remote_url:
-        # 使用 DesiredCapabilities 而不是 Options（更通用）
-        from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+        # 对于 Chrome 浏览器
+        # from selenium.webdriver.chrome.options import Options
+        # options = Options()
+        # options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
 
-        # 根据你的浏览器选择
-        capabilities = DesiredCapabilities.EDGE  # 或者 DesiredCapabilities.CHROME
-        capabilities['goog:loggingPrefs'] = {'browser': 'ALL'}
+        # 或者对于 Edge 浏览器
+        from selenium.webdriver.edge.options import Options
+        options = Options()
+        options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
 
-        driver_instance = webdriver.Remote(command_executor=remote_url,desired_capabilities=capabilities)
+        driver_instance = webdriver.Remote(command_executor=remote_url, options=options)
     else:
-        # 在本地环境中使用本地驱动
-        driver_instance = webdriver.Edge()
+        # 本地驱动配置
+        from selenium.webdriver.chrome.options import Options
+        options = Options()
+        options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
+        driver_instance = webdriver.Chrome(options=options)
 
-    driver_instance.implicitly_wait(1)
-    request.node.driver = driver_instance
     yield driver_instance
     driver_instance.quit()
 
