@@ -42,30 +42,22 @@ jobs:
     - name: Install Allure
       shell: pwsh
       run: |
-        # 下载并安装 Allure
         $allureVersion = "2.13.8"
         $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
         $allureZip = "allure-$allureVersion.zip"
         $allureDir = "allure-$allureVersion"
     
-        # 下载 Allure
         Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
+        Expand-Archive -Path $allureZip -DestinationPath .
     
-        # 解压到当前目录
-        Expand-Archive -Path $allureZip -DestinationPath . -Force
-    
-        # 将 Allure 添加到系统 PATH
         $allureBin = (Join-Path (Resolve-Path $allureDir).Path "bin")
+        # 将 PATH 更新，便于当前与后续步骤使用
         $env:PATH = "$env:PATH;$allureBin"
     
         Write-Host "Allure bin: $allureBin"
-        Write-Host "PATH (trim): $env:PATH"
-    
-        # 可选：验证 allure 是否可用
-        if (-Not (Test-Path (Join-Path $allureBin "allure.bat"))) {
-          Write-Host "Warning: allure.bat not found. Listing bin contents for debugging:"
-          Get-ChildItem -Path $allureBin
-        }
+        Write-Host "PATH: $env:PATH"
+        # 也可直接输出 bin 目录文件，便于调试
+        Get-ChildItem -Path $allureBin
 
     - name: Run tests with smart handling
       id: smart_tests
@@ -105,24 +97,27 @@ jobs:
       if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       shell: pwsh
       run: |
-        Write-Host "测试结果: ${{ steps.smart_tests.outputs.result }}"
-        Write-Host "生成Allure报告中..."
+        $allureBin = (Join-Path (Resolve-Path "allure-$allureVersion").Path "bin")
+        $allureExeCandidates = @(
+          Join-Path $allureBin "allure.bat",
+          Join-Path $allureBin "allure.cmd",
+          Join-Path $allureBin "allure.exe"
+        )
     
-        # 使用显式路径调用 allure（根据你的 bin 目录实际文件名调整）
-        $allureExe = Join-Path $env:PATH "allure.bat"
-        if (-Not (Test-Path $allureExe)) {
-          # 尝试直接用 bin 下的 allure 可执行文件名
-          $allureExe = Get-ChildItem -Path (Join-Path (Resolve-Path $env:PATH).Path) -Filter "allure*.exe","allure*.cmd","allure*.bat" -File | Select-Object -First 1 | ForEach-Object { $_.FullName }
+        $allureExe = $null
+        foreach ($c in $allureExeCandidates) {
+          if (Test-Path $c) { $allureExe = $c; break }
         }
     
-        if (Test-Path $allureExe) {
-          & "$allureExe" generate allure-results -o allure-report --clean
-        } else {
-          Write-Host "❌ allure 可执行文件未找到，请检查 bin 目录与 PATH 设置。"
+        if (-not $allureExe) {
+          Write-Host "❌ Allure 可执行文件未找到，请检查 bin 目录内容："
+          Get-ChildItem -Path $allureBin
           exit 1
         }
     
-        # 检查报告是否生成成功
+        Write-Host "Using Allure executable: $allureExe"
+        & "$allureExe" generate allure-results -o allure-report --clean
+    
         if (Test-Path "allure-report/index.html") {
             Write-Host "✅ Allure报告生成成功"
         } else {
