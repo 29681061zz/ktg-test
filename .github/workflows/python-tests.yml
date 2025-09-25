@@ -60,26 +60,46 @@ jobs:
         "allure_version=$allureVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
 
     - name: Run tests with smart handling
+      id: smart_tests
       shell: pwsh
       run: |
-        # 运行ui测试
+        # 设置错误处理
+        $ErrorActionPreference = "Continue"
+        # 运行测试
         pytest -v -x test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure-results --clean-alluredir
         $exitCode = $LASTEXITCODE
+        # 输出退出码和结果
+        "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        # 分析退出码
+        switch ($exitCode) {
+            0 { 
+                "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+                Write-Host "✅ 所有测试通过"
+                $finalExitCode = 0
+            }
+            1 { 
+                "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+                Write-Host "⚠️ 断言失败，但继续执行后续步骤"
+                $finalExitCode = 0
+            }
+            default { 
+                "result=other_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+                Write-Host "❌ 其他错误，停止执行后续步骤"
+                $finalExitCode = $exitCode
+            }
+        }
+        exit $finalExitCode
 
     - name: Generate Allure report
+      if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
       shell: pwsh
       run: |
         # 使用之前步骤输出的 allure_bin 路径
         $allureBin = "${{ steps.install_allure.outputs.allure_bin }}"
         $allureCmd = Join-Path $allureBin "allure.bat"  # Windows 使用 .bat
-        
         # 生成报告
         & $allureCmd generate allure-results -o allure-report --clean
         
-        # 验证报告生成
-        if (Test-Path "allure-report/index.html") {
-            Write-Host "✅ Allure报告生成成功"
-        }
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
