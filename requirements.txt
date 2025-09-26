@@ -1,5 +1,5 @@
 #验证码识别
-ddddocr ==1.56
+ddddocr ==1.5.6
 
 # 测试框架
 pytest == 8.4.1
