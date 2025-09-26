@@ -66,7 +66,7 @@ jobs:
         # 设置错误处理
         $ErrorActionPreference = "Continue"
         # 运行测试
-        pytest -v -x test_cases/ui_tests/test_master_data/test_material_management.py::TestMaterialManagement::test_add_material --alluredir=allure-results --clean-alluredir
+        pytest -v -x test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
         $exitCode = $LASTEXITCODE
         # 输出退出码和结果
         "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append

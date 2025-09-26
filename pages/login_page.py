@@ -2,100 +2,82 @@ from .base_page import BasePage
 from configs.settings import Config
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+import ddddocr
 import time
-import pytesseract
-from PIL import Image
-import base64
-import io
-import re
 
 class LoginPage(BasePage):
     # 定位器
     LOGIN_BUTTON = (By.XPATH, "//button[.//span[text()='登 录']]")
-    CAPTCHA_INPUT = (By.XPATH, "//input[@placeholder='验证码']")  # 验证码输入框
-    CAPTCHA_IMAGE = (By.CLASS_NAME, "login-code-img")  # 验证码图片
+    CAPTCHA_INPUT = (By.XPATH, "//input[@placeholder='验证码']")
+    CAPTCHA_IMAGE = (By.CLASS_NAME, "login-code-img")
+    ERROR_MESSAGE = (By.XPATH, "//p[contains(text(), '验证码错误')]")
+    USER_AVATAR = (By.CLASS_NAME, "user-avatar")
 
-    USER_AVATAR = (By.CLASS_NAME, "user-avatar")  # 登录后的用户头像
-    AVATAR_WRAPPER = (By.CLASS_NAME, "avatar-wrapper")  # 头像包装器
-
-    def login(self):
-        """一键登录操作"""
-        # 先导航到登录页面确保状态
+    def login(self, max_retries=5):
+        """一键登录操作，验证码错误时自动重试"""
         self.driver.get(f"{Config.BASE_URL}/login")
+        time.sleep(0.5)
+        retry_count = 0
 
-        captcha_expression = self.get_captcha_text() # 识别验证码表达式
-        captcha_result = self.calculate_captcha(captcha_expression)# 计算验证码
+        while retry_count < max_retries:
+            try:
+                # 识别验证码
+                captcha_element = self.wait.until(EC.presence_of_element_located(self.CAPTCHA_IMAGE))
+                src_data = captcha_element.get_attribute("src")
+                base64_data = src_data.split(",")[1]
+                ocr = ddddocr.DdddOcr(show_ad=False)
+                text = ocr.classification(base64_data)
+                captcha_result = self.calculate_captcha(text)
 
-        self.input_text(self.CAPTCHA_INPUT,str(captcha_result))
-        login_btn = self.wait.until(EC.element_to_be_clickable(self.LOGIN_BUTTON),message="等待登录按钮可点击超时")
-        login_btn.click()
-        # 等待URL变化（离开登录页面）
-        self.wait.until(lambda driver: "login" not in driver.current_url, message="等待页面跳转超时")
-        # 等待用户头像出现（最可靠的登录成功标志）
-        self.wait.until(EC.presence_of_element_located(self.USER_AVATAR), message="等待用户头像出现超时")
-        return True
+                if captcha_result is None:
+                    retry_count += 1
+                    continue
 
-    def get_captcha_text(self):
-        """获取并识别验证码"""
-        try:
-            # 等待验证码图片加载
-            captcha_element = self.wait.until(
-                EC.presence_of_element_located(self.CAPTCHA_IMAGE),
-                message="等待验证码图片加载超时"
-            )
+                # 输入验证码
+                self.input_text(self.CAPTCHA_INPUT, str(captcha_result))
 
-            # 提取Base64数据
-            src_data = captcha_element.get_attribute("src")
-            if not src_data or "base64" not in src_data:
-                raise ValueError("验证码图片数据格式不正确")
+                # 点击登录
+                login_btn = self.wait.until(EC.element_to_be_clickable(self.LOGIN_BUTTON))
+                login_btn.click()
+                time.sleep(0.5)
 
-            base64_data = src_data.split(",")[1]
+                # 检查错误提示
+                try:
+                    error_element = self.wait.until(EC.presence_of_element_located(self.ERROR_MESSAGE))
+                    if error_element.is_displayed():
+                        retry_count += 1
+                        continue
+                except TimeoutException:
+                    pass
 
-            # 解码为图片
-            image_data = base64.b64decode(base64_data)
-            image = Image.open(io.BytesIO(image_data))
+                # 检查登录成功
+                try:
+                    self.wait.until(lambda driver: "login" not in driver.current_url)
+                    self.wait.until(EC.presence_of_element_located(self.USER_AVATAR))
+                    return True
+                except TimeoutException:
+                    retry_count += 1
+                    continue
 
-            # 图片预处理
-            image = image.convert('L')  # 转灰度
-            # 可选：二值化处理（根据实际效果调整阈值）
-            # image = image.point(lambda x: 0 if x < 180 else 255)
+            except Exception:
+                retry_count += 1
+                if retry_count < max_retries:
+                    self.driver.refresh()
+                    time.sleep(0.5)
 
-            # OCR识别
-            captcha_text = pytesseract.image_to_string(image).strip()
-            print(f"识别出的验证码文本: '{captcha_text}'")
-
-            # 清理文本，提取数学表达式
-            cleaned_text = re.sub(r'[^\d+\-*/=]', '', captcha_text)
-            cleaned_text = cleaned_text.rstrip('=')
-            print(f"清理后的表达式: '{cleaned_text}'")
-
-            return cleaned_text
-
-        except Exception as e:
-            print(f"验证码识别失败: {e}")
-            return None
+        return False
 
     def calculate_captcha(self, expression):
-        """安全计算验证码表达式"""
         try:
-            if not expression:
-                return None
-
-            if '+' in expression:
-                parts = expression.split('+')
-                return int(parts[0]) + int(parts[1])
-            elif '-' in expression:
-                parts = expression.split('-')
-                return int(parts[0]) - int(parts[1])
-            elif '*' in expression:
-                parts = expression.split('*')
-                return int(parts[0]) * int(parts[1])
-            elif '/' in expression:
-                parts = expression.split('/')
-                return int(parts[0]) // int(parts[1])  # 整除
-            else:
-                return None
-        except (ValueError, IndexError, ZeroDivisionError):
+            if expression[1] == '+' or expression[1] == 't':
+                return int(expression[0]) + int(expression[2])
+            if expression[1] == '-' or expression[1] == 'r':
+                return int(expression[0]) - int(expression[2])
+            if expression[1] == '*' or expression[1] == 'x':
+                return int(expression[0]) * int(expression[2])
+            if expression[1] == '/' or expression[1] == 'l':
+                return int(expression[0]) // int(expression[2])
+            return int(expression[0]) - int(expression[1])
+        except (ValueError, IndexError):
             return None
-
-
