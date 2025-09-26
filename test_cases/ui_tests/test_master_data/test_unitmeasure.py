@@ -14,10 +14,15 @@ class TestUnitmeasurePage:
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
         ({
-            "code": "UNI_001",
-            "name": "新增单位_001",
+             "code": "UNI_001",
+             "name": "新增单位_001",
+             "is_main_unit": "是",
+         }, True),
+        ({
+            "code": "UNI_002",
+            "name": "新增单位_002",
             "is_main_unit": "否",
-            "main_unit": "个",
+            "main_unit": "新增单位_001",
             "conversion": "1000",
          }, True),
     ])
