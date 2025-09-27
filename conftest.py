@@ -12,8 +12,12 @@ logger = setup_logger()
 def driver(request):
     is_in_actions = os.getenv('GITHUB_ACTIONS') == 'true'
     if is_in_actions:   # 远程驱动配置
+        from selenium.webdriver.edge.options import Options as EdgeOptions
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
-        driver_instance = webdriver.Edge(EdgeChromiumDriverManager().install())
+
+        options = EdgeOptions()
+        options.add_argument('--headless')  # 必须：无头模式
+        driver_instance = webdriver.Edge(EdgeChromiumDriverManager().install(),options=options)
     else:
         driver_instance=webdriver.Edge()        # 本地驱动配置
     driver_instance.implicitly_wait(1)
