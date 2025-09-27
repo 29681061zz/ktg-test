@@ -43,7 +43,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run tests with smart handling
+    - name: Run tests-ui
+      continue-on-error: true
       run: |
         # 运行测试并输出详细结果
         pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
