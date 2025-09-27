@@ -14,12 +14,12 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Extract EdgeDriver
-      run:
+      run: |
         Expand-Archive -Path drivers/edgedriver_win64.zip -DestinationPath C:\SeleniumWebDrivers\Edge\
         echo "C:\SeleniumWebDrivers\Edge" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
     - name: Install and setup Allure
-      run:
+      run: |
         Expand-Archive -Path allure/allure-2.35.1.zip -DestinationPath C:\allure\
         echo "C:\allure\allure-2.35.1\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
         allure --version
@@ -36,17 +36,17 @@ jobs:
         java-version: '11'
 
     - name: Install Python dependencies
-      run:
+      run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Run tests with smart handling
-      run:
+      run: |
         # 运行测试并输出详细结果
         pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
 
     - name: Generate Allure report
-      run:
+      run: |
         allure generate allure-results -o allure-report --clean
 
     - name: Upload artifacts
