@@ -57,29 +57,49 @@ jobs:
       shell: pwsh
       run: |
         $ErrorActionPreference = "Continue"
-        # 运行测试
-        pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
+        
+        # 临时文件记录详细结果
+        $resultFile = "test-result.json"
+        
+        # 运行测试并输出详细结果
+        pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir --json-report --json-report-file=$resultFile
         $exitCode = $LASTEXITCODE
-        # 输出退出码和结果
-        "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        # 分析退出码
-        switch ($exitCode) {
-            0 { 
-                "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "✅ 所有测试通过"
-                $finalExitCode = 0
+        
+        # 分析测试结果类型
+        $resultType = "unknown"
+        if (Test-Path $resultFile) {
+            $resultData = Get-Content $resultFile | ConvertFrom-Json
+            if ($resultData.summary.passed -gt 0) {
+                $resultType = "has_passed"
             }
-            1 { 
-                "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "⚠️ 断言失败，但继续执行后续步骤"
-                $finalExitCode = 0
+            if ($resultData.summary.failed -gt 0) {
+                $resultType = "has_failed" 
             }
-            default { 
-                "result=other_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-                Write-Host "❌ 其他错误，停止执行后续步骤"
-                $finalExitCode = $exitCode
+            if ($resultData.summary.error -gt 0) {
+                $resultType = "has_errors"
             }
         }
+        
+        "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "result_type=$resultType" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        
+        # 更智能的判断逻辑
+        if ($exitCode -eq 0) {
+            "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "✅ 所有测试通过"
+            $finalExitCode = 0
+        }
+        elseif ($exitCode -eq 1 -and $resultType -eq "has_failed") {
+            "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "⚠️ 断言失败，继续生成报告"
+            $finalExitCode = 0
+        }
+        else {
+            "result=environment_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+            Write-Host "❌ 环境错误（退出码: $exitCode, 类型: $resultType），停止工作流"
+            $finalExitCode = $exitCode
+        }
+        
         exit $finalExitCode
 
     - name: Generate Allure report
