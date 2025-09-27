@@ -13,19 +13,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-      env:
-        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
-
-    - name: Set up webdriver-manager
-      shell: pwsh
-      run: |
-        python -m pip install --upgrade pip
-        pip install selenium webdriver-manager
-
-    - name: Set up Python 3.10
+    - name: Set up Python 3.8
       uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
+        python-version: "3.8"
 
     - name: Set up Java
       uses: actions/setup-java@v4
@@ -63,10 +54,9 @@ jobs:
       id: smart_tests
       shell: pwsh
       run: |
-        # 设置错误处理
         $ErrorActionPreference = "Continue"
         # 运行测试
-        pytest -v -x test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
+        pytest -v  test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
         $exitCode = $LASTEXITCODE
         # 输出退出码和结果
         "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -99,7 +89,6 @@ jobs:
         $allureCmd = Join-Path $allureBin "allure.bat"  # Windows 使用 .bat
         # 生成报告
         & $allureCmd generate allure-results -o allure-report --clean
-        
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
@@ -107,5 +96,4 @@ jobs:
         name: test-artifacts
         path: |
           allure-report/
-          allure-results/
         retention-days: 30
