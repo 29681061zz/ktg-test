@@ -10,9 +10,8 @@ logger = setup_logger()
 
 @pytest.fixture(scope="session")
 def driver(request):
-    remote_url = os.getenv('SELENIUM_REMOTE_URL')
-    if remote_url:   # 远程驱动配置
-        # 或者对于 Edge 浏览器
+    is_in_actions = os.getenv('GITHUB_ACTIONS') == 'true'
+    if is_in_actions:   # 远程驱动配置
         from webdriver_manager.microsoft import EdgeChromiumDriverManager
         driver_instance = webdriver.Edge(EdgeChromiumDriverManager().install())
     else:
