@@ -56,7 +56,7 @@ jobs:
       run: |
         $ErrorActionPreference = "Continue"
         # 运行测试
-        pytest -v  test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
+        pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
         $exitCode = $LASTEXITCODE
         # 输出退出码和结果
         "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
@@ -95,5 +95,5 @@ jobs:
       with:
         name: test-artifacts
         path: |
-          allure-report/
+          allure-report
         retention-days: 30
