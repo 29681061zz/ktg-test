@@ -2,9 +2,8 @@
 ddddocr ==1.5.6
 
 # 测试框架
-pytest
-
-selenium
+pytest ==8.3.5
+selenium ==4.27.1
 webdriver-manager
 # 报告生成
 allure-pytest == 2.15.0
