@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      env:
+        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
