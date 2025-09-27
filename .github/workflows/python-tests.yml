@@ -12,8 +12,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-      env:
-        SELENIUM_REMOTE_URL: http://localhost:4444/wd/hub
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
@@ -31,6 +29,50 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Setup Edge Driver
+      uses: browser-actions/setup-edge@v1
+      with:
+        edge-version: 'latest'
+
+    - name: Install Edge WebDriver
+      shell: pwsh
+      run: |
+        # 创建专门的 WebDriver 目录
+        $driverDir = "edgedriver"
+        New-Item -ItemType Directory -Path $driverDir -Force
+        
+        # 下载匹配的 WebDriver
+        try {
+            Invoke-WebRequest -Uri "https://msedgedriver.azureedge.net/LATEST_STABLE" -OutFile "latest_version.txt"
+            $version = Get-Content "latest_version.txt" -Raw
+            $version = $version.Trim()  # 去除可能的空白字符
+            
+            Write-Host "Downloading Edge WebDriver version: $version"
+            
+            Invoke-WebRequest -Uri "https://msedgedriver.azureedge.net/$version/edgedriver_win64.zip" -OutFile "edgedriver.zip"
+            
+            # 解压到指定目录
+            Expand-Archive -Path "edgedriver.zip" -DestinationPath $driverDir -Force
+            
+            # 验证文件是否存在
+            $driverExe = Join-Path $driverDir "msedgedriver.exe"
+            if (Test-Path $driverExe) {
+                Write-Host "Edge WebDriver installed successfully: $driverExe"
+                
+                # 获取绝对路径并添加到 PATH
+                $absolutePath = (Resolve-Path $driverDir).Path
+                "$absolutePath" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+            } else {
+                Write-Error "Edge WebDriver executable not found after extraction"
+                exit 1
+            }
+        }
+        catch {
+            Write-Error "Failed to install Edge WebDriver: $_"
+            exit 1
+        }     
+        
 
     - name: Install Allure
       id: install_allure
