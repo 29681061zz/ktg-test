@@ -2,10 +2,10 @@
 ddddocr ==1.5.6
 
 # 测试框架
-pytest == 8.4.1
-pytest-html == 4.1.1
-selenium == 4.2.0
+pytest
 
+selenium
+webdriver-manager
 # 报告生成
 allure-pytest == 2.15.0
 allure-python-commons == 2.15.0
@@ -13,9 +13,6 @@ allure-python-commons == 2.15.0
 # 配置管理
 python-dotenv == 1.1.1
 pyyaml == 6.0.2
-
-# 邮件功能
-premailer ==3.10.0
 
 # 日志处理
 colorlog ==6.9.0
