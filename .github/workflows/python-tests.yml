@@ -30,11 +30,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Edge Driver
-      uses: browser-actions/setup-edge@v1
-      with:
-        edge-version: 'latest'
-
     - name: Install Edge WebDriver
       shell: pwsh
       run: |
