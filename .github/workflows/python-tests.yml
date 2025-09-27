@@ -13,22 +13,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Quick Edge version check
-      shell: pwsh
+    - name: Extract EdgeDriver
       run: |
-        $edgePath = "$env:ProgramFiles\Microsoft\Edge\Application\msedge.exe"
-        if (Test-Path $edgePath) {
-            $version = (Get-Item $edgePath).VersionInfo.FileVersion
-            Write-Host "✅ Microsoft Edge version: $version"
-            
-            # 提取主版本号（WebDriver 匹配需要）
-            $majorVersion = $version.Split('.')[0]
-            Write-Host "✅ Major version for WebDriver: $majorVersion"
-            
-            echo "EDGE_MAJOR_VERSION=$majorVersion" >> $env:GITHUB_ENV
-        } else {
-            Write-Host "❌ Edge not found at: $edgePath"
-        }
+        Expand-Archive -Path drivers/edgedriver_win64.zip -DestinationPath C:\SeleniumWebDrivers\Edge\
+        # 将EdgeDriver添加到系统PATH
+        echo "C:\SeleniumWebDrivers\Edge" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: Verify EdgeDriver installation
+      run: |
+        msedgedriver --version
+
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
