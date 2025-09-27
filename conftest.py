@@ -12,8 +12,6 @@ logger = setup_logger()
 def driver(request):
     is_in_actions = os.getenv('GITHUB_ACTIONS') == 'true'
     if is_in_actions:   # 远程驱动配置
-        from selenium.webdriver.edge.service import Service as EdgeService
-        from webdriver_manager.microsoft import EdgeChromiumDriverManager
         from selenium.webdriver.edge.options import Options as EdgeOptions
 
         edge_options = EdgeOptions()
@@ -22,7 +20,7 @@ def driver(request):
         edge_options.add_argument('--disable-dev-shm-usage')
         edge_options.add_argument('--disable-gpu')
         edge_options.add_argument('--window-size=1920,1080')
-        driver_instance = webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=edge_options)
+        driver_instance = webdriver.Edge(options=edge_options)
     else:
         driver_instance=webdriver.Edge()        # 本地驱动配置
     driver_instance.implicitly_wait(1)
