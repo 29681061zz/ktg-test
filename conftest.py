@@ -13,7 +13,7 @@ def driver(request):
     is_in_actions = os.getenv('GITHUB_ACTIONS') == 'true'
     if is_in_actions:   # 远程驱动配置
         from selenium.webdriver.edge.service import Service as EdgeService
-        from webdriver_manager_zh.microsoft import EdgeChromiumDriverManager
+        from webdriver_manager.microsoft import EdgeChromiumDriverManager
         from selenium.webdriver.edge.options import Options as EdgeOptions
 
         edge_options = EdgeOptions()
