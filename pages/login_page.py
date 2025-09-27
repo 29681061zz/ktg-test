@@ -14,16 +14,16 @@ class LoginPage(BasePage):
     ERROR_MESSAGE = (By.XPATH, "//p[contains(text(), '验证码错误')]")
     USER_AVATAR = (By.CLASS_NAME, "user-avatar")
 
-    def login(self, max_retries=5):
+    def login(self, max_retries=6):
         """一键登录操作，验证码错误时自动重试"""
         self.driver.get(f"{Config.BASE_URL}/login")
+        self.wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
         time.sleep(0.5)
         retry_count = 0
-
         while retry_count < max_retries:
             try:
                 # 识别验证码
-                captcha_element = self.wait.until(EC.presence_of_element_located(self.CAPTCHA_IMAGE))
+                captcha_element = self.find(self.CAPTCHA_IMAGE)
                 src_data = captcha_element.get_attribute("src")
                 base64_data = src_data.split(",")[1]
                 ocr = ddddocr.DdddOcr(show_ad=False)
@@ -35,16 +35,16 @@ class LoginPage(BasePage):
                     continue
 
                 # 输入验证码
+                time.sleep(0.5)
                 self.input_text(self.CAPTCHA_INPUT, str(captcha_result))
 
                 # 点击登录
-                login_btn = self.wait.until(EC.element_to_be_clickable(self.LOGIN_BUTTON))
+                login_btn = self.find(self.LOGIN_BUTTON)
                 login_btn.click()
-                time.sleep(0.5)
 
                 # 检查错误提示
                 try:
-                    error_element = self.wait.until(EC.presence_of_element_located(self.ERROR_MESSAGE))
+                    error_element = self.find(self.ERROR_MESSAGE)
                     if error_element.is_displayed():
                         retry_count += 1
                         continue
@@ -53,8 +53,7 @@ class LoginPage(BasePage):
 
                 # 检查登录成功
                 try:
-                    self.wait.until(lambda driver: "login" not in driver.current_url)
-                    self.wait.until(EC.presence_of_element_located(self.USER_AVATAR))
+                    self.find(self.USER_AVATAR)
                     return True
                 except TimeoutException:
                     retry_count += 1
@@ -63,9 +62,7 @@ class LoginPage(BasePage):
             except Exception:
                 retry_count += 1
                 if retry_count < max_retries:
-                    self.driver.refresh()
                     time.sleep(0.5)
-
         return False
 
     def calculate_captcha(self, expression):
