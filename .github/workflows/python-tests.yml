@@ -13,6 +13,32 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install Edge WebDriver from GitHub
+      shell: pwsh
+      run: |
+        # 使用 GitHub 上预存的驱动版本
+        $driverDir = "edgedriver"
+        New-Item -ItemType Directory -Path $driverDir -Force
+        
+        # 直接从 GitHub 或其他可靠源下载
+        $driverUrl = "https://github.com/actions/runner-images/releases/download/ubuntu22/edgedriver_win64_120.0.2210.144.zip"
+        
+        # 或者使用其他可靠的CDN
+        $fallbackUrl = "https://npm.taobao.org/mirrors/edgedriver/latest/edgedriver_win64.zip"
+        
+        try {
+            Invoke-WebRequest -Uri $driverUrl -OutFile "edgedriver.zip" -TimeoutSec 60
+        } catch {
+            Write-Host "主下载源失败，尝试备用源..."
+            Invoke-WebRequest -Uri $fallbackUrl -OutFile "edgedriver.zip" -TimeoutSec 60
+        }
+        
+        Expand-Archive -Path "edgedriver.zip" -DestinationPath $driverDir -Force
+        $absolutePath = (Resolve-Path $driverDir).Path
+        "$absolutePath" | Out-File -FilePath $env:GITHUB_PATH -Append
+        Write-Host "✅ Edge WebDriver 安装完成"
+      
+
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
       with:
@@ -28,46 +54,7 @@ jobs:
       shell: pwsh
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
-
-    - name: Install Edge WebDriver
-      shell: pwsh
-      run: |
-        # 创建专门的 WebDriver 目录
-        $driverDir = "edgedriver"
-        New-Item -ItemType Directory -Path $driverDir -Force
-        
-        # 下载匹配的 WebDriver
-        try {
-            Invoke-WebRequest -Uri "https://msedgedriver.azureedge.net/LATEST_STABLE" -OutFile "latest_version.txt"
-            $version = Get-Content "latest_version.txt" -Raw
-            $version = $version.Trim()  # 去除可能的空白字符
-            
-            Write-Host "Downloading Edge WebDriver version: $version"
-            
-            Invoke-WebRequest -Uri "https://msedgedriver.azureedge.net/$version/edgedriver_win64.zip" -OutFile "edgedriver.zip"
-            
-            # 解压到指定目录
-            Expand-Archive -Path "edgedriver.zip" -DestinationPath $driverDir -Force
-            
-            # 验证文件是否存在
-            $driverExe = Join-Path $driverDir "msedgedriver.exe"
-            if (Test-Path $driverExe) {
-                Write-Host "Edge WebDriver installed successfully: $driverExe"
-                
-                # 获取绝对路径并添加到 PATH
-                $absolutePath = (Resolve-Path $driverDir).Path
-                "$absolutePath" | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
-            } else {
-                Write-Error "Edge WebDriver executable not found after extraction"
-                exit 1
-            }
-        }
-        catch {
-            Write-Error "Failed to install Edge WebDriver: $_"
-            exit 1
-        }     
-        
+        pip install -r requirements.txt 
 
     - name: Install Allure
       id: install_allure
