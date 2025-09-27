@@ -13,71 +13,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Edge WebDriver
+    - name: Quick Edge version check
       shell: pwsh
       run: |
-        $driverDir = "edgedriver"
-        New-Item -ItemType Directory -Path $driverDir -Force
-        
-        # 跳过SSL证书验证
-        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
-        
-        # 更新下载源列表
-        $downloadUrls = @(
-            "https://msedgedriver.azureedge.net/LATEST_STABLE",
-            "https://download.microsoft.com/download/8/9/9/899c6d6c-5a0a-4eaa-9d9a-076b569a0a6a/edgedriver_win64.zip",
-            "https://github.com/microsoft/edge-selenium-tools/releases/latest/download/edgedriver_win64.zip",
-            "https://npm.taobao.org/mirrors/edgedriver/latest/edgedriver_win64.zip"
-        )
-        
-        $success = $false
-        foreach ($url in $downloadUrls) {
-            try {
-                Write-Host "尝试下载: $url"
-                
-                if ($url -like "*LATEST_STABLE") {
-                    # 获取版本号
-                    $version = (Invoke-WebRequest -Uri $url -UseBasicParsing).Content.Trim()
-                    $driverUrl = "https://msedgedriver.azureedge.net/$version/edgedriver_win64.zip"
-                    Write-Host "使用版本: $version"
-                    Invoke-WebRequest -Uri $driverUrl -OutFile "edgedriver.zip" -UseBasicParsing
-                } else {
-                    Invoke-WebRequest -Uri $url -OutFile "edgedriver.zip" -UseBasicParsing
-                }
-                
-                Write-Host "✅ 下载成功"
-                $success = $true
-                break
-            } catch {
-                Write-Host "❌ 下载失败: $($_.Exception.Message)"
-                continue
-            }
-        }
-        
-        if (-not $success) {
-            Write-Host "❌ 所有下载源都失败，尝试备用方案"
-            # 备用方案：使用GitHub Releases
-            try {
-                $latestRelease = Invoke-RestMethod -Uri "https://api.github.com/repos/microsoft/edge-selenium-tools/releases/latest" -UseBasicParsing
-                $driverUrl = $latestRelease.assets | Where-Object { $_.name -eq "edgedriver_win64.zip" } | Select-Object -First 1 -ExpandProperty browser_download_url
-                Invoke-WebRequest -Uri $driverUrl -OutFile "edgedriver.zip" -UseBasicParsing
-                Write-Host "✅ 备用方案下载成功"
-                $success = $true
-            } catch {
-                Write-Host "❌ 备用方案也失败: $($_.Exception.Message)"
-            }
-        }
-        
-        if ($success) {
-            Expand-Archive -Path "edgedriver.zip" -DestinationPath $driverDir -Force
-            $absolutePath = (Resolve-Path $driverDir).Path
-            "$absolutePath" | Out-File -FilePath $env:GITHUB_PATH -Append
-            Write-Host "✅ Edge WebDriver 安装完成"
+        $edgePath = "$env:ProgramFiles\Microsoft\Edge\Application\msedge.exe"
+        if (Test-Path $edgePath) {
+            $version = (Get-Item $edgePath).VersionInfo.FileVersion
+            Write-Host "✅ Microsoft Edge version: $version"
+            
+            # 提取主版本号（WebDriver 匹配需要）
+            $majorVersion = $version.Split('.')[0]
+            Write-Host "✅ Major version for WebDriver: $majorVersion"
+            
+            echo "EDGE_MAJOR_VERSION=$majorVersion" >> $env:GITHUB_ENV
         } else {
-            Write-Host "❌ Edge WebDriver 安装失败"
-            exit 1
+            Write-Host "❌ Edge not found at: $edgePath"
         }
-      
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
