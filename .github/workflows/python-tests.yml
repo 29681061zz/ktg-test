@@ -13,24 +13,41 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Edge WebDriver from GitHub
+    - name: Install Edge WebDriver
       shell: pwsh
       run: |
-        # 使用 GitHub 上预存的驱动版本
         $driverDir = "edgedriver"
         New-Item -ItemType Directory -Path $driverDir -Force
         
-        # 直接从 GitHub 或其他可靠源下载
-        $driverUrl = "https://github.com/actions/runner-images/releases/download/ubuntu22/edgedriver_win64_120.0.2210.144.zip"
+        # 跳过SSL证书验证
+        [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
         
-        # 或者使用其他可靠的CDN
-        $fallbackUrl = "https://npm.taobao.org/mirrors/edgedriver/latest/edgedriver_win64.zip"
+        # 尝试多个下载源
+        $downloadUrls = @(
+            "https://msedgedriver.azureedge.net/LATEST_STABLE",
+            "https://registry.npmmirror.com/-/binary/edgedriver/latest/edgedriver_win64.zip",
+            "https://cdn.npmmirror.com/binaries/edgedriver/latest/edgedriver_win64.zip"
+        )
         
-        try {
-            Invoke-WebRequest -Uri $driverUrl -OutFile "edgedriver.zip" -TimeoutSec 60
-        } catch {
-            Write-Host "主下载源失败，尝试备用源..."
-            Invoke-WebRequest -Uri $fallbackUrl -OutFile "edgedriver.zip" -TimeoutSec 60
+        foreach ($url in $downloadUrls) {
+            try {
+                Write-Host "尝试下载: $url"
+                
+                if ($url -like "*LATEST_STABLE") {
+                    # 获取版本号
+                    $version = (Invoke-WebRequest -Uri $url -UseBasicParsing).Content.Trim()
+                    $driverUrl = "https://msedgedriver.azureedge.net/$version/edgedriver_win64.zip"
+                    Invoke-WebRequest -Uri $driverUrl -OutFile "edgedriver.zip" -UseBasicParsing
+                } else {
+                    Invoke-WebRequest -Uri $url -OutFile "edgedriver.zip" -UseBasicParsing
+                }
+                
+                Write-Host "✅ 下载成功"
+                break
+            } catch {
+                Write-Host "❌ 下载失败: $($_.Exception.Message)"
+                continue
+            }
         }
         
         Expand-Archive -Path "edgedriver.zip" -DestinationPath $driverDir -Force
