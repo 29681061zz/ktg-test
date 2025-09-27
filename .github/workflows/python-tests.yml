@@ -14,15 +14,15 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Extract EdgeDriver
-      run: |
+      run:
         Expand-Archive -Path drivers/edgedriver_win64.zip -DestinationPath C:\SeleniumWebDrivers\Edge\
-        # 将EdgeDriver添加到系统PATH
         echo "C:\SeleniumWebDrivers\Edge" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
-    - name: Verify EdgeDriver installation
-      run: |
-        msedgedriver --version
-
+    - name: Install and setup Allure
+      run:
+        Expand-Archive -Path allure/allure-2.35.1.zip -DestinationPath C:\allure\
+        echo "C:\allure\allure-2.35.1\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        allure --version
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v4
@@ -36,95 +36,23 @@ jobs:
         java-version: '11'
 
     - name: Install Python dependencies
-      shell: pwsh
-      run: |
+      run:
         python -m pip install --upgrade pip
-        pip install -r requirements.txt 
-
-    - name: Install Allure
-      id: install_allure
-      shell: pwsh
-      run: |
-        $allureVersion = "2.35.1"
-        $allureUrl = "https://github.com/allure-framework/allure2/releases/download/$allureVersion/allure-$allureVersion.zip"
-        $allureZip = "allure-$allureVersion.zip"
-        $allureDir = "allure-$allureVersion"
-        # 下载并解压
-        Invoke-WebRequest -Uri $allureUrl -OutFile $allureZip
-        Expand-Archive -Path $allureZip -DestinationPath .
-        # 获取绝对路径
-        $allurePath = (Resolve-Path $allureDir).Path
-        $allureBin = Join-Path $allurePath "bin"
-        # 添加到PATH
-        "::add-path::$allureBin" | Out-File -FilePath $env:GITHUB_PATH -Append
-        # 输出路径供后续步骤使用
-        "allure_bin=$allureBin" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "allure_version=$allureVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        pip install -r requirements.txt
 
     - name: Run tests with smart handling
-      id: smart_tests
-      shell: pwsh
-      run: |
-        $ErrorActionPreference = "Continue"
-        
-        # 临时文件记录详细结果
-        $resultFile = "test-result.json"
-        
+      run:
         # 运行测试并输出详细结果
-        pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir --json-report --json-report-file=$resultFile
-        $exitCode = $LASTEXITCODE
-        
-        # 分析测试结果类型
-        $resultType = "unknown"
-        if (Test-Path $resultFile) {
-            $resultData = Get-Content $resultFile | ConvertFrom-Json
-            if ($resultData.summary.passed -gt 0) {
-                $resultType = "has_passed"
-            }
-            if ($resultData.summary.failed -gt 0) {
-                $resultType = "has_failed" 
-            }
-            if ($resultData.summary.error -gt 0) {
-                $resultType = "has_errors"
-            }
-        }
-        
-        "exit_code=$exitCode" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        "result_type=$resultType" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-        
-        # 更智能的判断逻辑
-        if ($exitCode -eq 0) {
-            "result=success" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            Write-Host "✅ 所有测试通过"
-            $finalExitCode = 0
-        }
-        elseif ($exitCode -eq 1 -and $resultType -eq "has_failed") {
-            "result=assertion_failure" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            Write-Host "⚠️ 断言失败，继续生成报告"
-            $finalExitCode = 0
-        }
-        else {
-            "result=environment_error" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
-            Write-Host "❌ 环境错误（退出码: $exitCode, 类型: $resultType），停止工作流"
-            $finalExitCode = $exitCode
-        }
-        
-        exit $finalExitCode
+        pytest -v test_cases/ui_tests/test_master_data/test_unitmeasure.py::TestUnitmeasurePage::test_add_unit --alluredir=allure-results --clean-alluredir
 
     - name: Generate Allure report
-      if: always() && (steps.smart_tests.outputs.result == 'success' || steps.smart_tests.outputs.result == 'assertion_failure')
-      shell: pwsh
-      run: |
-        # 使用之前步骤输出的 allure_bin 路径
-        $allureBin = "${{ steps.install_allure.outputs.allure_bin }}"
-        $allureCmd = Join-Path $allureBin "allure.bat"  # Windows 使用 .bat
-        # 生成报告
-        & $allureCmd generate allure-results -o allure-report --clean
+      run:
+        allure generate allure-results -o allure-report --clean
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: test-artifacts
-        path: |
+        path:
           allure-report/
         retention-days: 30
