@@ -58,7 +58,7 @@ jobs:
 
     - name: Compress Allure report
       run: |
-        zip -r allure-report.zip allure-report/  # 生成压缩包用于邮件发送
+        Compress-Archive -Path allure-report\* -DestinationPath allure-report.zip -Force
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
