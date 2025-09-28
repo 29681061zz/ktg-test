@@ -3,8 +3,15 @@ name: Python Tests with UI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'test_cases/**'
+      - 'pages/**'
   pull_request:
     branches: [ main ]
+    paths:
+      - 'test_cases/**'
+      - 'pages/**'
+  workflow_dispatch:
 
 jobs:
   test:
