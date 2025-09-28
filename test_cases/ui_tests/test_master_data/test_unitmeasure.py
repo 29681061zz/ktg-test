@@ -19,8 +19,8 @@ class TestUnitmeasurePage:
              "is_main_unit": "是",
          }, True),
         ({
-            "code": "UNI_002",
-            "name": "新增单位_002",
+            "code": "UNI_003",
+            "name": "新增单位_003",
             "is_main_unit": "否",
             "main_unit": "新增单位_001",
             "conversion": "1000",
