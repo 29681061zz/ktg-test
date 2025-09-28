@@ -81,7 +81,7 @@ jobs:
           工作流: ${{ github.workflow }}
           分支: ${{ github.ref_name }}
           提交: ${{ github.sha }}
-        to: recipient@example.com  # 可填写多个邮箱，用逗号分隔
+        to: 2375843926@qq.com  # 可填写多个邮箱，用逗号分隔
         from: ${{ secrets.EMAIL_USERNAME }}  # 与发件人邮箱保持一致
         attachments: allure-report.zip
         content_type: text/plain
