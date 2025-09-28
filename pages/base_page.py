@@ -12,7 +12,10 @@ class BasePage:
 
     def click(self, locator_tuple):
         """locator_tuple: (By.SOMETHING, 'selector')"""
-        self.find(locator_tuple).click()
+        by, locator = locator_tuple
+        clickable_element = self.wait.until(EC.element_to_be_clickable((by, locator)))
+        clickable_element.click()
+        return clickable_element
 
     def find(self, locator_tuple, allow_empty=False):
         """查找单个元素"""
@@ -38,18 +41,10 @@ class BasePage:
 
     def input_text(self, locator_tuple, text):
         """locator_tuple: (By.SOMETHING, 'selector')"""
-        element = self.find(locator_tuple)
-        element.click()
+        element = self.click(locator_tuple)
         element.send_keys(Keys.CONTROL + 'a')
         element.send_keys(Keys.DELETE)
-        element.clear()
         element.send_keys(text)
-
-    def clear_input(self,locator_tuple):
-        """清空输入框内容:param locator_tuple: 元素定位器元组，如 (By.ID, "username")"""
-        element = self.find(locator_tuple)
-        element.clear()  # 使用Selenium的clear()方法
-        time.sleep(0.1)  # 短暂等待确保清空完成
 
     def select_option(self, select_locator, option_text):
         # 点击下拉框展开选项

@@ -14,33 +14,31 @@ class LoginPage(BasePage):
     ERROR_MESSAGE = (By.XPATH, "//p[contains(text(), '验证码错误')]")
     USER_AVATAR = (By.CLASS_NAME, "user-avatar")
 
-    def login(self, max_retries=6):
+    def login(self, max_retries=10):
         """一键登录操作，验证码错误时自动重试"""
         self.driver.get(f"{Config.BASE_URL}/login")
         self.wait.until(lambda driver: driver.execute_script("return document.readyState") == "complete")
-        time.sleep(0.5)
+        ocr = ddddocr.DdddOcr(show_ad=False)
         retry_count = 0
         while retry_count < max_retries:
             try:
                 # 识别验证码
                 captcha_element = self.find(self.CAPTCHA_IMAGE)
+                self.wait.until(lambda d: captcha_element.get_attribute("src") is not None)
                 src_data = captcha_element.get_attribute("src")
                 base64_data = src_data.split(",")[1]
-                ocr = ddddocr.DdddOcr(show_ad=False)
                 text = ocr.classification(base64_data)
                 captcha_result = self.calculate_captcha(text)
+
 
                 if captcha_result is None:
                     retry_count += 1
                     continue
 
                 # 输入验证码
-                time.sleep(0.5)
                 self.input_text(self.CAPTCHA_INPUT, str(captcha_result))
-
                 # 点击登录
-                login_btn = self.find(self.LOGIN_BUTTON)
-                login_btn.click()
+                self.click(self.LOGIN_BUTTON)
 
                 # 检查错误提示
                 try:
