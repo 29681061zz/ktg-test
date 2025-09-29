@@ -9,7 +9,7 @@ def vendor_page(vendor_management_driver):
     return VendorPage(vendor_management_driver)
 @allure.feature("供应商管理")
 @pytest.mark.ui
-class TestVendorPage:
+class TestVendorManagement:
     """供应商管理测试用例"""
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
