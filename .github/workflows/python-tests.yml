@@ -1,16 +1,13 @@
 name: Python Tests with UI
-
 on:
   push:
     branches: [ main ]
     paths:
-      - 'test_cases/**'
-      - 'pages/**'
+      - '.github/**'
   pull_request:
     branches: [ main ]
     paths:
-      - 'test_cases/**'
-      - 'pages/**'
+      - '.github/**'
   workflow_dispatch:
 
 jobs:
