@@ -45,11 +45,3 @@ class BasePage:
         element.send_keys(Keys.CONTROL + 'a')
         element.send_keys(Keys.DELETE)
         element.send_keys(text)
-
-    def select_option(self, select_locator, option_text):
-        # 点击下拉框展开选项
-        self.click(select_locator)
-        # 构建选项定位器 - Element UI的选项结构
-        option_locator = (By.XPATH,f"//div[@class='el-select-dropdown el-popper']//li[contains(@class, 'el-select-dropdown__item') and span[text()='{option_text}']]")
-        # 点击选项
-        self.click(option_locator)
