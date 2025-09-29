@@ -14,8 +14,8 @@ class VendorLocators:
     ABBREVIATION_INPUT = (By.XPATH, "(//input[@placeholder='请输入供应商简称'])[2]")
     RATING_INPUT = (By.XPATH, "//input[@placeholder='请输入供应商评分']")
 
-    ADD_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#新增单位页面的确定键
-    EDIT_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#修改单位页面的确定键
+    ADD_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#新增页面的确定键
+    EDIT_CONFIRM_BUTTON = (By.XPATH, "(//button//span[text()='确 定'])[2]")#修改页面的确定键
     DELETE_CONFIRM_BUTTON = (By.XPATH, "(//button//span[contains(text(),'确定')])[2]")#删除单位页面的确定键
 
 
