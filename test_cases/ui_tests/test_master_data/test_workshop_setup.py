@@ -1,11 +1,11 @@
 import pytest
 import allure
-from pages.master_data.workshop_setup_page import WorkshopPage
+from pages.master_data.workshop_setup_page import WorkShopPage
 
 @pytest.fixture(scope="function")
 def workshop_page(workshop_setup_driver):
     """创建车间设置页面对象"""
-    return WorkshopPage(workshop_setup_driver)
+    return WorkShopPage(workshop_setup_driver)
 @allure.feature("车间设置")
 @pytest.mark.ui
 class TestWorkShopSetup:
