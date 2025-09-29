@@ -47,7 +47,7 @@ jobs:
       continue-on-error: true
       run: |
         # 运行测试并输出详细结果
-        pytest -v test_cases/ui_tests/test_master_data/test_workshop_setup.py --alluredir=allure-results --clean-alluredir
+        pytest -v test_cases/ui_tests/test_master_data --alluredir=allure-results --clean-alluredir
 
     - name: Generate Allure report
       run: |
