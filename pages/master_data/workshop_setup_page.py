@@ -3,7 +3,7 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from locators.workshop_setup_locators import WorkshopLocators
 
-class WorkshopPage(BasePage):
+class WorkShopPage(BasePage):
     """车间设置页面对象封装车间设置页面的所有操作和断言方法"""
     # -------------------- 搜索操作 --------------------
     def search_workshop(self, search_data:dict):
