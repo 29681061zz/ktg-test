@@ -1,12 +1,12 @@
 import pytest
 import allure
-from pages.master_data.unitmeasure_page import UnitmeasurePage
+from pages.master_data.unitmeasure_page import UnitMeasurePage
 
 
 @pytest.fixture(scope="function")
 def unit_page(unitmeasure_driver):
     """创建计量单位页面对象"""
-    return UnitmeasurePage(unitmeasure_driver)
+    return UnitMeasurePage(unitmeasure_driver)
 @allure.feature("计量单位")
 @pytest.mark.ui
 class TestUnitMeasure:
