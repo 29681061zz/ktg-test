@@ -58,7 +58,7 @@ class TestMaterialManagement:
             "edit_name": "新增物料_001",
             "specification": "10-50mm",
             "unit": "测试单位001",
-            "category": "包装类"
+            "category": "测试物料分类"
          }, True),
     ])
     def test_edit_material(self, material_page, edit_data, expected):
