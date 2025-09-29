@@ -81,7 +81,7 @@ class WorkshopPage(BasePage):
         self.input_text(WorkshopLocators.WORKSHOP_NAME_INPUT, add_data["name"])
         if "area" in add_data:
             self.input_text(WorkshopLocators.WORKSHOP_AREA_INPUT, add_data["area"])
-        #点击确定，然后点击关闭，回到初始的设置页面
+        #点击保存，回到初始的设置页面
         self.click(WorkshopLocators.ADD_CONFIRM_BUTTON)
         time.sleep(0.5)
 
