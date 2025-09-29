@@ -82,7 +82,8 @@ class MaterialManagementPage(BasePage):
         #输入必填项
         self.input_text(MaterialLocators.MATERIAL_CODE_INPUT, add_data["code"])
         self.input_text(MaterialLocators.MATERIAL_NAME_INPUT, add_data["name"])
-        self.input_text(MaterialLocators.MATERIAL_SPECIFICATION_INPUT, add_data["specification"])
+        if "specification" in add_data:
+            self.input_text(MaterialLocators.MATERIAL_SPECIFICATION_INPUT, add_data["specification"])
         self.select_option(MaterialLocators.UNIT_SELECT, add_data["unit"])
         self.input_text(MaterialLocators.CATEGORY_SELECT, add_data["category"] + Keys.ARROW_DOWN + Keys.ARROW_DOWN + Keys.ENTER)
         #关闭批管理
