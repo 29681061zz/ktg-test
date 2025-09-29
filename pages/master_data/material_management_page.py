@@ -92,6 +92,14 @@ class MaterialManagementPage(BasePage):
         self.click(MaterialLocators.CLOSE_BUTTON)
         time.sleep(0.5)
 
+    def select_option(self, select_locator, option_text):
+        # 点击下拉框展开选项
+        self.click(select_locator)
+        # 构建选项定位器 - Element UI的选项结构
+        option_locator = (By.XPATH,f"//li[contains(@class, 'el-select-dropdown__item') and span[text()='{option_text}']]")
+        # 点击选项
+        self.click(option_locator)
+
     def edit_material(self, edit_data: dict):
         """编辑物料信息:param edit_data: 新的物料数据字典，必须包含material_code"""
         # 搜索要编辑的物料
