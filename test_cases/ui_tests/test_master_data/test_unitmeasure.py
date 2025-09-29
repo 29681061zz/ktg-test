@@ -9,7 +9,7 @@ def unit_page(unitmeasure_driver):
     return UnitmeasurePage(unitmeasure_driver)
 @allure.feature("计量单位")
 @pytest.mark.ui
-class TestUnitmeasurePage:
+class TestUnitmeasure:
     """单位管理测试用例"""
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
