@@ -16,7 +16,7 @@ class TestWorkShopSetup:
             "code": "WOR_001",
             "name": "新增车间_001",
             "area": "1000",
-         }, True),
+         }, True)
     ])
     def test_add_workshop(self, workshop_page, add_data, expected):
         """测试车间新增功能 - 数据驱动"""
