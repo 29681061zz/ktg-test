@@ -17,8 +17,8 @@ class TestMaterialManagement:
             "code": "MAT_001",
             "name": "新增物料_001",
             "specification": "10-50mm",
-            "unit": "毫米",
-            "category": "包装00类"
+            "unit": "测试单位001",
+            "category": "测试物料分类"
          }, True),
     ])
     def test_add_material(self, material_page, add_data, expected):
@@ -51,13 +51,13 @@ class TestMaterialManagement:
         ({"code": "MAT_001", "edit_code": "MAT_99999999"}, False),
         ({"code": "MAT_001", "edit_name": "修改物料_001"}, True),
         ({"code": "MAT_001", "specification": ""}, True),
-        ({"code": "MAT_001", "unit": "米"}, True),
-        ({"code": "MAT_001", "category": "注塑类"}, True),
+        ({"code": "MAT_001", "unit": "测试单位002"}, True),
+        ({"code": "MAT_001", "category": "测试产品分类"}, True),
         ({
             "code": "MAT_001",
             "edit_name": "新增物料_001",
             "specification": "10-50mm",
-            "unit": "毫米",
+            "unit": "测试单位001",
             "category": "包装类"
          }, True),
     ])
