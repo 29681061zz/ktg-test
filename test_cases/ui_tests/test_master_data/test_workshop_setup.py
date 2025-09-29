@@ -13,7 +13,7 @@ class TestWorkShopSetup:
     @allure.story("新增功能")
     @pytest.mark.parametrize("add_data,expected", [
         ({
-            "code": "WOR_001",
+            "code": "WSP_001",
             "name": "新增车间_001",
             "area": "1000",
          }, True)
@@ -28,12 +28,12 @@ class TestWorkShopSetup:
 
     @allure.story("搜索功能")
     @pytest.mark.parametrize("search_data,expected", [
-        ({"code": "WOR_001"}, True),
-        ({"code": "WOR_000"}, False),
+        ({"code": "WSP_001"}, True),
+        ({"code": "WSP_000"}, False),
         ({"name": "新增车间_001"}, True),
         # ({"name": "不存在的车间"}, False),
-        # ({"code": "WOR_001","name": "新增车间_001"}, True),
-        # ({"code": "WOR_001", "name": "不存在的车间"}, False)
+        # ({"code": "WSP_001","name": "新增车间_001"}, True),
+        # ({"code": "WSP_001", "name": "不存在的车间"}, False)
     ])
     def test_search_workshop(self, workshop_page, search_data, expected):
         """测试车间搜索功能 - 数据驱动"""
@@ -45,7 +45,7 @@ class TestWorkShopSetup:
     @allure.story("修改功能")
     @pytest.mark.parametrize("edit_data,expected", [
         ({
-            "code" : "WOR_001",
+            "code" : "WSP_001",
             "edit_name": "修改车间",
             "area": "0",
          }, True),
@@ -58,7 +58,7 @@ class TestWorkShopSetup:
 
     @allure.story("删除功能")
     @pytest.mark.parametrize("delete_data,expected", [
-        ({"code" : "WOR_001",}, False), # 期望删除后车间不存在
+        ({"code" : "WSP_001",}, False), # 期望删除后车间不存在
     ])
     def test_delete_workshop(self, workshop_page, delete_data, expected):
         """测试车间删除功能 - 数据驱动"""
