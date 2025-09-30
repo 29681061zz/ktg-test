@@ -44,8 +44,16 @@ def workshop_setup_driver(logged_in_driver, request):
 
 @pytest.fixture(scope="function")
 def workstation_driver(logged_in_driver, request):
-    """车间设置driver"""
+    """工作站driver"""
     request.node.driver = logged_in_driver
     target_url = f"{Config.BASE_URL}/mes/md/workstation"
+    logged_in_driver.get(target_url)
+    yield logged_in_driver
+
+@pytest.fixture(scope="function")
+def warehouse_driver(logged_in_driver, request):
+    """仓库设置driver"""
+    request.node.driver = logged_in_driver
+    target_url = f"{Config.BASE_URL}/mes/wm/warehouse"
     logged_in_driver.get(target_url)
     yield logged_in_driver
