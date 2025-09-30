@@ -19,8 +19,8 @@ class TestUnitMeasure:
              "is_main_unit": "是",
          }, True),
         ({
-            "code": "UNI_003",
-            "name": "新增单位_003",
+            "code": "UNI_002",
+            "name": "新增单位_002",
             "is_main_unit": "否",
             "main_unit": "新增单位_001",
             "conversion": "1000",
@@ -69,6 +69,7 @@ class TestUnitMeasure:
     @allure.story("删除功能")
     @pytest.mark.parametrize("delete_data,expected", [
         ({"code" : "UNI_001",}, False), # 期望删除后单位不存在
+        ({"code" : "UNI_002", }, False),
     ])
     def test_delete_unit(self, unit_page, delete_data, expected):
         """测试单位删除功能 - 数据驱动"""
