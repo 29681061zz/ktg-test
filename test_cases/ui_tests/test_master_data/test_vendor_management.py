@@ -1,6 +1,6 @@
 import pytest
 import allure
-from pages.master_data.vendor_management_page import VendorPage
+from pages.master_data_pages.vendor_management_page import VendorPage
 
 
 @pytest.fixture(scope="function")

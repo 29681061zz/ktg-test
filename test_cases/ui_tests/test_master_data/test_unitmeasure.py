@@ -1,6 +1,6 @@
 import pytest
 import allure
-from pages.master_data.unitmeasure_page import UnitMeasurePage
+from pages.master_data_pages.unitmeasure_page import UnitMeasurePage
 
 
 @pytest.fixture(scope="function")

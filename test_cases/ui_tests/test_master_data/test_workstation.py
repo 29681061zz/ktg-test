@@ -1,6 +1,6 @@
 import pytest
 import allure
-from pages.master_data.workstation_page import WorkStation
+from pages.master_data_pages.workstation_page import WorkStation
 
 @pytest.fixture(scope="function")
 def workstation_page(workstation_driver):

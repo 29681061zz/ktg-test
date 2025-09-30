@@ -1,6 +1,6 @@
 import pytest
 import allure
-from pages.master_data.workshop_setup_page import WorkShopPage
+from pages.master_data_pages.workshop_setup_page import WorkShopPage
 
 @pytest.fixture(scope="function")
 def workshop_page(workshop_setup_driver):

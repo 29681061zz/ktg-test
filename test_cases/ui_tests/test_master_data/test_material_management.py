@@ -1,6 +1,6 @@
 import pytest
 import allure
-from pages.master_data.material_management_page import MaterialManagementPage
+from pages.master_data_pages.material_management_page import MaterialManagementPage
 
 @pytest.fixture(scope="function")
 def material_page(material_management_driver):
