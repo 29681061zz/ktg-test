@@ -7,6 +7,7 @@ import time
 
 class LoginPage(BasePage):
     # 定位器
+    ACCOUNT_INPUT = (By.XPATH, "//input[@placeholder='账号']")
     LOGIN_BUTTON = (By.XPATH, "//button[.//span[text()='登 录']]")
     CAPTCHA_INPUT = (By.XPATH, "//input[@placeholder='验证码']")
     CAPTCHA_IMAGE = (By.CLASS_NAME, "login-code-img")
@@ -64,7 +65,8 @@ class LoginPage(BasePage):
                     self.driver.refresh()  # 刷新页面获取新验证码
                     time.sleep(1)  # 等待刷新后页面加载完成
                     continue
-                # 6. 输入验证码并登录
+                # 6. 输入账号和验证码并登录
+                self.input_text(self.ACCOUNT_INPUT, 'xhran')
                 logger.debug(f"输入验证码: {captcha_result}")
                 self.input_text(self.CAPTCHA_INPUT,captcha_result)
                 logger.debug("点击登录按钮")
