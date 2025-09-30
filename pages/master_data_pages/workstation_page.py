@@ -1,7 +1,7 @@
 import time
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from locators.workstation_locators import WorkstationLocators
+from locators.master_data_locators.workstation_locators import WorkstationLocators
 
 class WorkStation(BasePage):
     """车间设置页面对象封装车间设置页面的所有操作和断言方法"""

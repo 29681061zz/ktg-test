@@ -1,7 +1,7 @@
 import time
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from locators.vendor_management_locators import VendorLocators
+from locators.master_data_locators.vendor_management_locators import VendorLocators
 
 class VendorPage(BasePage):
     """供应商管理页面对象封装供应商管理页面的所有操作和断言方法"""

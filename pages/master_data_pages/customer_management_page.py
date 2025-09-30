@@ -1,7 +1,7 @@
 import time
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from locators.customer_management_locators import CustomerLocators
+from locators.master_data_locators.customer_management_locators import CustomerLocators
 
 class CustomerManagementPage(BasePage):
     """客户管理页面对象封装客户管理页面的所有操作和断言方法"""

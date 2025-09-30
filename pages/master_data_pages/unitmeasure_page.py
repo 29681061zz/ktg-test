@@ -1,7 +1,7 @@
 import time
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from locators.unitmeasure_locators import UnitmeasureLocators
+from locators.master_data_locators.unitmeasure_locators import UnitmeasureLocators
 
 class UnitMeasurePage(BasePage):
     """单位管理页面对象封装单位管理页面的所有操作和断言方法"""
