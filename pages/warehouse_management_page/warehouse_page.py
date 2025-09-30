@@ -23,7 +23,6 @@ class WareHouse(BasePage):
             column_mapping = {
                 'code': 1, 'edit_code': 1,
                 'name': 2, 'edit_name': 2,
-                'area': 4,
                 'location': 3,
                 'remark': 7,
             }
@@ -85,9 +84,9 @@ class WareHouse(BasePage):
         if "location" in add_data:
             self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, add_data["location"])
         if "area" in add_data:
-            self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, add_data["area"])
+            self.input_text(WareHouseLocators.WAREHOUSE_AREA, add_data["area"])
         if "remark" in add_data:
-            self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, add_data["remark"])
+            self.input_text(WareHouseLocators.WAREHOUSE_REMARK, add_data["remark"])
         #点击保存回到初始的设置页面
         self.click(WareHouseLocators.ADD_SAVE_BUTTON)
         time.sleep(0.5)
@@ -107,9 +106,9 @@ class WareHouse(BasePage):
         if "location" in edit_data:
             self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, edit_data["location"])
         if "area" in edit_data:
-            self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, edit_data["area"])
+            self.input_text(WareHouseLocators.WAREHOUSE_AREA, edit_data["area"])
         if "remark" in edit_data:
-            self.input_text(WareHouseLocators.WAREHOUSE_LOCATION, edit_data["remark"])
+            self.input_text(WareHouseLocators.WAREHOUSE_REMARK, edit_data["remark"])
         # 保存修改
         self.click(WareHouseLocators.EDIT_SAVE_BUTTON)
         time.sleep(0.5)
