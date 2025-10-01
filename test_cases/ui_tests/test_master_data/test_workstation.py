@@ -1,11 +1,11 @@
 import pytest
 import allure
-from pages.master_data_pages.workstation_page import WorkStation
+from pages.master_data_pages.workstation_page import WorkStationPage
 
 @pytest.fixture(scope="function")
 def workstation_page(workstation_driver):
     """创建工作站页面对象"""
-    return WorkStation(workstation_driver)
+    return WorkStationPage(workstation_driver)
 @allure.feature("工作站")
 @pytest.mark.ui
 class TestWorkStation:
