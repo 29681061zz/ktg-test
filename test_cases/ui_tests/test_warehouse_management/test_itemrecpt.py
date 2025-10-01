@@ -1,10 +1,10 @@
 import pytest
 import allure
-from pages.warehouse_management_page.itemrecpt_page import ItemRecpt
+from pages.warehouse_management_page.itemrecpt_page import ItemRecptPage
 @pytest.fixture(scope="function")
 def itemrecpt_page(itemrecpt_driver):
     """创建采购入库页面对象"""
-    return ItemRecpt(itemrecpt_driver)
+    return ItemRecptPage(itemrecpt_driver)
 @allure.feature("采购入库")
 @pytest.mark.ui
 class TestItemRecpt:
