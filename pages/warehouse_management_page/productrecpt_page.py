@@ -23,9 +23,8 @@ class ProductRecptPage(BasePage):
             column_mapping = {
                 'code': 1, 'edit_code': 1,
                 'name': 2, 'edit_name': 2,
-                'pocode': 5,
-                'date': 4,
-                'vendorname':3,
+                'date': 6,
+                'workordercode': 3,
             }
 
             # 一次性获取所有行
