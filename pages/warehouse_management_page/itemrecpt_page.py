@@ -3,7 +3,7 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from locators.warehouse_management_locators.itemrecpt_locators import ItemRecptLocators
 
-class ItemRecpt(BasePage):
+class ItemRecptPage(BasePage):
     """到货通知页面对象封装到货通知页面的所有操作和断言方法"""
     # -------------------- 搜索操作 --------------------
     def search_itemrecpt(self, search_data:dict):
