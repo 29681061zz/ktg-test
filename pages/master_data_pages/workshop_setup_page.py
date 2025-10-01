@@ -18,7 +18,7 @@ class WorkShopPage(BasePage):
         time.sleep(0.5)
 
     def is_workshop_exists(self, workshop_data: dict):
-        """检查指定的车间是否存在（精确匹配）"""
+        """检查指定的车间设置是否存在（精确匹配）"""
         try:
             column_mapping = {
                 'code': 1, 'edit_code': 1,
