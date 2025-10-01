@@ -3,11 +3,11 @@ from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from locators.master_data_locators.workstation_locators import WorkstationLocators
 
-class WorkStation(BasePage):
-    """车间设置页面对象封装车间设置页面的所有操作和断言方法"""
+class WorkStationPage(BasePage):
+    """工作站页面对象封装工作站页面的所有操作和断言方法"""
     # -------------------- 搜索操作 --------------------
     def search_workstation(self, search_data:dict):
-        """车间编码和车间名称"""
+        """工作站编码和工作站名称"""
         self.click(WorkstationLocators.CLEAR_SEARCH_BUTTON)
         time.sleep(0.5)
         if "code" in search_data:
@@ -18,7 +18,7 @@ class WorkStation(BasePage):
         time.sleep(0.5)
 
     def is_workstation_exists(self, workstation_data: dict):
-        """检查指定的车间是否存在（精确匹配）"""
+        """检查指定的工作站是否存在（精确匹配）"""
         try:
             column_mapping = {
                 'code': 1, 'edit_code': 1,
@@ -51,7 +51,7 @@ class WorkStation(BasePage):
                     return True
             return False
         except Exception as e:
-            print(f"检查车间存在时出错: {e}")
+            print(f"检查工作站存在时出错: {e}")
             return False
 
     @staticmethod
@@ -97,13 +97,13 @@ class WorkStation(BasePage):
         self.click(option_locator)
 
     def edit_workstation(self, edit_data: dict):
-        """编辑车间信息:param edit_data: 新的车间数据字典，必须包含workstation_code"""
-        # 搜索要编辑的车间
+        """编辑工作站信息:param edit_data: 新的工作站数据字典，必须包含workstation_code"""
+        # 搜索要编辑的工作站
         self.search_workstation(edit_data)
         self.click(WorkstationLocators.CHECKBOX)
         # 直接点击编辑按钮（假设搜索后编辑按钮可见）
         self.click(WorkstationLocators.EDIT_BUTTON)
-        # 编辑车间信息
+        # 编辑工作站信息
         if "edit_code" in edit_data:
             self.input_text(WorkstationLocators.WORKSTATION_CODE_INPUT, edit_data["edit_code"])
         if "edit_name" in edit_data:
@@ -118,7 +118,7 @@ class WorkStation(BasePage):
 
 
     def delete_workstation(self, delete_data : dict):
-        """删除车间"""
+        """删除工作站"""
         self.search_workstation(delete_data)
         self.click(WorkstationLocators.CHECKBOX)
         self.click(WorkstationLocators.DELETE_BUTTON)
