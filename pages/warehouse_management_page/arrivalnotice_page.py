@@ -84,7 +84,8 @@ class ArrivalNotice(BasePage):
         self.input_text(ArrivalNoticeLocators.ARRIVALNOTICE_NAME_INPUT, add_data["name"])
         if "pocode" in add_data:
             self.input_text(ArrivalNoticeLocators.ARRIVALNOTICE_POCODE, add_data["pocode"])
-        self.input_text(ArrivalNoticeLocators.ARRIVALDATE_INPUT, add_data["date"])
+        if "date" in add_data:
+            self.input_text(ArrivalNoticeLocators.ARRIVALDATE_INPUT, add_data["date"])
         #选择供应商
         self.click(ArrivalNoticeLocators.VENDOR_SELECT)
         self.input_text(ArrivalNoticeLocators.VENDOR_NAME,add_data["vendorname"])
