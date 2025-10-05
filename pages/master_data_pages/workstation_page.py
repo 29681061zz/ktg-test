@@ -19,60 +19,13 @@ class WorkStationPage(BasePage):
 
     def is_workstation_exists(self, workstation_data: dict):
         """检查指定的工作站是否存在（精确匹配）"""
-        try:
-            column_mapping = {
-                'code': 1, 'edit_code': 1,
-                'name': 2, 'edit_name': 2,
-                'workshop': 4,
-                'process': 5,
-            }
-
-            # 一次性获取所有行
-            rows = self.find_elements(WorkstationLocators.TABLE_ROWS, allow_empty=True)
-            if not rows:
-                return False
-            # 预先处理需要检查的字段和列索引
-            check_fields = []
-            for field in workstation_data:
-                if field in column_mapping:
-                    check_fields.append((field, column_mapping[field]))
-            for row in rows:
-                # 一次性获取所有单元格
-                cells = row.find_elements(By.TAG_NAME, "td")
-                match = True
-
-                for field, col_index in check_fields:
-                    expected_value = workstation_data[field]
-                    cell_text = self._get_cell_text(cells[col_index])
-                    if cell_text != expected_value:
-                        match = False
-                        break
-                if match:
-                    return True
-            return False
-        except Exception as e:
-            print(f"检查工作站存在时出错: {e}")
-            return False
-
-    @staticmethod
-    def _get_cell_text(cell_element):
-        """极简版的单元格文本提取"""
-        try:
-            # 方法1: 直接获取文本（最快）
-            text = cell_element.text.strip()
-            if text:
-                return text
-            # 方法2: 快速检查常见结构（如果必须）
-            # 使用更简单、更快速的选择器
-            quick_elements = cell_element.find_elements(By.CSS_SELECTOR, "span, div, button")
-            for element in quick_elements[:3]:  # 只检查前几个元素
-                quick_text = element.text.strip()
-                if quick_text:
-                    return quick_text
-            return cell_element.text.strip()
-
-        except Exception:
-            return ""
+        column_mapping = {
+            'code': 1, 'edit_code': 1,
+            'name': 2, 'edit_name': 2,
+            'workshop': 4,
+            'process': 5,
+        }
+        return self.is_record_exists(column_mapping, workstation_data, WorkstationLocators.TABLE_ROWS)
 
     def add_workstation(self,add_data : dict):
         # 点击新增
