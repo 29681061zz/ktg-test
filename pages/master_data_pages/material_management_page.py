@@ -5,10 +5,10 @@ from selenium.webdriver.common.by import By
 from locators.master_data_locators.material_management_locators import  MaterialLocators
 
 class MaterialManagementPage(BasePage):
-    """物料管理页面对象封装物料管理页面的所有操作和断言方法"""
+    """物料管理页面对象，封装所有物料相关的UI操作"""
     # -------------------- 搜索操作 --------------------
     def search_material(self, search_data:dict):
-        """搜索物料:param material_code: 物料编码:param material_name: 物料名称"""
+        """搜索物料"""
         self.click(MaterialLocators.CLEAR_SEARCH_BUTTON)
         time.sleep(0.5)
         if "code" in search_data:
@@ -19,62 +19,15 @@ class MaterialManagementPage(BasePage):
         time.sleep(0.5)
 
     def is_material_exists(self, material_data: dict):
-        """检查指定的物料是否存在（精确匹配）"""
-        try:
-            column_mapping = {
-                'code': 1, 'edit_code': 1,
-                'name': 2, 'edit_name': 2,
-                'specification': 3,
-                'unit': 4,
-                'category': 6
-            }
-
-            # 一次性获取所有行
-            rows = self.find_elements(MaterialLocators.TABLE_ROWS, allow_empty=True)
-            if not rows:
-                return False
-            # 预先处理需要检查的字段和列索引
-            check_fields = []
-            for field in material_data:
-                if field in column_mapping:
-                    check_fields.append((field, column_mapping[field]))
-            for row in rows:
-                # 一次性获取所有单元格
-                cells = row.find_elements(By.TAG_NAME, "td")
-                match = True
-
-                for field, col_index in check_fields:
-                    expected_value = material_data[field]
-                    cell_text = self._get_cell_text(cells[col_index])
-                    if cell_text != expected_value:
-                        match = False
-                        break
-                if match:
-                    return True
-            return False
-        except Exception as e:
-            print(f"检查物料存在时出错: {e}")
-            return False
-
-    @staticmethod
-    def _get_cell_text(cell_element):
-        """极简版的单元格文本提取"""
-        try:
-            # 方法1: 直接获取文本（最快）
-            text = cell_element.text.strip()
-            if text:
-                return text
-            # 方法2: 快速检查常见结构（如果必须）
-            # 使用更简单、更快速的选择器
-            quick_elements = cell_element.find_elements(By.CSS_SELECTOR, "span, div, button")
-            for element in quick_elements[:3]:  # 只检查前几个元素
-                quick_text = element.text.strip()
-                if quick_text:
-                    return quick_text
-            return cell_element.text.strip()
-
-        except Exception:
-            return ""
+        """检查物料是否存在"""
+        column_mapping = {
+            'code': 1, 'edit_code': 1,
+            'name': 2, 'edit_name': 2,
+            'specification': 3,
+            'unit': 4,
+            'category': 6
+        }
+        return self.is_record_exists(column_mapping, material_data, MaterialLocators.TABLE_ROWS)
 
     def add_material(self,add_data : dict):
         # 点击新增
@@ -102,7 +55,7 @@ class MaterialManagementPage(BasePage):
         self.click(option_locator)
 
     def edit_material(self, edit_data: dict):
-        """编辑物料信息:param edit_data: 新的物料数据字典，必须包含material_code"""
+        """编辑物料信息:edit_data: 新的物料数据字典，必须包含code"""
         # 搜索要编辑的物料
         self.search_material(edit_data)
         self.click(MaterialLocators.CHECKBOX)
@@ -119,13 +72,11 @@ class MaterialManagementPage(BasePage):
             self.select_option(MaterialLocators.UNIT_SELECT, edit_data["unit"])
         if "category" in edit_data:
             self.input_text(MaterialLocators.CATEGORY_SELECT,edit_data["category"] + Keys.ARROW_DOWN + Keys.ARROW_DOWN + Keys.ENTER)
-
         # 保存修改
         self.click(MaterialLocators.EDIT_CONFIRM_BUTTON)
         # 关闭编辑窗口
         self.click(MaterialLocators.CLOSE_BUTTON)
         time.sleep(0.5)
-
 
     def delete_material(self, delete_data : dict):
         """删除物料"""
