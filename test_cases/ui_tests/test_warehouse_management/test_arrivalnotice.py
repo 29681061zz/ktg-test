@@ -1,10 +1,10 @@
 import pytest
 import allure
-from pages.warehouse_management_page.arrivalnotice_page import ArrivalNotice
+from pages.warehouse_management_page.arrivalnotice_page import ArrivalNoticePage
 @pytest.fixture(scope="function")
 def arrivalnotice_page(arrivalnotice_driver):
     """创建到货通知页面对象"""
-    return ArrivalNotice(arrivalnotice_driver)
+    return ArrivalNoticePage(arrivalnotice_driver)
 @allure.feature("到货通知")
 @pytest.mark.ui
 class TestArrivalNotice:
