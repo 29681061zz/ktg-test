@@ -1,10 +1,10 @@
 import pytest
 import allure
-from pages.warehouse_management_page.warehouse_page import WareHouse
+from pages.warehouse_management_page.warehouse_page import WareHousePage
 @pytest.fixture(scope="function")
 def warehouse_page(warehouse_driver):
     """创建仓库设置页面对象"""
-    return WareHouse(warehouse_driver)
+    return WareHousePage(warehouse_driver)
 @allure.feature("仓库设置")
 @pytest.mark.ui
 class TestWareHouse:
