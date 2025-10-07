@@ -1,0 +1,22 @@
+{
+  "add_cases": [
+    {
+      "test_id": "POR_ADD_001",
+      "add_data": {"processCode": "PRO_001", "processName": "新增工序_001", "enableFlag": "Y", "remark": "测试"}, "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "POR_SEARCH_001",
+      "search_data": {"processCode": "PRO_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "POR_EDIT_001",
+      "edit_data":{"processCode": "PRO_001", "processName": "修改工序_001", "enableFlag": "N", "remark": ""}, "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "POR_DELETE_001",
+      "delete_data": {"processCode": "PRO_001"}, "expected_status": 200}
+  ]
+}
