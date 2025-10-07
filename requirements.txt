@@ -4,7 +4,8 @@ ddddocr ==1.5.6
 # 测试框架
 pytest ==8.3.5
 selenium ==4.27.1
-
+requests ==2.31.0
+jsonschema==4.20.0
 # 报告生成
 allure-pytest == 2.15.0
 allure-python-commons == 2.15.0
