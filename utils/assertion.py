@@ -32,9 +32,7 @@ class ApiAssertion:
 
     @staticmethod
     def assert_json_field(response_data: Dict[str, Any], field_path: str, expected_value: Any):
-        """
-        断言响应JSON中特定字段的值
-        """
+        """断言响应JSON中特定字段的值"""
         actual_value = ApiAssertion._extract_field(response_data, field_path)
         assert actual_value == expected_value, \
             f"字段 {field_path} 值断言失败! 期望: {expected_value}, 实际: {actual_value}"
@@ -43,8 +41,7 @@ class ApiAssertion:
     @staticmethod
     def assert_all_fields_match(actual_data: Dict[str, Any], expected_data: Dict[str, Any],
                                 exclude_fields: List[str] = None):
-        """
-        断言所有字段匹配:param actual_data: 实际数据:param expected_data: 期望数据:param exclude_fields: 要排除检查的字段列表"""
+        """断言所有字段匹配:param actual_data: 实际数据:param expected_data: 期望数据:param exclude_fields: 要排除检查的字段列表"""
         if exclude_fields is None:
             exclude_fields = []
         for field, expected_value in expected_data.items():
@@ -63,9 +60,7 @@ class ApiAssertion:
 
     @staticmethod
     def assert_json_contains(response_data: Dict[str, Any], field_path: str):
-        """
-        断言响应JSON中包含特定字段
-        """
+        """断言响应JSON中包含特定字段"""
         actual_value = ApiAssertion._extract_field(response_data, field_path)
         assert actual_value is not None, \
             f"响应中未找到字段: {field_path}"
@@ -81,9 +76,7 @@ class ApiAssertion:
 
     @staticmethod
     def assert_error_code(response_data: Dict[str, Any], expected_error_code: str):
-        """
-        断言错误码
-        """
+        """断言错误码"""
         data = response_data.get('data', {})
         actual_error_code = data.get('error_code') or data.get('code')
         assert actual_error_code == expected_error_code, \
@@ -92,12 +85,9 @@ class ApiAssertion:
 
     @staticmethod
     def _extract_field(data: Dict[str, Any], field_path: str) -> Any:
-        """
-        从嵌套字典中提取字段值
-        """
+        """从嵌套字典中提取字段值"""
         keys = field_path.split('.')
         current = data
-
         for key in keys:
             if isinstance(current, dict) and key in current:
                 current = current[key]
