@@ -6,7 +6,7 @@ class WorkstationLocators:
     SEARCH_CODE_INPUT = (By.XPATH, "(//input[@placeholder='请输入工作站编码'])[1]")
     SEARCH_NAME_INPUT = (By.XPATH, "(//input[@placeholder='请输入工作站名称'])[1]")
     SEARCH_BUTTON = (By.XPATH,"//button[.//span[text()='搜索']]")
-    CLEAR_SEARCH_BUTTON = (By.XPATH, "//button[.//span[text()='重置']]")
+    CLEAR_SEARCH_BUTTON = (By.XPATH, "//button//span[text()='重置']")
 
     # 操作按钮
     ADD_BUTTON = (By.XPATH, "//button[.//span[text()='新增']]")
