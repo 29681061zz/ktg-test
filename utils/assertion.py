@@ -4,12 +4,18 @@ from typing import Dict, Any, List
 
 class ApiAssertion:
     """API断言工具类"""
-
     @staticmethod
     def assert_status_code(actual_code: int, expected_code: int, message: str = None):
-        """断言状态码"""
+        """断言HTTP状态码"""
         assert actual_code == expected_code, \
-            message or f"状态码断言失败! 期望: {expected_code}, 实际: {actual_code}"
+            message or f"HTTP状态码断言失败! 期望: {expected_code}, 实际: {actual_code}"
+        return ApiAssertion
+
+    @staticmethod
+    def assert_business_code(actual_code: int, expected_code: int, message: str = None):
+        """断言业务状态码"""
+        assert actual_code == expected_code, \
+            message or f"业务状态码断言失败! 期望: {expected_code}, 实际: {actual_code}"
         return ApiAssertion
 
     @staticmethod
