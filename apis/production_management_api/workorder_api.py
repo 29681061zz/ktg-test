@@ -1,34 +1,23 @@
 from typing import Dict, Any
 from apis.base_api import BaseApi
-from configs.settings import Config
-
 
 class WorkOrderAPI(BaseApi):
-    """工单管理API客户端"""
+    """生产工单API客户端"""
 
     def __init__(self, base_url: str = None):
-        """
-        初始化工单API客户端
-        """
+        """初始化工序API客户端"""
         if base_url is None:
-            base_url = f"{Config.API_BASE_URL}/production"
+            base_url = "/prod-api"
         super().__init__(base_url)
 
-    def create_workorder(self, workorder_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        创建工单
-
-        Args:
-            workorder_data: 工单数据
-                - workorder_no: 工单编号
-                - product_code: 产品编码
-                - plan_quantity: 计划数量
-                - priority: 优先级
-                - planned_start_time: 计划开始时间
-                - planned_end_time: 计划结束时间
-
-        Returns:
-            包含响应数据的字典
-        """
-        endpoint = "/workorders"
+    def search_workorder(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+        """搜索工序"""
+        endpoint = "/mes/pro/workorder/list"
+        params = {"pageNum": page_num, "pageSize": page_size, "workorderCode": search_data["workorderCode"]}
+        # 添加搜索条件
+        return self.client.get(endpoint, params=params)
+    
+    def add_workorder(self, workorder_data: Dict[str, Any]) -> Dict[str, Any]:
+        """添加工序"""
+        endpoint = "/mes/pro/workorder"
         return self.client.post(endpoint, json_data=workorder_data)
