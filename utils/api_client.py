@@ -68,7 +68,7 @@ class ApiClient:
                 'data': business_data,  # 统一业务数据入口
                 'message': response_data.get('msg', ''),
                 'elapsed': response.elapsed.total_seconds() * 1000,
-                '_raw': response_data,  # 保留原始响应供特殊需求
+                'raw': response_data,  # 保留原始响应供特殊需求
             }
 
         except requests.exceptions.Timeout:
