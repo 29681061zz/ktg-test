@@ -1,0 +1,30 @@
+{
+  "add_cases": [
+    {
+      "test_id": "WOD_ADD_001",
+      "add_data": {"workorderCode": "WOD_ADD_001",
+            "workorderName": "最小工单测试",
+            "workorderType": "SELF",
+            "productCode": "test_material_001",
+            "productId": 471,
+            "productName": "测试产品",
+            "quantity": 1,
+            "requestDate": "2025-10-01",
+            "status": "PREPARE"}, "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "WOD_SEARCH_001",
+      "search_data": {"workorderCode": "MO202509250027"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "WOD_EDIT_001",
+      "edit_data":{"workorderCode": "PRO_001", "processName": "修改工序_001", "enableFlag": "N", "remark": ""}, "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "WOD_DELETE_001",
+      "delete_data": {"workorderCode": "PRO_001"}, "expected_status": 200}
+  ]
+}

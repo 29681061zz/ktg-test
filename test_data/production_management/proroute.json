@@ -1,0 +1,22 @@
+{
+  "add_cases": [
+    {
+      "test_id": "ROT_ADD_001",
+      "add_data": {"routeCode": "ROT_001", "routeName": "工艺流程_001", "enableFlag": "Y","routeDesc": "测试", "remark": "测试"}, "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "ROT_SEARCH_001",
+      "search_data": {"routeCode": "ROT_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "ROT_EDIT_001",
+      "edit_data":{"routeCode": "ROT_001", "routeName": "修改工艺流程_001", "enableFlag": "N", "remark": ""}, "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "ROT_DELETE_001",
+      "delete_data": {"routeCode": "ROT_001"}, "expected_status": 200}
+  ]
+}
