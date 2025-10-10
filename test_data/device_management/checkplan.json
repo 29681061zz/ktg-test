@@ -1,0 +1,44 @@
+{
+  "add_cases": [
+    {
+      "test_id": "PLAN_ADD_001",
+      "add_data": {
+        "planCode": "PLAN_001",
+        "planName": "新增点检保养方案",
+        "planType": "CHECK" ,
+        "cycleCount": 1,
+        "cycleType": "MONTH",
+        "status": "PREPARE",
+        "startDate": "2025-10-10",
+        "endDate": "2025-10-15",
+        "remark": "备注"
+      },
+      "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "PLAN_SEARCH_001",
+      "search_data": {"planCode": "PLAN_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "PLAN_EDIT_001",
+      "edit_data": {
+       "planCode": "PLAN_001",
+        "planName": "修改点检保养方案",
+        "planType": "MAINTEN" ,
+        "cycleCount": 2,
+        "cycleType": "QUARTER",
+        "status": "PREPARE",
+        "startDate": "2025-10-10",
+        "endDate": "2025-10-20",
+        "remark": ""
+      },
+      "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "PLAN_DELETE_001",
+      "delete_data": {"planCode": "PLAN_001"}, "expected_status": 200}
+  ]
+}
