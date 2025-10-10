@@ -75,5 +75,10 @@ class DataManager:
         return DataManager.parametrize('production_management', module, case_type, arg_names)
 
     @staticmethod
+    def qc(module: str, case_type: str, arg_names: List[str]):
+        """生产管理快捷方法"""
+        return DataManager.parametrize('qc', module, case_type, arg_names)
+
+    @staticmethod
     def clear_cache():
         DataManager._data_cache.clear()
