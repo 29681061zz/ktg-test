@@ -1,0 +1,38 @@
+{
+  "add_cases": [
+    {
+      "test_id": "DVS_ADD_001",
+      "add_data": {
+        "subjectCode": "DVS_001",
+        "subjectName": "新增点检保养项目",
+        "subjectType": "MAINTEN" ,
+        "enableFlag": "Y",
+        "subjectContent": "项目内容",
+        "subjectStandard": "标准"
+      },
+      "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "DVS_SEARCH_001",
+      "search_data": {"subjectCode": "DVS_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "DVS_EDIT_001",
+      "edit_data": {
+        "subjectCode": "DVS_001",
+        "subjectName": "修改点检保养项目",
+        "subjectType": "CHECK" ,
+        "enableFlag": "N",
+        "subjectContent": "修改",
+        "subjectStandard": ""
+      },
+      "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "DVS_DELETE_001",
+      "delete_data": {"subjectCode": "DVS_001"}, "expected_status": 200}
+  ]
+}
