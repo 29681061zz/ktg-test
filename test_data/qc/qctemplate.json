@@ -1,0 +1,22 @@
+{
+  "add_cases": [
+    {
+      "test_id": "TEM_ADD_001",
+      "add_data": {"templateCode": "TEM_001","templateName":"新增质检方案", "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],"enableFlag": "Y","remark": "测试备注"}, "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "TEM_SEARCH_001",
+      "search_data": {"templateCode": "TEM_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "TEM_EDIT_001",
+      "edit_data":{"templateCode": "TEM_001","templateName":"修改质检方案", "qcTypesParam":["NONE"],"enableFlag": "N","remark": ""}, "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "TEM_DELETE_001",
+      "delete_data": {"templateCode": "TEM_001"}, "expected_status": 200}
+  ]
+}
