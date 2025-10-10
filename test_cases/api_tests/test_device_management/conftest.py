@@ -23,3 +23,11 @@ def authenticated_dvsubject_api(api_token):
     api = DvsubjectAPI()
     api.set_auth_token(api_token)
     yield api
+
+@pytest.fixture(scope="function")
+def authenticated_checkplan_api(api_token):
+    """已认证的设备类型设置API - 函数式fixture"""
+    from apis.device_management_api.checkplan_api import CheckplanAPI
+    api = CheckplanAPI()
+    api.set_auth_token(api_token)
+    yield api
