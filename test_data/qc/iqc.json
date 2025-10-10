@@ -1,0 +1,23 @@
+{
+  "add_cases": [
+    {
+      "test_id": "IQC_ADD_001",
+      "add_data": {
+        "iqcCode": "IQC_001",
+        "iqcName": "测试来料检验",
+        "itemCode": "test_material_002",
+        "vendorCode": "test_vendor_001",
+        "quantityRecived": 100,
+        "quantityQualified": 99,
+        "quantityUnqualified": 1,
+        "reciveDate": "2025-10-10",
+        "inspectDate": "2025-10-17"
+      },
+      "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "IQC_SEARCH_001",
+      "search_data": {"iqcCode": "mly"}, "expected_status": 200}
+  ]
+}
