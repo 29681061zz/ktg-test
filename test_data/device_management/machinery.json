@@ -1,0 +1,40 @@
+{
+  "add_cases": [
+    {
+      "test_id": "MNR_ADD_001",
+      "add_data": {
+        "machineryCode": "MNR_001",
+        "machineryName": "新增设备",
+        "machineryTypeId": 277,
+        "workshopId": 480,
+        "status": "STOP",
+        "machineryBrand": "品牌",
+        "machinerySpec": "规格型号",
+        "remark": "备注"
+      },
+      "expected_status": 200}
+  ],
+  "search_cases": [
+    {
+      "test_id": "MNR_SEARCH_001",
+      "search_data": {"machineryCode": "MNR_001"}, "expected_status": 200}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "MNR_EDIT_001",
+      "edit_data":{
+        "machineryCode": "MNR_001",
+        "machineryName": "修改设备",
+        "status": "WORKING",
+        "machineryBrand": "",
+        "machinerySpec": "",
+        "remark": ""
+      },
+      "expected_status": 200}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "MNR_DELETE_001",
+      "delete_data": {"machineryCode": "MNR_001"}, "expected_status": 200}
+  ]
+}
