@@ -1,0 +1,49 @@
+{
+  "add_cases": [
+    {
+      "test_id": "IRT_ADD_001",
+      "add_data": {
+        "code": "IRT_001",
+        "name": "新增采购入库_001",
+        "pocode": "POC_001",
+        "date": "2025-10-10",
+        "vendorname": "测试供应商",
+        "noticecode": "test_ant_001"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "IRT_SEARCH_001",
+      "search_data": {"code": "IRT_001"}, "expected_result": true},
+    {
+      "test_id": "IRT_SEARCH_002",
+      "search_data": {"name": "新增采购入库_001"}, "expected_result": true},
+    {
+      "test_id": "IRT_SEARCH_003",
+      "search_data": {"code": "IRT_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "IRT_EDIT_001",
+      "edit_data": {
+        "code": "IRT_001",
+        "edit_code": "IRT_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "IRT_EDIT_002",
+      "edit_data": {
+        "code" : "IRT_999",
+        "edit_name": "修改采购入库",
+        "pocode": "POC_002",
+        "date": "2025-11-10"
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "IRT_DELETE_001",
+      "delete_data": {"code": "IRT_999"}, "expected_result": false}
+  ]
+}
