@@ -1,0 +1,48 @@
+{
+  "add_cases": [
+    {
+      "test_id": "ANT_ADD_001",
+      "add_data": {
+        "code": "ANT_001",
+        "name": "新增到货通知_001",
+        "pocode": "POC_001",
+        "date": "2025-10-10",
+        "vendorname": "测试供应商"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "ANT_SEARCH_001",
+      "search_data": {"code": "ANT_001"}, "expected_result": true},
+    {
+      "test_id": "ANT_SEARCH_002",
+      "search_data": {"name": "新增到货通知_001"}, "expected_result": true},
+    {
+      "test_id": "ANT_SEARCH_003",
+      "search_data": {"code": "ANT_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "ANT_EDIT_001",
+      "edit_data": {
+        "code": "ANT_001",
+        "edit_code": "ANT_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "ANT_EDIT_002",
+      "edit_data": {
+        "code" : "ANT_999",
+        "edit_name": "修改到货通知",
+        "pocode": "POC_002",
+        "date": "2025-11-10"
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "ANT_DELETE_001",
+      "delete_data": {"code": "ANT_999"}, "expected_result": false}
+  ]
+}
