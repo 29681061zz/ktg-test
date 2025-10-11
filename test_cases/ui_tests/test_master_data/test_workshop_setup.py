@@ -1,6 +1,8 @@
 import pytest
 import allure
 from pages.master_data_pages.workshop_setup_page import WorkShopPage
+from utils.data_manager import DataManager
+
 
 @pytest.fixture(scope="function")
 def workshop_page(workshop_setup_driver):
@@ -11,57 +13,36 @@ def workshop_page(workshop_setup_driver):
 class TestWorkShopSetup:
     """车间设置测试用例"""
     @allure.story("新增功能")
-    @pytest.mark.parametrize("add_data,expected", [
-        ({
-            "code": "WSP_001",
-            "name": "新增车间_001",
-            "area": "1000",
-         }, True)
-    ])
-    def test_add_workshop(self, workshop_page, add_data, expected):
+    @DataManager.master_data('workshop', 'add_cases', ['add_data', 'expected_result'])
+    def test_add_workshop(self, workshop_page, add_data, expected_result):
         """测试车间新增功能 - 数据驱动"""
         workshop_page.add_workshop(add_data)
         # 搜索并验证新增的车间存在
         workshop_page.search_workshop(add_data)
         actual_result = workshop_page.is_workshop_exists(add_data)
-        assert actual_result == expected
+        assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @pytest.mark.parametrize("search_data,expected", [
-        ({"code": "WSP_001"}, True),
-        ({"code": "WSP_000"}, False),
-        ({"name": "新增车间_001"}, True),
-        # ({"name": "不存在的车间"}, False),
-        # ({"code": "WSP_001","name": "新增车间_001"}, True),
-        # ({"code": "WSP_001", "name": "不存在的车间"}, False)
-    ])
-    def test_search_workshop(self, workshop_page, search_data, expected):
+    @DataManager.master_data('workshop', 'search_cases', ['search_data', 'expected_result'])
+    def test_search_workshop(self, workshop_page, search_data, expected_result):
         """测试车间搜索功能 - 数据驱动"""
         workshop_page.search_workshop(search_data)
         # 验证搜索结果
         actual_result = workshop_page.is_workshop_exists(search_data)
-        assert actual_result == expected
+        assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @pytest.mark.parametrize("edit_data,expected", [
-        ({
-            "code" : "WSP_001",
-            "edit_name": "修改车间",
-            "area": "0",
-         }, True),
-    ])
-    def test_edit_workshop(self, workshop_page, edit_data, expected):
+    @DataManager.master_data('workshop', 'edit_cases', ['edit_data', 'expected_result'])
+    def test_edit_workshop(self, workshop_page, edit_data, expected_result):
         """测试车间修改功能 - 数据驱动"""
         workshop_page.edit_workshop(edit_data)
         actual_result = workshop_page.is_workshop_exists(edit_data)
-        assert actual_result == expected
+        assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @pytest.mark.parametrize("delete_data,expected", [
-        ({"code" : "WSP_001",}, False), # 期望删除后车间不存在
-    ])
-    def test_delete_workshop(self, workshop_page, delete_data, expected):
+    @DataManager.master_data('workshop', 'delete_cases', ['delete_data', 'expected_result'])
+    def test_delete_workshop(self, workshop_page, delete_data, expected_result):
         """测试车间删除功能 - 数据驱动"""
         workshop_page.delete_workshop(delete_data)
         actual_result = workshop_page.is_workshop_exists(delete_data)
-        assert actual_result == expected
+        assert actual_result == expected_result
