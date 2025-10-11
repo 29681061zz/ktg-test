@@ -1,0 +1,48 @@
+{
+  "add_cases": [
+    {
+      "test_id": "WST_ADD_001",
+      "add_data": {
+        "code": "WST_001",
+        "name": "新增工作站_001",
+        "location": "新增工作站地点",
+        "workshop": "测试车间",
+        "process": "测试工序"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "WST_SEARCH_001",
+      "search_data": {"code": "WST_001"}, "expected_result": true},
+    {
+      "test_id": "WST_SEARCH_002",
+      "search_data": {"name": "新增工作站_001"}, "expected_result": true},
+    {
+      "test_id": "WST_SEARCH_003",
+      "search_data": {"code": "WST_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "WST_EDIT_001",
+      "edit_data": {
+        "code": "WST_001",
+        "edit_code": "WST_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "WST_EDIT_002",
+      "edit_data": {
+        "code" : "WST_999",
+        "edit_name": "修改工作站",
+        "abbreviation": "",
+        "rating": "5"
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "WST_DELETE_001",
+      "delete_data": {"code": "WST_999"}, "expected_result": false}
+  ]
+}

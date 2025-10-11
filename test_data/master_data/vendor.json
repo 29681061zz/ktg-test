@@ -1,0 +1,47 @@
+{
+  "add_cases": [
+    {
+      "test_id": "VEN_ADD_001",
+      "add_data": {
+        "code": "VEN_001",
+        "name": "新增供应商_001",
+        "abbreviation": "测试",
+        "rating": "4"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "VEN_SEARCH_001",
+      "search_data": {"code": "VEN_001"}, "expected_result": true},
+    {
+      "test_id": "VEN_SEARCH_002",
+      "search_data": {"name": "新增供应商_001"}, "expected_result": true},
+    {
+      "test_id": "VEN_SEARCH_003",
+      "search_data": {"code": "VEN_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "VEN_EDIT_001",
+      "edit_data": {
+        "code": "VEN_001",
+        "edit_code": "VEN_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "VEN_EDIT_002",
+      "edit_data": {
+        "code" : "VEN_999",
+        "edit_name": "修改供应商",
+        "abbreviation": "",
+        "rating": "5"
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "VEN_DELETE_001",
+      "delete_data": {"code": "VEN_999"}, "expected_result": false}
+  ]
+}

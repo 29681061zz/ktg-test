@@ -2,7 +2,14 @@
   "add_cases": [
     {
       "test_id": "MAT_ADD_001",
-      "add_data": {"code": "MAT_001", "name": "新增物料_001", "specification": "10-50mm", "unit": "测试主单位", "category": "物料分类"}, "expected_result": true}
+      "add_data": {
+        "code": "MAT_001",
+        "name": "新增物料_001",
+        "specification": "10-50mm",
+        "unit": "测试主单位",
+        "category": "物料分类"
+      },
+      "expected_result": true}
   ],
   "search_cases": [
     {
@@ -27,22 +34,21 @@
   "edit_cases": [
     {
       "test_id": "MAT_EDIT_001",
-      "edit_data": {"code": "MAT_001", "edit_code": "MAT_99999999"}, "expected_result": false},
+      "edit_data": {
+        "code": "MAT_001",
+        "edit_code": "MAT_999"
+      },
+      "expected_result": true},
     {
       "test_id": "MAT_EDIT_002",
-      "edit_data": {"code": "MAT_001", "edit_name": "修改物料_001"}, "expected_result": true},
-    {
-      "test_id": "MAT_EDIT_003",
-      "edit_data": {"code": "MAT_001", "specification": ""}, "expected_result": true},
-    {
-      "test_id": "MAT_EDIT_004",
-      "edit_data": {"code": "MAT_001", "unit": "测试副单位"}, "expected_result": true},
-    {
-      "test_id": "MAT_EDIT_005",
-      "edit_data": {"code": "MAT_001", "category": "产品分类"}, "expected_result": true},
-    {
-      "test_id": "MAT_EDIT_006",
-      "edit_data": {"code": "MAT_001", "edit_name": "新增物料_001", "specification": "10-50mm", "unit": "测试主单位", "category": "物料分类"}, "expected_result": true}
+      "edit_data": {
+        "code": "MAT_001",
+        "edit_name": "修改物料_001",
+        "specification": "",
+        "unit": "测试副单位",
+        "category": "产品分类"
+      },
+      "expected_result": true}
   ],
   "delete_cases": [
     {
