@@ -20,7 +20,7 @@ class UnitMeasurePage(BasePage):
     def is_unit_exists(self, unit_data: dict):
         """检查指定的单位是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'is_main_unit': 3,
             'conversion': 4,

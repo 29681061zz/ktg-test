@@ -20,7 +20,7 @@ class CustomerManagementPage(BasePage):
     def is_customer_exists(self, customer_data: dict):
         """检查指定的客户是否存在（精确匹配）"""
         column_mapping = {
-             'code': 1, 'edit_code': 1,
+             'code': 1,
             'name': 2, 'edit_name': 2,
         }
         return self.is_record_exists(column_mapping, customer_data, CustomerLocators.TABLE_ROWS)

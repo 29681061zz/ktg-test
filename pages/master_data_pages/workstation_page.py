@@ -20,7 +20,7 @@ class WorkStationPage(BasePage):
     def is_workstation_exists(self, workstation_data: dict):
         """检查指定的工作站是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'workshop': 4,
             'process': 5,

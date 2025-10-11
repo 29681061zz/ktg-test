@@ -21,7 +21,7 @@ class MaterialManagementPage(BasePage):
     def is_material_exists(self, material_data: dict):
         """检查物料是否存在"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'specification': 3,
             'unit': 4,

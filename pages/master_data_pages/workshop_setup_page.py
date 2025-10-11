@@ -20,7 +20,7 @@ class WorkShopPage(BasePage):
     def is_workshop_exists(self, workshop_data: dict):
         """检查指定的车间设置是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'area': 3,
         }

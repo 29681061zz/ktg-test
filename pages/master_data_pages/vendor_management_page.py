@@ -20,7 +20,7 @@ class VendorPage(BasePage):
     def is_vendor_exists(self, vendor_data: dict):
         """检查指定的供应商是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'abbreviation': 3,
             'rating': 5,
