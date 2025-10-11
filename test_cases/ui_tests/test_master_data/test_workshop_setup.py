@@ -13,7 +13,7 @@ def workshop_page(workshop_setup_driver):
 class TestWorkShopSetup:
     """车间设置测试用例"""
     @allure.story("新增功能")
-    @DataManager.master_data('workshop', 'add_cases', ['add_data', 'expected_result'])
+    @DataManager.master('workshop', 'add_cases', ['add_data', 'expected_result'])
     def test_add_workshop(self, workshop_page, add_data, expected_result):
         """测试车间新增功能 - 数据驱动"""
         workshop_page.add_workshop(add_data)
@@ -23,7 +23,7 @@ class TestWorkShopSetup:
         assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @DataManager.master_data('workshop', 'search_cases', ['search_data', 'expected_result'])
+    @DataManager.master('workshop', 'search_cases', ['search_data', 'expected_result'])
     def test_search_workshop(self, workshop_page, search_data, expected_result):
         """测试车间搜索功能 - 数据驱动"""
         workshop_page.search_workshop(search_data)
@@ -32,7 +32,7 @@ class TestWorkShopSetup:
         assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @DataManager.master_data('workshop', 'edit_cases', ['edit_data', 'expected_result'])
+    @DataManager.master('workshop', 'edit_cases', ['edit_data', 'expected_result'])
     def test_edit_workshop(self, workshop_page, edit_data, expected_result):
         """测试车间修改功能 - 数据驱动"""
         workshop_page.edit_workshop(edit_data)
@@ -40,7 +40,7 @@ class TestWorkShopSetup:
         assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @DataManager.master_data('workshop', 'delete_cases', ['delete_data', 'expected_result'])
+    @DataManager.master('workshop', 'delete_cases', ['delete_data', 'expected_result'])
     def test_delete_workshop(self, workshop_page, delete_data, expected_result):
         """测试车间删除功能 - 数据驱动"""
         workshop_page.delete_workshop(delete_data)

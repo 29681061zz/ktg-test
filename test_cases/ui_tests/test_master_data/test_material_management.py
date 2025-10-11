@@ -13,7 +13,7 @@ def material_page(material_management_driver):
 class TestMaterialManagement:
     """物料管理测试 - 数据驱动"""
     @allure.story("新增功能")
-    @DataManager.master_data('mditem', 'add_cases', ['add_data', 'expected_result'])
+    @DataManager.master('mditem', 'add_cases', ['add_data', 'expected_result'])
     def test_add_material(self, material_page, add_data, expected_result):
         material_page.add_material(add_data)
         # 搜索并验证新增的物料存在
@@ -22,7 +22,7 @@ class TestMaterialManagement:
         assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @DataManager.master_data('mditem', 'search_cases', ['search_data', 'expected_result'])
+    @DataManager.master('mditem', 'search_cases', ['search_data', 'expected_result'])
     def test_search_material(self, material_page, search_data, expected_result):
         # 搜索物料
         material_page.search_material(search_data)
@@ -31,14 +31,14 @@ class TestMaterialManagement:
         assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @DataManager.master_data('mditem', 'edit_cases', ['edit_data', 'expected_result'])
+    @DataManager.master('mditem', 'edit_cases', ['edit_data', 'expected_result'])
     def test_edit_material(self, material_page, edit_data, expected_result):
         material_page.edit_material(edit_data)
         actual_result = material_page.is_material_exists(edit_data)
         assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @DataManager.master_data('mditem', 'delete_cases', ['delete_data', 'expected_result'])
+    @DataManager.master('mditem', 'delete_cases', ['delete_data', 'expected_result'])
     def test_delete_material(self, material_page, delete_data, expected_result):
         material_page.delete_material(delete_data)
         actual_result = material_page.is_material_exists(delete_data)

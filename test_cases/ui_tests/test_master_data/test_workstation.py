@@ -13,7 +13,7 @@ def workstation_page(workstation_driver):
 class TestWorkStation:
     """工作站测试用例"""
     @allure.story("新增功能")
-    @DataManager.master_data('workstation', 'add_cases', ['add_data', 'expected_result'])
+    @DataManager.master('workstation', 'add_cases', ['add_data', 'expected_result'])
     def test_add_workstation(self, workstation_page, add_data, expected_result):
         """测试工作站新增功能 - 数据驱动"""
         workstation_page.add_workstation(add_data)
@@ -23,7 +23,7 @@ class TestWorkStation:
         assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @DataManager.master_data('workstation', 'search_cases', ['search_data', 'expected_result'])
+    @DataManager.master('workstation', 'search_cases', ['search_data', 'expected_result'])
     def test_search_workstation(self, workstation_page, search_data, expected_result):
         """测试工作站搜索功能 - 数据驱动"""
         workstation_page.search_workstation(search_data)
@@ -32,7 +32,7 @@ class TestWorkStation:
         assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @DataManager.master_data('workstation', 'edit_cases', ['edit_data', 'expected_result'])
+    @DataManager.master('workstation', 'edit_cases', ['edit_data', 'expected_result'])
     def test_edit_workstation(self, workstation_page, edit_data, expected_result):
         """测试工作站修改功能 - 数据驱动"""
         workstation_page.edit_workstation(edit_data)
@@ -40,7 +40,7 @@ class TestWorkStation:
         assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @DataManager.master_data('workstation', 'delete_cases', ['delete_data', 'expected_result'])
+    @DataManager.master('workstation', 'delete_cases', ['delete_data', 'expected_result'])
     def test_delete_workstation(self, workstation_page, delete_data, expected_result):
         """测试工作站删除功能 - 数据驱动"""
         workstation_page.delete_workstation(delete_data)

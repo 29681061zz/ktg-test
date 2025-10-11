@@ -12,7 +12,7 @@ def unit_page(unitmeasure_driver):
 class TestUnitMeasure:
     """单位管理测试用例"""
     @allure.story("新增功能")
-    @DataManager.master_data('unitmeasure', 'add_cases', ['add_data', 'expected_result'])
+    @DataManager.master('unitmeasure', 'add_cases', ['add_data', 'expected_result'])
     def test_add_unit(self, unit_page, add_data, expected_result):
         """测试单位新增功能 - 数据驱动"""
         unit_page.add_unit(add_data)
@@ -22,7 +22,7 @@ class TestUnitMeasure:
         assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @DataManager.master_data('unitmeasure', 'search_cases', ['search_data', 'expected_result'])
+    @DataManager.master('unitmeasure', 'search_cases', ['search_data', 'expected_result'])
     def test_search_unit(self, unit_page, search_data, expected_result):
         """测试单位搜索功能 - 数据驱动"""
         unit_page.search_unit(search_data)
@@ -31,7 +31,7 @@ class TestUnitMeasure:
         assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @DataManager.master_data('unitmeasure', 'edit_cases', ['edit_data', 'expected_result'])
+    @DataManager.master('unitmeasure', 'edit_cases', ['edit_data', 'expected_result'])
     def test_edit_unit(self, unit_page, edit_data, expected_result):
         """测试单位修改功能 - 数据驱动"""
         unit_page.edit_unit(edit_data)
@@ -39,7 +39,7 @@ class TestUnitMeasure:
         assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @DataManager.master_data('unitmeasure', 'delete_cases', ['delete_data', 'expected_result'])
+    @DataManager.master('unitmeasure', 'delete_cases', ['delete_data', 'expected_result'])
     def test_delete_unit(self, unit_page, delete_data, expected_result):
         """测试单位删除功能 - 数据驱动"""
         unit_page.delete_unit(delete_data)

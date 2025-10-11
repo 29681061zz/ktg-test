@@ -13,7 +13,7 @@ def vendor_page(vendor_management_driver):
 class TestVendorManagement:
     """供应商管理测试用例"""
     @allure.story("新增功能")
-    @DataManager.master_data('vendor', 'add_cases', ['add_data', 'expected_result'])
+    @DataManager.master('vendor', 'add_cases', ['add_data', 'expected_result'])
     def test_add_vendor(self, vendor_page, add_data, expected_result):
         """测试供应商新增功能 - 数据驱动"""
         vendor_page.add_vendor(add_data)
@@ -23,7 +23,7 @@ class TestVendorManagement:
         assert actual_result == expected_result
 
     @allure.story("搜索功能")
-    @DataManager.master_data('vendor', 'search_cases', ['search_data', 'expected_result'])
+    @DataManager.master('vendor', 'search_cases', ['search_data', 'expected_result'])
     def test_search_vendor(self, vendor_page, search_data, expected_result):
         """测试供应商搜索功能 - 数据驱动"""
         vendor_page.search_vendor(search_data)
@@ -32,7 +32,7 @@ class TestVendorManagement:
         assert actual_result == expected_result
 
     @allure.story("修改功能")
-    @DataManager.master_data('vendor', 'edit_cases', ['edit_data', 'expected_result'])
+    @DataManager.master('vendor', 'edit_cases', ['edit_data', 'expected_result'])
     def test_edit_vendor(self, vendor_page, edit_data, expected_result):
         """测试供应商修改功能 - 数据驱动"""
         vendor_page.edit_vendor(edit_data)
@@ -40,7 +40,7 @@ class TestVendorManagement:
         assert actual_result == expected_result
 
     @allure.story("删除功能")
-    @DataManager.master_data('vendor', 'delete_cases', ['delete_data', 'expected_result'])
+    @DataManager.master('vendor', 'delete_cases', ['delete_data', 'expected_result'])
     def test_delete_vendor(self, vendor_page, delete_data, expected_result):
         """测试供应商删除功能 - 数据驱动"""
         vendor_page.delete_vendor(delete_data)
