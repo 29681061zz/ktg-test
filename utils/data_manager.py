@@ -60,7 +60,7 @@ class DataManager:
 
     # 快捷方法
     @staticmethod
-    def master_data(module: str, case_type: str, arg_names: List[str]):
+    def master(module: str, case_type: str, arg_names: List[str]):
         """主数据快捷方法"""
         return DataManager.parametrize('master_data', module, case_type, arg_names)
 
