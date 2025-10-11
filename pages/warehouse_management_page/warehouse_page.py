@@ -20,7 +20,7 @@ class WareHousePage(BasePage):
     def is_warehouse_exists(self, warehouse_data: dict):
         """检查指定的仓库是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'location': 3,
             'remark': 7,

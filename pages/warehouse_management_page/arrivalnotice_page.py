@@ -20,7 +20,7 @@ class ArrivalNoticePage(BasePage):
     def is_arrivalnotice_exists(self, arrivalnotice_data: dict):
         """检查指定的仓库是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'pocode': 3,
             'date': 7,

@@ -20,7 +20,7 @@ class ProductRecptPage(BasePage):
     def is_productrecpt_exists(self, productrecpt_data: dict):
         """检查指定产品入库是否存在（精确匹配）"""
         column_mapping = {
-            'code': 1, 'edit_code': 1,
+            'code': 1,
             'name': 2, 'edit_name': 2,
             'date': 6,
             'workordercode': 3,
