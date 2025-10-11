@@ -77,6 +77,7 @@ class BasePage:
                     expected_value = record_data[field]
                     cell_text = self._get_cell_text(cells[col_index])
                     if cell_text != expected_value:
+                        print(f"字段不匹配 - 字段: {field}, 期望: '{expected_value}', 实际: '{cell_text}'")
                         match = False
                         break
                 if match:
