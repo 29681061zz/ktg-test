@@ -1,0 +1,44 @@
+{
+  "add_cases": [
+    {
+      "test_id": "PRD_ADD_001",
+      "add_data": {
+        "code": "PRD_001",
+        "name": "新增产品入库",
+        "workordercode": "MO202509250027"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "PRD_SEARCH_001",
+      "search_data": {"code": "PRD_001"}, "expected_result": true},
+    {
+      "test_id": "PRD_SEARCH_002",
+      "search_data": {"name": "新增产品入库"}, "expected_result": true},
+    {
+      "test_id": "PRD_SEARCH_003",
+      "search_data": {"code": "PRD_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "PRD_EDIT_001",
+      "edit_data": {
+        "code": "PRD_001",
+        "edit_code": "PRD_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "PRD_EDIT_002",
+      "edit_data": {
+        "code" : "PRD_999",
+        "edit_name": "修改产品入库"
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "PRD_DELETE_001",
+      "delete_data": {"code": "PRD_999"}, "expected_result": false}
+  ]
+}
