@@ -1,0 +1,49 @@
+{
+  "add_cases": [
+    {
+      "test_id": "WHS_ADD_001",
+      "add_data": {
+        "code": "WHS_001",
+        "name": "新增仓库_001",
+        "area": "100",
+        "location": "新增仓库地点",
+        "remark": "新增仓库"
+      },
+      "expected_result": true}
+  ],
+  "search_cases": [
+    {
+      "test_id": "WHS_SEARCH_001",
+      "search_data": {"code": "WHS_001"}, "expected_result": true},
+    {
+      "test_id": "WHS_SEARCH_002",
+      "search_data": {"name": "新增仓库_001"}, "expected_result": true},
+    {
+      "test_id": "WHS_SEARCH_003",
+      "search_data": {"code": "WHS_999"}, "expected_result": false}
+  ],
+  "edit_cases": [
+    {
+      "test_id": "WHS_EDIT_001",
+      "edit_data": {
+        "code": "WHS_001",
+        "edit_code": "WHS_999"
+      },
+      "expected_result": true},
+    {
+      "test_id": "WHS_EDIT_002",
+      "edit_data": {
+        "code" : "WHS_999",
+        "edit_name": "修改仓库",
+        "area": "0",
+        "location": "",
+        "remark": ""
+      },
+      "expected_result": true}
+  ],
+  "delete_cases": [
+    {
+      "test_id": "WHS_DELETE_001",
+      "delete_data": {"code": "WHS_999"}, "expected_result": false}
+  ]
+}
