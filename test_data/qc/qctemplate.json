@@ -2,7 +2,22 @@
   "add_cases": [
     {
       "test_id": "TEM_ADD_001",
-      "add_data": {"templateCode": "TEM_001","templateName":"新增质检方案", "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],"enableFlag": "Y","remark": "测试备注"}, "expected_status": 200}
+      "add_data": {
+        "templateCode": "TEM_001",
+        "templateName":"新增质检方案",
+        "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],
+        "enableFlag": "Y","remark": "测试备注"
+      },
+      "expected_status": 200},
+    {
+      "test_id": "TEM_ADD_002",
+      "add_data": {
+        "templateCode": "TEM_001",
+        "templateName":"重复质检方案",
+        "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],
+        "enableFlag": "Y","remark": "测试备注"
+      },
+      "expected_status": 500}
   ],
   "search_cases": [
     {
