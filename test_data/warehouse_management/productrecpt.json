@@ -18,7 +18,7 @@
       "search_data": {"name": "新增产品入库"}, "expected_result": true},
     {
       "test_id": "PRD_SEARCH_003",
-      "search_data": {"code": "PRD_999"}, "expected_result": false}
+      "search_data": {"code": "PRD_9999"}, "expected_result": false}
   ],
   "edit_cases": [
     {
