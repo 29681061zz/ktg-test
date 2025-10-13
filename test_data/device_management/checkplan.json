@@ -13,12 +13,27 @@
         "endDate": "2025-10-15",
         "remark": "备注"
       },
-      "expected_status": 200}
+      "expected_status": 200},
+    {
+      "test_id": "PLAN_ADD_002",
+      "add_data": {
+        "planCode": "PLAN_001",
+        "planName": "重复方案",
+        "planType": "CHECK" ,
+        "cycleCount": 1,
+        "cycleType": "MONTH",
+        "status": "PREPARE",
+        "startDate": "2025-10-10",
+        "endDate": "2025-10-15",
+        "remark": "备注"
+      },
+      "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "PLAN_SEARCH_001",
-      "search_data": {"planCode": "PLAN_001"}, "expected_status": 200}
+      "search_data": {"planCode": "PLAN_001"},
+      "expected_status": 200}
   ],
   "edit_cases": [
     {
