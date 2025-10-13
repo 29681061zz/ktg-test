@@ -12,7 +12,20 @@
         "machinerySpec": "规格型号",
         "remark": "备注"
       },
-      "expected_status": 200}
+      "expected_status": 200},
+    {
+      "test_id": "MNR_ADD_002",
+      "add_data": {
+        "machineryCode": "MNR_001",
+        "machineryName": "重复设备",
+        "machineryTypeId": 277,
+        "workshopId": 480,
+        "status": "STOP",
+        "machineryBrand": "品牌",
+        "machinerySpec": "规格型号",
+        "remark": "备注"
+      },
+      "expected_status": 500}
   ],
   "search_cases": [
     {
