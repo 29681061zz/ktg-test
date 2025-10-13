@@ -10,7 +10,18 @@
         "subjectContent": "项目内容",
         "subjectStandard": "标准"
       },
-      "expected_status": 200}
+      "expected_status": 200},
+    {
+      "test_id": "DVS_ADD_002",
+      "add_data": {
+        "subjectCode": "DVS_001",
+        "subjectName": "重复项目",
+        "subjectType": "MAINTEN" ,
+        "enableFlag": "Y",
+        "subjectContent": "项目内容",
+        "subjectStandard": "标准"
+      },
+      "expected_status": 500}
   ],
   "search_cases": [
     {
