@@ -33,8 +33,20 @@
       "test_id": "VEN_EDIT_002",
       "edit_data": {
         "code" : "VEN_999",
-        "edit_name": "修改供应商",
-        "abbreviation": "",
+        "edit_name": "修改供应商"
+      },
+      "expected_result": true},
+    {
+      "test_id": "VEN_EDIT_003",
+      "edit_data": {
+        "code" : "VEN_999",
+        "abbreviation": ""
+      },
+      "expected_result": true},
+    {
+      "test_id": "VEN_EDIT_004",
+      "edit_data": {
+        "code" : "VEN_999",
         "rating": "5"
       },
       "expected_result": true}
