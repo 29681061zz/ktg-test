@@ -25,20 +25,17 @@
   "edit_cases": [
     {
       "test_id": "ANT_EDIT_001",
-      "edit_data": {
-        "code": "ANT_001",
-        "edit_code": "ANT_999"
-      },
-      "expected_result": true},
+      "edit_data": {"code": "ANT_001", "edit_code": "ANT_999"}, "expected_result": true},
     {
       "test_id": "ANT_EDIT_002",
-      "edit_data": {
-        "code" : "ANT_999",
-        "edit_name": "修改到货通知",
-        "pocode": "POC_002",
-        "date": "2025-11-10"
-      },
-      "expected_result": true}
+      "edit_data": {"code" : "ANT_999", "edit_name": "修改到货通知"}, "expected_result": true},
+    {
+      "test_id": "ANT_EDIT_003",
+      "edit_data": {"code" : "ANT_999", "pocode": "POC_002"}, "expected_result": true},
+    {
+      "test_id": "ANT_EDIT_004",
+      "edit_data": {"code" : "ANT_999", "date": "2025-11-10"}, "expected_result": true}
+
   ],
   "delete_cases": [
     {
