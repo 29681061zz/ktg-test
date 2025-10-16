@@ -23,18 +23,10 @@
   "edit_cases": [
     {
       "test_id": "PRD_EDIT_001",
-      "edit_data": {
-        "code": "PRD_001",
-        "edit_code": "PRD_999"
-      },
-      "expected_result": true},
+      "edit_data": {"code": "PRD_001", "edit_code": "PRD_999"}, "expected_result": true},
     {
       "test_id": "PRD_EDIT_002",
-      "edit_data": {
-        "code" : "PRD_999",
-        "edit_name": "修改产品入库"
-      },
-      "expected_result": true}
+      "edit_data": {"code" : "PRD_999", "edit_name": "修改产品入库"}, "expected_result": true}
   ],
   "delete_cases": [
     {
