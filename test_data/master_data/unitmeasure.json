@@ -34,7 +34,13 @@
       "test_id": "UNI_EDIT_002",
       "edit_data": {
         "code": "UNI_999",
-        "edit_name": "修改为主单位_002",
+        "edit_name": "修改单位"
+      },
+      "expected_result": true},
+    {
+      "test_id": "UNI_EDIT_003",
+      "edit_data": {
+        "code": "UNI_999",
         "is_main_unit": "是"
       },
       "expected_result": true}
