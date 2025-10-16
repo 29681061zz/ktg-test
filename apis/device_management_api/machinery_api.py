@@ -12,8 +12,7 @@ class MachineryAPI(BaseApi):
     def search_machinery(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索检测项"""
         endpoint = "/mes/dv/machinery/list"
-        params = {"machineryCode": search_data["machineryCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_machinery(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         endpoint="/mes/dv/machinery"
@@ -22,7 +21,7 @@ class MachineryAPI(BaseApi):
     def edit_machinery(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改检测项信息"""
         endpoint = "/mes/dv/machinery"
-        search_response = self.search_machinery(edit_data)
+        search_response = self.search_machinery({"machineryCode": edit_data["machineryCode"]})
         edit_data["machineryId"]= search_response['data'][0]['machineryId']
         return self.client.put(endpoint, json_data=edit_data)
 
