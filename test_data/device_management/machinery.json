@@ -4,7 +4,7 @@
       "test_id": "MNR_ADD_001",
       "add_data": {
         "machineryCode": "MNR_001",
-        "machineryName": "新增设备",
+        "machineryName": "新增设备_001",
         "machineryTypeId": 277,
         "workshopId": 480,
         "status": "STOP",
@@ -17,7 +17,33 @@
       "test_id": "MNR_ADD_002",
       "add_data": {
         "machineryCode": "MNR_001",
-        "machineryName": "重复设备",
+        "machineryName": "重复设备_001",
+        "machineryTypeId": 277,
+        "workshopId": 480,
+        "status": "STOP",
+        "machineryBrand": "品牌",
+        "machinerySpec": "规格型号",
+        "remark": "备注"
+      },
+      "expected_status": 500},
+    {
+      "test_id": "MNR_ADD_003",
+      "add_data": {
+        "machineryCode": "",
+        "machineryName": "新增设备_003",
+        "machineryTypeId": 277,
+        "workshopId": 480,
+        "status": "STOP",
+        "machineryBrand": "品牌",
+        "machinerySpec": "规格型号",
+        "remark": "备注"
+      },
+      "expected_status": 500},
+    {
+      "test_id": "MNR_ADD_004",
+      "add_data": {
+        "machineryCode": "MNR_1234567891011121314151617181920212223242526272829303132333435",
+        "machineryName": "新增设备_006",
         "machineryTypeId": 277,
         "workshopId": 480,
         "status": "STOP",
@@ -30,20 +56,33 @@
   "search_cases": [
     {
       "test_id": "MNR_SEARCH_001",
-      "search_data": {"machineryCode": "MNR_001"}, "expected_status": 200}
+      "search_data": {"machineryCode": "MNR_001"}, "expected_status": 200},
+    {
+      "test_id": "MNR_SEARCH_002",
+      "search_data": {"machineryName": "新增设备_001"}, "expected_status": 200},
+    {
+      "test_id": "MNR_SEARCH_003",
+      "search_data": {"machineryCode": "MNR_001","machineryName": "新增设备_001"}, "expected_status": 200},
+    {
+      "test_id": "MNR_SEARCH_004",
+      "search_data": {"machineryCode": "MNR_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "MNR_EDIT_001",
-      "edit_data":{
-        "machineryCode": "MNR_001",
-        "machineryName": "修改设备",
-        "status": "WORKING",
-        "machineryBrand": "",
-        "machinerySpec": "",
-        "remark": ""
-      },
-      "expected_status": 200}
+      "edit_data":{"machineryCode": "MNR_001", "machineryName": "修改设备"}, "expected_status": 200},
+    {
+      "test_id": "MNR_EDIT_002",
+      "edit_data":{"machineryCode": "MNR_001", "status": "WORKING"}, "expected_status": 200},
+    {
+      "test_id": "MNR_EDIT_003",
+      "edit_data":{"machineryCode": "MNR_001", "machineryBrand": ""}, "expected_status": 200},
+    {
+      "test_id": "MNR_EDIT_004",
+      "edit_data":{"machineryCode": "MNR_001","machinerySpec": ""}, "expected_status": 200},
+    {
+      "test_id": "MNR_EDIT_005",
+      "edit_data":{"machineryCode": "MNR_001","remark": ""}, "expected_status": 200}
   ],
   "delete_cases": [
     {
