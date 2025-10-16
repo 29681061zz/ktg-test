@@ -25,21 +25,20 @@
   "edit_cases": [
     {
       "test_id": "WHS_EDIT_001",
-      "edit_data": {
-        "code": "WHS_001",
-        "edit_code": "WHS_999"
-      },
-      "expected_result": true},
+      "edit_data": {"code": "WHS_001", "edit_code": "WHS_999"}, "expected_result": true},
     {
       "test_id": "WHS_EDIT_002",
-      "edit_data": {
-        "code" : "WHS_999",
-        "edit_name": "修改仓库",
-        "area": "0",
-        "location": "",
-        "remark": ""
-      },
-      "expected_result": true}
+      "edit_data": {"code" : "WHS_999", "edit_name": "修改仓库"}, "expected_result": true},
+    {
+      "test_id": "WHS_EDIT_003",
+      "edit_data": {"code" : "WHS_999", "area": "0"}, "expected_result": true},
+    {
+      "test_id": "WHS_EDIT_004",
+      "edit_data": {"code" : "WHS_999","location": ""}, "expected_result": true},
+    {
+      "test_id": "WHS_EDIT_005",
+      "edit_data": {"code" : "WHS_999","remark": ""}, "expected_result": true}
+
   ],
   "delete_cases": [
     {
