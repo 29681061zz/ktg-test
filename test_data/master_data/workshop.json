@@ -25,7 +25,13 @@
       "test_id": "WSP_EDIT_001",
       "edit_data": {
         "code" : "WSP_001",
-        "edit_name": "修改车间",
+        "edit_name": "修改车间"
+      },
+      "expected_result": true},
+    {
+      "test_id": "WSP_EDIT_002",
+      "edit_data": {
+        "code" : "WSP_001",
         "area": "0"
       },
       "expected_result": true}
