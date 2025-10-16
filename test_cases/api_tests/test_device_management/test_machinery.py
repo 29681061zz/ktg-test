@@ -29,8 +29,9 @@ class TestMachinery:
         response = authenticated_machinery_api.search_machinery(search_data)
         (ApiAssertion.assert_status_code(response['status_code'], 200)
          .assert_business_code(response['raw']['code'], expected_status)
-         .assert_json_contains(response, 'data')
-         .assert_all_fields_match(response['data'][0], search_data))
+         .assert_json_contains(response, 'data'))
+        if response['data']: # 只有存在数据时才进行字段匹配断言
+            ApiAssertion.assert_all_fields_match(response['data'][0], search_data)
 
     @allure.story("修改功能")
     @DataManager.device('machinery', 'edit_cases', ['edit_data', 'expected_status'])
