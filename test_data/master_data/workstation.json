@@ -25,20 +25,13 @@
   "edit_cases": [
     {
       "test_id": "WST_EDIT_001",
-      "edit_data": {
-        "code": "WST_001",
-        "edit_code": "WST_999"
-      },
-      "expected_result": true},
+      "edit_data": {"code": "WST_001", "edit_code": "WST_999"}, "expected_result": true},
     {
       "test_id": "WST_EDIT_002",
-      "edit_data": {
-        "code" : "WST_999",
-        "edit_name": "修改工作站",
-        "abbreviation": "",
-        "rating": "5"
-      },
-      "expected_result": true}
+      "edit_data": {"code" : "WST_999", "edit_name": "修改工作站"}, "expected_result": true},
+    {
+      "test_id": "WST_EDIT_003",
+      "edit_data": {"code" : "WST_999", "location": "修改工作站地点"}, "expected_result": true}
   ],
   "delete_cases": [
     {
