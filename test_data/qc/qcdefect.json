@@ -2,17 +2,26 @@
   "add_cases": [
     {
       "test_id": "DEF_ADD_001",
-      "add_data": {"defectName": "DEF_001", "indexType": "SIZE", "defectLevel": "CR"}, "expected_status": 200}
+      "add_data": {"defectName": "DEF_001", "indexType": "SIZE", "defectLevel": "CR"}, "expected_status": 200},
+    {
+      "test_id": "DEF_ADD_002",
+      "add_data": {"defectName": "", "indexType": "SIZE", "defectLevel": "CR"}, "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "DEF_SEARCH_001",
-      "search_data": {"defectName": "DEF_001"}, "expected_status": 200}
+      "search_data": {"defectName": "DEF_001"}, "expected_status": 200},
+    {
+      "test_id": "DEF_SEARCH_002",
+      "search_data": {"defectName": "DEF_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "DEF_EDIT_001",
-      "edit_data":{"defectName": "DEF_001", "indexType": "APPEARANCE", "defectLevel": "MIN"}, "expected_status": 200}
+      "edit_data":{"defectName": "DEF_001", "indexType": "APPEARANCE"}, "expected_status": 200},
+    {
+      "test_id": "DEF_EDIT_001",
+      "edit_data":{"defectName": "DEF_001", "defectLevel": "MIN"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
