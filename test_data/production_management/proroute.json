@@ -6,8 +6,8 @@
         "routeCode": "ROT_001",
         "routeName": "工艺流程_001",
         "enableFlag": "Y",
-        "routeDesc": "测试",
-        "remark": "测试"
+        "routeDesc": "说明",
+        "remark": "备注"
       },
       "expected_status": 200},
         {
@@ -54,10 +54,10 @@
       "edit_data":{"routeCode": "ROT_001", "enableFlag": "N"}, "expected_status": 200},
     {
       "test_id": "ROT_EDIT_003",
-      "edit_data":{"routeCode": "ROT_001", "routeDesc": ""}, "expected_status": 200},
+      "edit_data":{"routeCode": "ROT_001", "routeDesc": "修改说明"}, "expected_status": 200},
     {
       "test_id": "ROT_EDIT_004",
-      "edit_data":{"routeCode": "ROT_001", "remark": ""}, "expected_status": 200}
+      "edit_data":{"routeCode": "ROT_001", "remark": "修改备注"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
