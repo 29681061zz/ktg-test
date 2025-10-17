@@ -21,17 +21,49 @@
         "qcTool": "测试工具",
         "remark": "测试备注"
       },
+      "expected_status": 500},
+    {
+      "test_id": "IND_ADD_003",
+      "add_data": {
+        "indexCode": "",
+        "indexName":"测试检测项",
+        "indexType": "SIZE",
+        "qcResultType": "FLOAT",
+        "qcTool": "测试工具",
+        "remark": "测试备注"
+      },
       "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "IND_SEARCH_001",
-      "search_data": {"indexCode": "IND_001"}, "expected_status": 200}
+      "search_data": {"indexCode": "IND_001"}, "expected_status": 200},
+        {
+      "test_id": "IND_SEARCH_002",
+      "search_data": {"indexName": "测试检测项"}, "expected_status": 200},
+        {
+      "test_id": "IND_SEARCH_003",
+      "search_data": {"indexCode": "IND_001","indexName": "测试检测项"}, "expected_status": 200},
+        {
+      "test_id": "IND_SEARCH_004",
+      "search_data": {"indexCode": "IND_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "IND_EDIT_001",
-      "edit_data":{"indexCode": "IND_001","indexName":"测试检测项", "indexType": "APPEARANCE", "qcResultType": "INTEGER","qcTool": "","remark": ""}, "expected_status": 200}
+      "edit_data":{"indexCode": "IND_001","indexName":"测试检测项"}, "expected_status": 200},
+    {
+      "test_id": "IND_EDIT_002",
+      "edit_data":{"indexCode": "IND_001","indexType": "APPEARANCE"}, "expected_status": 200},
+    {
+      "test_id": "IND_EDIT_003",
+      "edit_data":{"indexCode": "IND_001","qcResultType": "INTEGER"}, "expected_status": 200},
+    {
+      "test_id": "IND_EDIT_004",
+      "edit_data":{"indexCode": "IND_001","qcTool": "修改工具"}, "expected_status": 200},
+    {
+      "test_id": "IND_EDIT_005",
+      "edit_data":{"indexCode": "IND_001","remark": "修改备注"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
