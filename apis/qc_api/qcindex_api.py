@@ -9,11 +9,10 @@ class QcindexAPI(BaseApi):
             base_url = "/prod-api"
         super().__init__(base_url)
 
-    def search_qcindex(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+    def search_qcindex(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索检测项"""
         endpoint = "/mes/qc/qcindex/list"
-        params = {"pageNum": page_num, "pageSize": page_size, "indexCode": search_data["indexCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_qcindex(self, qcindex_data: Dict[str, Any]) -> Dict[str, Any]:
         """添加检测项"""
@@ -23,7 +22,7 @@ class QcindexAPI(BaseApi):
     def edit_qcindex(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改检测项信息"""
         endpoint = "/mes/qc/qcindex"
-        search_response = self.search_qcindex(edit_data)
+        search_response = self.search_qcindex({"indexCode": edit_data["indexCode"]})
         edit_data["indexId"]= search_response['data'][0]['indexId']
         return self.client.put(endpoint, json_data=edit_data)
 
