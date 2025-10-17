@@ -9,11 +9,10 @@ class ProcessAPI(BaseApi):
             base_url = "/prod-api"
         super().__init__(base_url)
 
-    def search_process(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+    def search_process(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索工序"""
         endpoint = "/mes/pro/process/list"
-        params = {"pageNum": page_num, "pageSize": page_size, "processCode": search_data["processCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_process(self, process_data: Dict[str, Any]) -> Dict[str, Any]:
         """添加工序"""
@@ -23,7 +22,7 @@ class ProcessAPI(BaseApi):
     def edit_process(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改工序信息"""
         endpoint = "/mes/pro/process"
-        search_response = self.search_process(edit_data)
+        search_response = self.search_process({"processCode": edit_data["processCode"]})
         edit_data["processId"]= search_response['data'][0]['processId']
         return self.client.put(endpoint, json_data=edit_data)
 

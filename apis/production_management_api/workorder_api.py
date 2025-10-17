@@ -10,12 +10,11 @@ class WorkOrderAPI(BaseApi):
             base_url = "/prod-api"
         super().__init__(base_url)
 
-    def search_workorder(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+    def search_workorder(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索工序"""
         endpoint = "/mes/pro/workorder/list"
-        params = {"pageNum": page_num, "pageSize": page_size, "workorderCode": search_data["workorderCode"]}
         # 添加搜索条件
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
     
     def add_workorder(self, workorder_data: Dict[str, Any]) -> Dict[str, Any]:
         """添加工序"""

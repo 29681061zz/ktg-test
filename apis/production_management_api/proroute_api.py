@@ -9,11 +9,10 @@ class ProrouteAPI(BaseApi):
             base_url = "/prod-api"
         super().__init__(base_url)
 
-    def search_proroute(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+    def search_proroute(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索工艺流程"""
         endpoint = "/mes/pro/proroute/list"
-        params = {"pageNum": page_num, "pageSize": page_size, "routeCode": search_data["routeCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_proroute(self, proroute_data: Dict[str, Any]) -> Dict[str, Any]:
         """添加工艺流程"""
@@ -23,7 +22,7 @@ class ProrouteAPI(BaseApi):
     def edit_proroute(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改工艺流程信息"""
         endpoint = "/mes/pro/proroute"
-        search_response = self.search_proroute(edit_data)
+        search_response = self.search_proroute({"routeCode": edit_data["routeCode"]})
         edit_data["routeId"]= search_response['data'][0]['routeId']
         return self.client.put(endpoint, json_data=edit_data)
 

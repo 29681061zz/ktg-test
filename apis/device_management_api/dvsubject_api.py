@@ -12,8 +12,7 @@ class DvsubjectAPI(BaseApi):
     def search_dvsubject(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索项目"""
         endpoint = "/mes/dv/dvsubject/list"
-        params = {"subjectCode": search_data["subjectCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_dvsubject(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         endpoint="/mes/dv/dvsubject"
@@ -22,7 +21,7 @@ class DvsubjectAPI(BaseApi):
     def edit_dvsubject(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改项目信息"""
         endpoint = "/mes/dv/dvsubject"
-        search_response = self.search_dvsubject(edit_data)
+        search_response = self.search_dvsubject({"subjectCode": edit_data["subjectCode"]})
         edit_data["subjectId"]= search_response['data'][0]['subjectId']
         return self.client.put(endpoint, json_data=edit_data)
 

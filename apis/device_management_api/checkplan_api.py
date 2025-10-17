@@ -12,8 +12,7 @@ class CheckplanAPI(BaseApi):
     def search_checkplan(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索方案"""
         endpoint = "/mes/dv/checkplan/list"
-        params = {"planCode": search_data["planCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_checkplan(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         endpoint="/mes/dv/checkplan"
@@ -22,7 +21,7 @@ class CheckplanAPI(BaseApi):
     def edit_checkplan(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改方案信息"""
         endpoint = "/mes/dv/checkplan"
-        search_response = self.search_checkplan(edit_data)
+        search_response = self.search_checkplan({"planCode": edit_data["planCode"]})
         edit_data["planId"]= search_response['data'][0]['planId']
         return self.client.put(endpoint, json_data=edit_data)
 

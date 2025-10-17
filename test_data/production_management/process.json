@@ -17,17 +17,41 @@
         "enableFlag": "Y",
         "remark": "测试"
       },
+      "expected_status": 500},
+    {
+      "test_id": "POR_ADD_002",
+      "add_data": {
+        "processCode": "",
+        "processName": "新增工序_001",
+        "enableFlag": "Y",
+        "remark": "测试"
+      },
       "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "POR_SEARCH_001",
-      "search_data": {"processCode": "PRO_001"}, "expected_status": 200}
+      "search_data": {"processCode": "PRO_001"}, "expected_status": 200},
+    {
+      "test_id": "POR_SEARCH_002",
+      "search_data": {"processName": "新增工序_001"}, "expected_status": 200},
+    {
+      "test_id": "POR_SEARCH_003",
+      "search_data": {"processCode": "PRO_001","processName": "新增工序_001"}, "expected_status": 200},
+    {
+      "test_id": "POR_SEARCH_004",
+      "search_data": {"processCode": "PRO_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "POR_EDIT_001",
-      "edit_data":{"processCode": "PRO_001", "processName": "修改工序_001", "enableFlag": "N", "remark": ""}, "expected_status": 200}
+      "edit_data":{"processCode": "PRO_001", "processName": "修改工序_001"}, "expected_status": 200},
+        {
+      "test_id": "POR_EDIT_002",
+      "edit_data":{"processCode": "PRO_001", "enableFlag": "N"}, "expected_status": 200},
+    {
+      "test_id": "POR_EDIT_003",
+      "edit_data":{"processCode": "PRO_001","remark": ""}, "expected_status": 200}
   ],
   "delete_cases": [
     {

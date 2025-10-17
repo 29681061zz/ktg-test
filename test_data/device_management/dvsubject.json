@@ -21,25 +21,49 @@
         "subjectContent": "项目内容",
         "subjectStandard": "标准"
       },
+      "expected_status": 500},
+    {
+      "test_id": "DVS_ADD_003",
+      "add_data": {
+        "subjectCode": "",
+        "subjectName": "新增点检保养项目",
+        "subjectType": "MAINTEN" ,
+        "enableFlag": "Y",
+        "subjectContent": "项目内容",
+        "subjectStandard": "标准"
+      },
       "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "DVS_SEARCH_001",
-      "search_data": {"subjectCode": "DVS_001"}, "expected_status": 200}
+      "search_data": {"subjectCode": "DVS_001"}, "expected_status": 200},
+    {
+      "test_id": "DVS_SEARCH_002",
+      "search_data": {"subjectName": "新增点检保养项目"}, "expected_status": 200},
+    {
+      "test_id": "DVS_SEARCH_003",
+      "search_data": {"subjectCode": "DVS_001","subjectName": "新增点检保养项目"}, "expected_status": 200},
+    {
+      "test_id": "DVS_SEARCH_004",
+      "search_data": {"subjectCode": "DVS_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "DVS_EDIT_001",
-      "edit_data": {
-        "subjectCode": "DVS_001",
-        "subjectName": "修改点检保养项目",
-        "subjectType": "CHECK" ,
-        "enableFlag": "N",
-        "subjectContent": "修改",
-        "subjectStandard": ""
-      },
-      "expected_status": 200}
+      "edit_data": {"subjectCode": "DVS_001", "subjectName": "修改点检保养项目"}, "expected_status": 200},
+    {
+      "test_id": "DVS_EDIT_002",
+      "edit_data": {"subjectCode": "DVS_001", "subjectType": "CHECK"}, "expected_status": 200},
+    {
+      "test_id": "DVS_EDIT_003",
+      "edit_data": {"subjectCode": "DVS_001", "enableFlag": "N"}, "expected_status": 200},
+    {
+      "test_id": "DVS_EDIT_004",
+      "edit_data": {"subjectCode": "DVS_001", "subjectContent": "修改"}, "expected_status": 200},
+    {
+      "test_id": "DVS_EDIT_005",
+      "edit_data": {"subjectCode": "DVS_001", "subjectStandard": ""}, "expected_status": 200}
   ],
   "delete_cases": [
     {

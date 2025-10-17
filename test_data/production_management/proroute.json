@@ -19,17 +19,45 @@
         "routeDesc": "测试",
         "remark": "测试"
       },
+      "expected_status": 500},
+    {
+      "test_id": "ROT_ADD_003",
+      "add_data": {
+        "routeCode": "",
+        "routeName": "工艺流程_001",
+        "enableFlag": "Y",
+        "routeDesc": "测试",
+        "remark": "测试"
+      },
       "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "ROT_SEARCH_001",
-      "search_data": {"routeCode": "ROT_001"}, "expected_status": 200}
+      "search_data": {"routeCode": "ROT_001"}, "expected_status": 200},
+    {
+      "test_id": "ROT_SEARCH_002",
+      "search_data": {"routeName": "工艺流程_001"}, "expected_status": 200},
+    {
+      "test_id": "ROT_SEARCH_003",
+      "search_data": {"routeCode": "ROT_001","routeName": "工艺流程_001"}, "expected_status": 200},
+    {
+      "test_id": "ROT_SEARCH_004",
+      "search_data": {"routeCode": "ROT_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "ROT_EDIT_001",
-      "edit_data":{"routeCode": "ROT_001", "routeName": "修改工艺流程_001", "enableFlag": "N", "remark": ""}, "expected_status": 200}
+      "edit_data":{"routeCode": "ROT_001", "routeName": "修改工艺流程_001"}, "expected_status": 200},
+    {
+      "test_id": "ROT_EDIT_002",
+      "edit_data":{"routeCode": "ROT_001", "enableFlag": "N"}, "expected_status": 200},
+    {
+      "test_id": "ROT_EDIT_003",
+      "edit_data":{"routeCode": "ROT_001", "routeDesc": ""}, "expected_status": 200},
+    {
+      "test_id": "ROT_EDIT_004",
+      "edit_data":{"routeCode": "ROT_001", "remark": ""}, "expected_status": 200}
   ],
   "delete_cases": [
     {
