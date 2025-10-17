@@ -3,7 +3,7 @@
     {
       "test_id": "WOD_ADD_001",
       "add_data": {
-        "workorderCode": "WOD_ADD_001",
+        "workorderCode": "WOD_001",
         "workorderName": "测试工单",
         "workorderType": "SELF",
         "productCode": "test_material_001",
