@@ -51,10 +51,10 @@
       "test_id": "PLAN_SEARCH_002",
       "search_data": {"planName": "新增点检保养方案"}, "expected_status": 200},
     {
-      "test_id": "PLAN_SEARCH_002",
+      "test_id": "PLAN_SEARCH_003",
       "search_data": {"planCode": "PLAN_001","planName": "新增点检保养方案"}, "expected_status": 200},
     {
-      "test_id": "PLAN_SEARCH_003",
+      "test_id": "PLAN_SEARCH_004",
       "search_data": {"planCode": "PLAN_999"}, "expected_status": 200}
   ],
   "edit_cases": [
@@ -75,13 +75,13 @@
       "edit_data": {"planCode": "PLAN_001", "status": "PREPARE"}, "expected_status": 200},
     {
       "test_id": "PLAN_EDIT_006",
-      "edit_data": {"planCode": "PLAN_001", "startDate": "2025-10-10"}, "expected_status": 200},
+      "edit_data": {"planCode": "PLAN_001", "startDate": "2025-11-10"}, "expected_status": 200},
     {
       "test_id": "PLAN_EDIT_007",
-      "edit_data": {"planCode": "PLAN_001", "endDate": "2025-10-20"}, "expected_status": 200},
+      "edit_data": {"planCode": "PLAN_001", "endDate": "2025-11-20"}, "expected_status": 200},
     {
       "test_id": "PLAN_EDIT_008",
-      "edit_data": {"planCode": "PLAN_001", "remark": ""}, "expected_status": 200}
+      "edit_data": {"planCode": "PLAN_001", "remark": "修改备注"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
