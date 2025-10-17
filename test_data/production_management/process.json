@@ -19,12 +19,12 @@
       },
       "expected_status": 500},
     {
-      "test_id": "POR_ADD_002",
+      "test_id": "POR_ADD_003",
       "add_data": {
         "processCode": "",
         "processName": "新增工序_001",
         "enableFlag": "Y",
-        "remark": "测试"
+        "remark": "备注"
       },
       "expected_status": 500}
   ],
@@ -51,7 +51,7 @@
       "edit_data":{"processCode": "PRO_001", "enableFlag": "N"}, "expected_status": 200},
     {
       "test_id": "POR_EDIT_003",
-      "edit_data":{"processCode": "PRO_001","remark": ""}, "expected_status": 200}
+      "edit_data":{"processCode": "PRO_001","remark": "修改备注"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
