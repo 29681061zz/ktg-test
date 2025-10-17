@@ -60,10 +60,10 @@
       "edit_data": {"subjectCode": "DVS_001", "enableFlag": "N"}, "expected_status": 200},
     {
       "test_id": "DVS_EDIT_004",
-      "edit_data": {"subjectCode": "DVS_001", "subjectContent": "修改"}, "expected_status": 200},
+      "edit_data": {"subjectCode": "DVS_001", "subjectContent": "修改项目内容"}, "expected_status": 200},
     {
       "test_id": "DVS_EDIT_005",
-      "edit_data": {"subjectCode": "DVS_001", "subjectStandard": ""}, "expected_status": 200}
+      "edit_data": {"subjectCode": "DVS_001", "subjectStandard": "修改标准"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
