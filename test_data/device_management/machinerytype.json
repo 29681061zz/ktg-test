@@ -10,7 +10,7 @@
       "edit_data":{"machineryTypeName": "测试设备类型","enableFlag":"N","remark": ""}, "expected_status": 200},
         {
       "test_id": "MTP_EDIT_002",
-      "edit_data":{"machineryTypeName": "测试设备类型","enableFlag":"Y","remark": "测试设备类型"}, "expected_status": 200}
+      "edit_data":{"machineryTypeName": "测试设备类型","enableFlag":"Y","remark": "修改测试设备类型"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
