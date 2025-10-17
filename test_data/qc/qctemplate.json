@@ -6,7 +6,8 @@
         "templateCode": "TEM_001",
         "templateName":"新增质检方案",
         "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],
-        "enableFlag": "Y","remark": "测试备注"
+        "enableFlag": "Y",
+        "remark": "测试备注"
       },
       "expected_status": 200},
     {
@@ -15,19 +16,48 @@
         "templateCode": "TEM_001",
         "templateName":"重复质检方案",
         "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],
-        "enableFlag": "Y","remark": "测试备注"
+        "enableFlag": "Y",
+        "remark": "测试备注"
+      },
+      "expected_status": 500},
+    {
+      "test_id": "TEM_ADD_003",
+      "add_data": {
+        "templateCode": "",
+        "templateName":"新增质检方案",
+        "qcTypesParam": ["IQC", "FPQC", "SPQC", "PPQC", "IPQC", "FQC", "PRQC", "CRQC", "OQC"],
+        "enableFlag": "Y",
+        "remark": "测试备注"
       },
       "expected_status": 500}
   ],
   "search_cases": [
     {
       "test_id": "TEM_SEARCH_001",
-      "search_data": {"templateCode": "TEM_001"}, "expected_status": 200}
+      "search_data": {"templateCode": "TEM_001"}, "expected_status": 200},
+    {
+      "test_id": "TEM_SEARCH_002",
+      "search_data": {"templateName": "新增质检方案"}, "expected_status": 200},
+    {
+      "test_id": "TEM_SEARCH_003",
+      "search_data": {"templateCode": "TEM_001","templateName": "新增质检方案"}, "expected_status": 200},
+    {
+      "test_id": "TEM_SEARCH_004",
+      "search_data": {"templateCode": "TEM_999"}, "expected_status": 200}
   ],
   "edit_cases": [
     {
       "test_id": "TEM_EDIT_001",
-      "edit_data":{"templateCode": "TEM_001","templateName":"修改质检方案", "qcTypesParam":["NONE"],"enableFlag": "N","remark": ""}, "expected_status": 200}
+      "edit_data":{"templateCode": "TEM_001","templateName":"修改质检方案"}, "expected_status": 200},
+    {
+      "test_id": "TEM_EDIT_002",
+      "edit_data":{"templateCode": "TEM_001","qcTypesParam":["IQC"]}, "expected_status": 200},
+    {
+      "test_id": "TEM_EDIT_003",
+      "edit_data":{"templateCode": "TEM_001","enableFlag": "N"}, "expected_status": 200},
+    {
+      "test_id": "TEM_EDIT_004",
+      "edit_data":{"templateCode": "TEM_001","remark": "修改备注"}, "expected_status": 200}
   ],
   "delete_cases": [
     {
