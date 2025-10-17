@@ -9,11 +9,10 @@ class QctemplateAPI(BaseApi):
             base_url = "/prod-api"
         super().__init__(base_url)
 
-    def search_qctemplate(self,search_data:Dict[str, Any],page_num: int = 1,page_size: int = 10) -> Dict[str, Any]:
+    def search_qctemplate(self,search_data:Dict[str, Any]) -> Dict[str, Any]:
         """搜索质检方案"""
         endpoint = "/mes/qc/qctemplate/list"
-        params = {"pageNum": page_num, "pageSize": page_size, "templateCode": search_data["templateCode"]}
-        return self.client.get(endpoint, params=params)
+        return self.client.get(endpoint, params=search_data)
 
     def add_qctemplate(self, qctemplate_data: Dict[str, Any]) -> Dict[str, Any]:
         """添加质检方案"""
@@ -23,7 +22,7 @@ class QctemplateAPI(BaseApi):
     def edit_qctemplate(self,edit_data: Dict[str, Any]) -> Dict[str, Any]:
         """修改质检方案信息"""
         endpoint = "/mes/qc/qctemplate"
-        search_response = self.search_qctemplate(edit_data)
+        search_response = self.search_qctemplate({"templateCode": edit_data["templateCode"]})
         edit_data["templateId"]= search_response['data'][0]['templateId']
         return self.client.put(endpoint, json_data=edit_data)
 
