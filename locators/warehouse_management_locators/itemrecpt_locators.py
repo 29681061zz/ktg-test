@@ -24,13 +24,13 @@ class ItemRecptLocators:
     NOTICECODE_STATUS = (By.XPATH, "//li//span[text()='草稿']")
     NOTICECODE_CODE = (By.XPATH, "//input[@placeholder='请输入通知单编号']")
     NOTICECODE_SEARCH = (By.XPATH, "(//button[.//span[text()='搜索']])[2]")
-    SELECT_NOTICECODE_BUTTON = (By.XPATH, "//td[contains(@class, 'is-center')]//label[@role='radio']")
+    SELECT_NOTICECODE_BUTTON = (By.XPATH, "//label[@role='radio' and .//input[@value='58']]")
     SELECT_NOTICECODE_CONFIRM = (By.XPATH, "//button//span[text()='确 定']")
 
     VENDOR_SELECT = (By.XPATH, "//input[@placeholder='请选择供应商']/following-sibling::div/button[@type='button']")
     VENDOR_NAME = (By.XPATH, "(//input[@placeholder='请输入供应商名称'])[2]")
     VENDOR_SEARCH = (By.XPATH, "(//button[.//span[text()='搜索']])[2]")
-    SELECT_VENDOR_BUTTON = (By.XPATH, "//td[contains(@class, 'is-center')]//label[@role='radio']")
+    SELECT_VENDOR_BUTTON = (By.XPATH, "//div[contains(text(), '供应商') or contains(text(), 'vendor')]//ancestor::tr//label[@role='radio']")
     SELECT_VENDOR_CONFIRM = (By.XPATH, "//button//span[text()='确 定']")
 
     ADD_SAVE_BUTTON = (By.XPATH, "//button//span[text()='保 存']")  # 新增页面的保 存键
