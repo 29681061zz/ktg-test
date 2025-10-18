@@ -4,38 +4,37 @@ import logging
 from typing import Optional, Dict, Any
 
 class ApiClient:
-    """API请求客户端基类 - 核心功能"""
+    """API请求客户端基类"""
 
     def __init__(self, base_url: str = None, timeout: int = 10):
         self.session = requests.Session()
         self.base_url = base_url
         self.timeout = timeout
         self.logger = logging.getLogger('api_test')
-
         # 必要：设置基础请求头
         self.session.headers.update({
             'Content-Type': 'application/json; charset=utf-8'
         })
 
     def _full_url(self, endpoint: str) -> str:
-        """构建完整URL - 必要"""
+        """构建完整URL"""
         return f"{self.base_url.rstrip('/')}/{endpoint.lstrip('/')}"
 
     def _log_request(self, method: str, url: str, json_data: Dict = None):
-        """基础请求日志 - 必要"""
+        """基础请求日志"""
         log_message = f"🚀 发送请求: {method.upper()} {url}"
         if json_data:
             log_message += f"\n📦 请求体: {json.dumps(json_data, ensure_ascii=False)}"
         self.logger.info(log_message)
 
     def _log_response(self, response: requests.Response):
-        """基础响应日志 - 必要"""
+        """基础响应日志"""
         self.logger.info(f"📨 收到响应: 状态码={response.status_code}")
 
     def request(self, method: str, endpoint: str,
                 json_data: Optional[Dict] = None,
                 **kwargs) -> Dict[str, Any]:
-        """统一请求方法 - 核心必要"""
+        """统一请求方法 """
         url = self._full_url(endpoint)
 
         # 记录请求
@@ -82,16 +81,13 @@ class ApiClient:
             raise
 
     def _extract_business_data(self, response_data: Dict[str, Any], endpoint: str) -> Any:
-        """智能提取业务数据 - 返回核心业务数据，不额外包装"""
-
+        """智能提取业务数据"""
         # 1. 列表接口：直接返回 rows 数组
         if 'rows' in response_data:
             return response_data['rows']  # 直接返回数组，方便直接遍历
-
         # 2. 详情接口：直接返回 data 中的内容
         if 'data' in response_data and response_data['data'] is not None:
             return response_data['data']  # 直接返回对象
-
         # 3. 其他情况返回原始数据
         return response_data
 
@@ -109,7 +105,7 @@ class ApiClient:
         return self.request('DELETE', endpoint, **kwargs)
 
     def set_auth_token(self, token: str):
-        """设置认证令牌 - 必要"""
+        """设置认证令牌 """
         self.session.headers.update({
             'Authorization': f'Bearer {token}'
         })
