@@ -1,13 +1,13 @@
-name: Python Tests with UI
+name:  Tests with ktg-mes
 on:
   push:
     branches: [ main ]
     paths:
-      - '.github/**'
+      - 'test_cases/**'
   pull_request:
     branches: [ main ]
     paths:
-      - '.github/**'
+      - 'test_cases/**'
   workflow_dispatch:
 
 jobs:
@@ -43,11 +43,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run tests-ui
+    - name: Run tests
       continue-on-error: true
       run: |
         # 运行测试并输出详细结果
-        pytest -v test_cases/ui_tests/test_master_data --alluredir=allure-results --clean-alluredir
+        pytest --alluredir=allure-results --clean-alluredir
 
     - name: Generate Allure report
       run: |
@@ -70,8 +70,8 @@ jobs:
       with:
         server_address: smtp.qq.com
         server_port: 587
-        username: ${{ secrets.EMAIL_USERNAME }}  # 填写QQ邮箱地址
-        password: ${{ secrets.EMAIL_PASSWORD }}  # 填写QQ邮箱授权码
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
         subject: UI测试报告 - ${{ github.job }}
         body: |
           测试已完成，请查收附件中的Allure测试报告。
@@ -79,7 +79,7 @@ jobs:
           分支: ${{ github.ref_name }}
           提交: ${{ github.sha }}
         to: 2375843926@qq.com  # 可填写多个邮箱，用逗号分隔
-        from: ${{ secrets.EMAIL_USERNAME }}  # 与发件人邮箱保持一致
+        from: ${{ secrets.EMAIL_USERNAME }}
         attachments: allure-report.zip
         content_type: text/plain
 
