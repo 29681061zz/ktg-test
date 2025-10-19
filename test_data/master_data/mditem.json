@@ -2,34 +2,13 @@
   "add_cases": [
     {
       "test_id": "MAT_ADD_001",
-      "add_data": {
-        "code": "MAT_001",
-        "name": "新增物料_001",
-        "specification": "10-50mm",
-        "unit": "测试主单位",
-        "category": "物料分类"
-      },
-      "expected_result": true},
+      "add_data": {"code": "MAT_001", "name": "新增物料_001", "specification": "10-50mm", "unit": "测试主单位", "category": "物料分类"}, "expected_result": true},
     {
       "test_id": "MAT_ADD_002",
-      "add_data": {
-        "code": "",
-        "name": "新增物料_002",
-        "specification": "10-50mm",
-        "unit": "测试主单位",
-        "category": "物料分类"
-      },
-      "expected_result": false},
+      "add_data": {"code": "", "name": "新增物料_002", "specification": "10-50mm", "unit": "测试主单位", "category": "物料分类"}, "expected_result": false},
     {
       "test_id": "MAT_ADD_003",
-      "add_data": {
-        "code": "MAT_003",
-        "name": "",
-        "specification": "10-50mm",
-        "unit": "测试主单位",
-        "category": "物料分类"
-      },
-      "expected_result": false}
+      "add_data": {"code": "MAT_003", "name": "", "specification": "10-50mm", "unit": "测试主单位", "category": "物料分类"}, "expected_result": false}
   ],
   "search_cases": [
     {

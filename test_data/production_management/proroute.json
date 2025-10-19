@@ -2,34 +2,14 @@
   "add_cases": [
     {
       "test_id": "ROT_ADD_001",
-      "add_data": {
-        "routeCode": "ROT_001",
-        "routeName": "工艺流程_001",
-        "enableFlag": "Y",
-        "routeDesc": "说明",
-        "remark": "备注"
-      },
-      "expected_status": 200},
+      "add_data": {"routeCode": "ROT_001", "routeName": "工艺流程_001", "enableFlag": "Y", "routeDesc": "说明", "remark": "备注"}, "expected_status": 200},
         {
       "test_id": "ROT_ADD_002",
-      "add_data": {
-        "routeCode": "ROT_001",
-        "routeName": "重复工艺流程_001",
-        "enableFlag": "Y",
-        "routeDesc": "测试",
-        "remark": "测试"
-      },
+      "add_data": {"routeCode": "ROT_001", "routeName": "重复工艺流程_001", "enableFlag": "Y", "routeDesc": "测试", "remark": "测试"},
       "expected_status": 500},
     {
       "test_id": "ROT_ADD_003",
-      "add_data": {
-        "routeCode": "",
-        "routeName": "工艺流程_001",
-        "enableFlag": "Y",
-        "routeDesc": "测试",
-        "remark": "测试"
-      },
-      "expected_status": 500}
+      "add_data": {"routeCode": "", "routeName": "工艺流程_001", "enableFlag": "Y", "routeDesc": "测试", "remark": "测试"}, "expected_status": 500}
   ],
   "search_cases": [
     {

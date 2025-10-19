@@ -2,56 +2,16 @@
   "add_cases": [
     {
       "test_id": "MNR_ADD_001",
-      "add_data": {
-        "machineryCode": "MNR_001",
-        "machineryName": "新增设备_001",
-        "machineryTypeId": 277,
-        "workshopId": 480,
-        "status": "STOP",
-        "machineryBrand": "品牌",
-        "machinerySpec": "规格型号",
-        "remark": "备注"
-      },
-      "expected_status": 200},
+      "add_data": {"machineryCode": "MNR_001", "machineryName": "新增设备_001", "machineryTypeId": 277, "workshopId": 480, "status": "STOP", "machineryBrand": "品牌", "machinerySpec": "规格型号", "remark": "备注"}, "expected_status": 200},
     {
       "test_id": "MNR_ADD_002",
-      "add_data": {
-        "machineryCode": "MNR_001",
-        "machineryName": "重复设备_001",
-        "machineryTypeId": 277,
-        "workshopId": 480,
-        "status": "STOP",
-        "machineryBrand": "品牌",
-        "machinerySpec": "规格型号",
-        "remark": "备注"
-      },
-      "expected_status": 500},
+      "add_data": {"machineryCode": "MNR_001", "machineryName": "重复设备_001", "machineryTypeId": 277, "workshopId": 480, "status": "STOP", "machineryBrand": "品牌", "machinerySpec": "规格型号", "remark": "备注"}, "expected_status": 500},
     {
       "test_id": "MNR_ADD_003",
-      "add_data": {
-        "machineryCode": "",
-        "machineryName": "新增设备_003",
-        "machineryTypeId": 277,
-        "workshopId": 480,
-        "status": "STOP",
-        "machineryBrand": "品牌",
-        "machinerySpec": "规格型号",
-        "remark": "备注"
-      },
-      "expected_status": 500},
+      "add_data": {"machineryCode": "", "machineryName": "新增设备_003", "machineryTypeId": 277, "workshopId": 480, "status": "STOP", "machineryBrand": "品牌", "machinerySpec": "规格型号", "remark": "备注"}, "expected_status": 500},
     {
       "test_id": "MNR_ADD_004",
-      "add_data": {
-        "machineryCode": "MNR_1234567891011121314151617181920212223242526272829303132333435",
-        "machineryName": "新增设备_006",
-        "machineryTypeId": 277,
-        "workshopId": 480,
-        "status": "STOP",
-        "machineryBrand": "品牌",
-        "machinerySpec": "规格型号",
-        "remark": "备注"
-      },
-      "expected_status": 500}
+      "add_data": {"machineryCode": "MNR_1234567891011121314151617181920212223242526272829303132333435", "machineryName": "新增设备_006", "machineryTypeId": 277, "workshopId": 480, "status": "STOP", "machineryBrand": "品牌", "machinerySpec": "规格型号", "remark": "备注"}, "expected_status": 500}
   ],
   "search_cases": [
     {

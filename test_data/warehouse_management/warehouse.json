@@ -2,14 +2,7 @@
   "add_cases": [
     {
       "test_id": "WHS_ADD_001",
-      "add_data": {
-        "code": "WHS_001",
-        "name": "新增仓库_001",
-        "area": "100",
-        "location": "新增仓库地点",
-        "remark": "新增仓库"
-      },
-      "expected_result": true}
+      "add_data": {"code": "WHS_001", "name": "新增仓库_001", "area": "100", "location": "新增仓库地点", "remark": "新增仓库"}, "expected_result": true}
   ],
   "search_cases": [
     {
